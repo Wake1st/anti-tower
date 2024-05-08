@@ -18,7 +18,7 @@ pub struct Player {
 }
 
 fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let texture = asset_server.load("character.png");
+    let texture: Handle<Image> = asset_server.load("character.png");
 
     commands.spawn((
         SpriteBundle {
@@ -38,16 +38,16 @@ fn character_movement(
     for (mut transform, player) in &mut characters {
         let movement_amount = player.speed * time.delta_seconds();
 
-        if input.pressed(KeyCode::W) {
+        if input.pressed(KeyCode::Up) {
             transform.translation.y += movement_amount;
         }
-        if input.pressed(KeyCode::S) {
+        if input.pressed(KeyCode::Down) {
             transform.translation.y -= movement_amount;
         }
-        if input.pressed(KeyCode::D) {
+        if input.pressed(KeyCode::Right) {
             transform.translation.x += movement_amount;
         }
-        if input.pressed(KeyCode::A) {
+        if input.pressed(KeyCode::Left) {
             transform.translation.x -= movement_amount;
         }
     }

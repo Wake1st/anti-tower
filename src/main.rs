@@ -4,10 +4,12 @@ use bevy::{
 };
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
+use bubble::BubblePlugin;
 use player::PlayerPlugin;
 use potion::PotionPlugin;
 use ui::GameUI;
 
+mod bubble;
 mod player;
 mod potion;
 mod ui;
@@ -23,7 +25,7 @@ fn main() {
                 .set(WindowPlugin {
                     primary_window: Some(Window {
                         title: "Learning Bevy".into(),
-                        resolution: (640.0, 480.0).into(),
+                        resolution: (1800.0, 900.0).into(),
                         resizable: false,
                         ..default()
                     }),
@@ -35,7 +37,7 @@ fn main() {
             WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::Escape)),
         )
         .insert_resource(Money(100.0))
-        .add_plugins((PlayerPlugin, PotionPlugin, GameUI))
+        .add_plugins((PlayerPlugin, BubblePlugin, PotionPlugin, GameUI))
         .add_systems(Startup, setup)
         .run();
 }

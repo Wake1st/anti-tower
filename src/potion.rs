@@ -37,12 +37,12 @@ fn spawn_potion(
     player: Query<&Transform, With<Player>>,
     parent: Query<Entity, With<PotionParent>>,
 ) {
-    if !input.just_pressed(KeyCode::Space) {
+    if !input.just_pressed(KeyCode::Q) {
         return;
     }
 
-    let player_transform = player.single();
     let parent = parent.single();
+    let player_transform = player.single();
 
     if money.0 >= 10.0 {
         money.0 -= 10.0;

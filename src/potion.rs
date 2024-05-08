@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
-use crate::{Money, Player};
+use crate::{player::Player, Money};
+
 pub struct PotionPlugin;
 
 impl Plugin for PotionPlugin {

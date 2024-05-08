@@ -44,14 +44,20 @@ fn spawn_bubble_spawner(
     let player_transform = player.single();
 
     commands.spawn((
-        SpatialBundle::default(),
         SpriteBundle {
             texture,
-            transform: *player_transform,
+            transform: Transform {
+                translation: Vec3 {
+                    x: player_transform.translation.x,
+                    y: player_transform.translation.y + 32.0,
+                    z: -1.0,
+                },
+                ..default()
+            },
             ..default()
         },
         BubbleSpawner {
-            spawn_rate: Timer::from_seconds(6.0, TimerMode::Repeating),
+            spawn_rate: Timer::from_seconds(2.0, TimerMode::Repeating),
         },
         Name::new("BubbleSpawner"),
     ));
@@ -61,28 +67,35 @@ fn spawn_bubble(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     time: Res<Time>,
-    mut spawners: Query<(Entity, &mut BubbleSpawner, &Transform)>,
+    mut spawners: Query<(&mut BubbleSpawner, &Transform)>,
 ) {
-    for (entity, mut spawner, &transform) in &mut spawners {
+    for (mut spawner, &spawner_transform) in &mut spawners {
         spawner.spawn_rate.tick(time.delta());
 
         if spawner.spawn_rate.just_finished() {
-            commands.entity(entity).with_children(|commands| {
-                let texture: Handle<Image> = asset_server.load("bubble.png");
+            let texture: Handle<Image> = asset_server.load("bubble.png");
 
-                commands.spawn((
-                    SpriteBundle {
-                        texture,
-                        transform,
+            commands.spawn((
+                SpriteBundle {
+                    texture,
+                    transform: Transform {
+                        translation: Vec3 {
+                            x: spawner_transform.translation.x,
+                            y: spawner_transform.translation.y,
+                            z: 1.0,
+                        },
                         ..default()
                     },
-                    Bubble {
-                        speed: 20.0,
-                        lifetime: Timer::from_seconds(10.0, TimerMode::Once),
-                    },
-                    Name::new("Bubble"),
-                ));
-            });
+                    ..default()
+                },
+                Bubble {
+                    speed: 0.4,
+                    lifetime: Timer::from_seconds(10.0, TimerMode::Once),
+                },
+                Name::new("Bubble"),
+            ));
+
+            info!("Bubble spawned!");
         }
     }
 }
@@ -97,14 +110,14 @@ fn bubble_lifetime(
 
         if bubble.lifetime.finished() {
             commands.entity(bubble_entity).despawn_recursive();
-            info!("Bubble popped from old age.");
+            info!("Bubble died from old age.");
         }
     }
 }
 
 fn bubble_movement(time: Res<Time>, mut bubbles: Query<(&Bubble, &mut Transform), With<Bubble>>) {
     for (bubble, mut transform) in &mut bubbles {
-        transform.translation.x += bubble.speed * f32::cos(time.elapsed_seconds());
-        transform.translation.y += bubble.speed * f32::sin(time.elapsed_seconds());
+        transform.translation.x += 0.1 * f32::cos(time.elapsed_seconds() * bubble.speed);
+        transform.translation.y += 0.1 * f32::sin(time.elapsed_seconds() * bubble.speed);
     }
 }

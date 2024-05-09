@@ -2,6 +2,8 @@ use bevy::prelude::*;
 
 use crate::player::Player;
 
+const SPAWNER_OFFSET: f32 = 6.0;
+
 pub struct BubblePlugin;
 
 impl Plugin for BubblePlugin {
@@ -81,7 +83,7 @@ fn spawn_bubble(
                     transform: Transform {
                         translation: Vec3 {
                             x: spawner_transform.translation.x,
-                            y: spawner_transform.translation.y,
+                            y: spawner_transform.translation.y + SPAWNER_OFFSET,
                             z: 1.0,
                         },
                         ..default()
@@ -89,7 +91,7 @@ fn spawn_bubble(
                     ..default()
                 },
                 Bubble {
-                    speed: 0.4,
+                    speed: 1.2,
                     lifetime: Timer::from_seconds(10.0, TimerMode::Once),
                 },
                 Name::new("Bubble"),
@@ -117,7 +119,7 @@ fn bubble_lifetime(
 
 fn bubble_movement(time: Res<Time>, mut bubbles: Query<(&Bubble, &mut Transform), With<Bubble>>) {
     for (bubble, mut transform) in &mut bubbles {
-        transform.translation.x += 0.1 * f32::cos(time.elapsed_seconds() * bubble.speed);
-        transform.translation.y += 0.1 * f32::sin(time.elapsed_seconds() * bubble.speed);
+        transform.translation.x += 0.4 * f32::cos(time.elapsed_seconds() * bubble.speed);
+        transform.translation.y += 0.4 * f32::sin(time.elapsed_seconds() * bubble.speed);
     }
 }

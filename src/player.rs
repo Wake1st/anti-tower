@@ -81,22 +81,3 @@ fn camera_follow(
         transform.translation.y = pos.y;
     }
 }
-
-// fn camera_follow(
-//     player: Query<&Transform, With<Player>>,
-//     mut camera: Query<(&mut Camera, &mut Transform), Without<Player>>,
-// ) {
-//     let Ok(player) = player.get_single() else {
-//         return;
-//     };
-//     let Ok((mut camera, mut camera_transform)) = camera.get_single_mut() else {
-//         return;
-//     };
-
-//     let delta = player.translation - camera.focus;
-
-//     if delta != Vec3::ZERO {
-//         camera.focus = player.translation;
-//         camera_transform.translation += delta;
-//     }
-// }

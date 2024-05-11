@@ -3,14 +3,18 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 use bubble::BubblePlugin;
 use camera::CameraPlugin;
+use footman::FootmanPlugin;
 use player::PlayerPlugin;
 use potion::PotionPlugin;
+use state::StatePlugin;
 use ui::GameUI;
 
 mod bubble;
 mod camera;
+mod footman;
 mod player;
 mod potion;
+mod state;
 mod ui;
 
 #[derive(Resource)]
@@ -38,10 +42,12 @@ fn main() {
         )
         .insert_resource(Money(100.0))
         .add_plugins((
+            StatePlugin,
             CameraPlugin,
             PlayerPlugin,
             BubblePlugin,
             PotionPlugin,
+            FootmanPlugin,
             GameUI,
         ))
         .run();

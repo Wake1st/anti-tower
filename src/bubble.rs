@@ -1,8 +1,16 @@
 use bevy::prelude::*;
 
-use crate::player::Player;
+use crate::{collisions::Collider, player::Player};
 
-const SPAWNER_OFFSET: f32 = 6.0;
+const SPAWNER_SPAWN_OFFSET: f32 = 32.0;
+const SPAWNER_SPRITE_LAYER: f32 = -1.0;
+const SPAWNER_SPAWN_RATE: f32 = 2.0;
+
+const BUBBLE_SPAWN_OFFSET: f32 = 6.0;
+const BUBBLE_SPRITE_LAYER: f32 = 1.0;
+const BUBBLE_SPEED: f32 = 1.2;
+const BUBBLE_LIFETIME: f32 = 6.0;
+const BUBBLE_COLLIDER_RADIUS: f32 = 8.0;
 
 pub struct BubblePlugin;
 
@@ -15,6 +23,7 @@ impl Plugin for BubblePlugin {
                 spawn_bubble,
                 bubble_lifetime,
                 bubble_movement,
+                handle_bubble_collisions,
             ),
         );
     }
@@ -51,15 +60,15 @@ fn spawn_bubble_spawner(
             transform: Transform {
                 translation: Vec3 {
                     x: player_transform.translation.x,
-                    y: player_transform.translation.y + 32.0,
-                    z: -1.0,
+                    y: player_transform.translation.y + SPAWNER_SPAWN_OFFSET,
+                    z: SPAWNER_SPRITE_LAYER,
                 },
                 ..default()
             },
             ..default()
         },
         BubbleSpawner {
-            spawn_rate: Timer::from_seconds(2.0, TimerMode::Repeating),
+            spawn_rate: Timer::from_seconds(SPAWNER_SPAWN_RATE, TimerMode::Repeating),
         },
         Name::new("BubbleSpawner"),
     ));
@@ -83,16 +92,17 @@ fn spawn_bubble(
                     transform: Transform {
                         translation: Vec3 {
                             x: spawner_transform.translation.x,
-                            y: spawner_transform.translation.y + SPAWNER_OFFSET,
-                            z: 1.0,
+                            y: spawner_transform.translation.y + BUBBLE_SPAWN_OFFSET,
+                            z: BUBBLE_SPRITE_LAYER,
                         },
                         ..default()
                     },
                     ..default()
                 },
+                Collider::new(BUBBLE_COLLIDER_RADIUS),
                 Bubble {
-                    speed: 1.2,
-                    lifetime: Timer::from_seconds(10.0, TimerMode::Once),
+                    speed: BUBBLE_SPEED,
+                    lifetime: Timer::from_seconds(BUBBLE_LIFETIME, TimerMode::Once),
                 },
                 Name::new("Bubble"),
             ));
@@ -121,5 +131,22 @@ fn bubble_movement(time: Res<Time>, mut bubbles: Query<(&Bubble, &mut Transform)
     for (bubble, mut transform) in &mut bubbles {
         transform.translation.x += 0.4 * f32::cos(time.elapsed_seconds() * bubble.speed);
         transform.translation.y += 0.4 * f32::sin(time.elapsed_seconds() * bubble.speed);
+    }
+}
+
+fn handle_bubble_collisions(
+    mut commands: Commands,
+    query: Query<(Entity, &Collider), With<Bubble>>,
+) {
+    for (entity, collider) in query.iter() {
+        for &collided_entity in collider.colliding_entities.iter() {
+            //  bubbles colliding with another bubble
+            if query.get(collided_entity).is_ok() {
+                continue;
+            }
+
+            //  despawn the bubble if anything else
+            commands.entity(entity).despawn_recursive();
+        }
     }
 }

@@ -1,5 +1,10 @@
 use bevy::prelude::*;
 
+use crate::collisions::Collider;
+
+const HEALTH: f32 = 10.0;
+const COLLIDER_RADIUS: f32 = 16.0;
+
 pub struct FootmanPlugin;
 
 impl Plugin for FootmanPlugin {
@@ -21,7 +26,8 @@ fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
             texture,
             ..default()
         },
-        Footman { health: 10.0 },
+        Collider::new(COLLIDER_RADIUS),
+        Footman { health: HEALTH },
         Name::new("Footman"),
     ));
 }

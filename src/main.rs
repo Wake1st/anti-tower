@@ -3,6 +3,7 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 use bubble::BubblePlugin;
 use camera::CameraPlugin;
+use collisions::CollisionsPlugin;
 use footman::FootmanPlugin;
 use player::PlayerPlugin;
 use potion::PotionPlugin;
@@ -11,6 +12,7 @@ use ui::GameUI;
 
 mod bubble;
 mod camera;
+mod collisions;
 mod footman;
 mod player;
 mod potion;
@@ -43,6 +45,7 @@ fn main() {
         .insert_resource(Money(100.0))
         .add_plugins((
             StatePlugin,
+            CollisionsPlugin,
             CameraPlugin,
             PlayerPlugin,
             BubblePlugin,

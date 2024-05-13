@@ -5,7 +5,7 @@ pub enum GameState {
     #[default]
     InGame,
     Paused,
-    GameOver,
+    // GameOver,
 }
 
 pub struct StatePlugin;

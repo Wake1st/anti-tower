@@ -12,7 +12,7 @@ impl Plugin for SchedulePlugin {
                 InGameSet::DespawnEntities,
                 InGameSet::UserInput,
                 InGameSet::EntityUpdates,
-                InGameSet::Collisions,
+                InGameSet::CollisionDetection,
             )
                 .chain()
                 .run_if(in_state(GameState::InGame)),
@@ -30,6 +30,6 @@ impl Plugin for SchedulePlugin {
 pub enum InGameSet {
     UserInput,
     EntityUpdates,
-    Collisions,
+    CollisionDetection,
     DespawnEntities,
 }

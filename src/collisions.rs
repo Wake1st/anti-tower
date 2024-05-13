@@ -6,17 +6,20 @@ pub struct CollisionsPlugin;
 
 impl Plugin for CollisionsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, collision_detection.in_set(InGameSet::Collisions))
-            .add_systems(
-                Update,
-                (
-                    (handle_collisions::<Bubble>, handle_collisions::<Footman>),
-                    apply_collision_damage,
-                )
-                    .chain()
-                    .in_set(InGameSet::EntityUpdates),
+        app.add_systems(
+            Update,
+            collision_detection.in_set(InGameSet::CollisionDetection),
+        )
+        .add_systems(
+            Update,
+            (
+                (handle_collisions::<Footman>, handle_collisions::<Bubble>),
+                apply_collision_damage,
             )
-            .add_event::<CollisionEvent>();
+                .chain()
+                .in_set(InGameSet::EntityUpdates),
+        )
+        .add_event::<CollisionEvent>();
     }
 }
 
@@ -49,14 +52,14 @@ impl CollisionDamage {
 #[derive(Event, Debug)]
 pub struct CollisionEvent {
     pub entity: Entity,
-    pub collided_entity: Entity,
+    pub colliding_entity: Entity,
 }
 
 impl CollisionEvent {
-    pub fn new(entity: Entity, collided_entity: Entity) -> Self {
+    pub fn new(entity: Entity, colliding_entity: Entity) -> Self {
         Self {
             entity,
-            collided_entity,
+            colliding_entity,
         }
     }
 }
@@ -71,6 +74,16 @@ fn collision_detection(mut query: Query<(Entity, &GlobalTransform, &mut Collider
                 let distance = transform_a
                     .translation()
                     .distance(transform_b.translation());
+                info!("entity_a: {:?}", entity_a);
+                info!("trans_a: {:?}", transform_a.translation());
+                info!("entity_b: {:?}", entity_b);
+                info!("trans_b: {:?}", transform_b.translation());
+                info!("distance: {:?}", distance);
+
+                //  here for weird transform::Zero bug
+                if distance == 0.0 {
+                    continue;
+                }
 
                 if distance < (collider_a.radius + collider_b.radius) {
                     colliding_entities
@@ -98,14 +111,14 @@ fn handle_collisions<T: Component>(
     query: Query<(Entity, &Collider), With<T>>,
 ) {
     for (entity, collider) in query.iter() {
-        for &collided_entity in collider.colliding_entities.iter() {
-            //  entity collided with another entity of the same type
-            if query.get(collided_entity).is_ok() {
+        for &colliding_entity in collider.colliding_entities.iter() {
+            //  entity colliding with another entity of the same type
+            if query.get(colliding_entity).is_ok() {
                 continue;
             }
 
             //  send collision event
-            collision_event_writer.send(CollisionEvent::new(entity, collided_entity));
+            collision_event_writer.send(CollisionEvent::new(entity, colliding_entity));
         }
     }
 }
@@ -117,14 +130,14 @@ pub fn apply_collision_damage(
 ) {
     for &CollisionEvent {
         entity,
-        collided_entity,
+        colliding_entity,
     } in collision_event_reader.read()
     {
         let Ok(mut health) = health_query.get_mut(entity) else {
             continue;
         };
 
-        let Ok(collision_damage) = collision_damage_query.get(collided_entity) else {
+        let Ok(collision_damage) = collision_damage_query.get(colliding_entity) else {
             continue;
         };
 

@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+// use bevy_rapier2d::prelude::*;
 
 use bubble::BubblePlugin;
 use camera::CameraPlugin;
@@ -45,6 +46,8 @@ fn main() {
         )
         // .add_plugins(WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)))
         .insert_resource(Money(100.0))
+        // .add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(32.0))
+        // .add_plugins(RapierDebugRenderPlugin::default())
         .add_plugins((
             SchedulePlugin,
             StatePlugin,

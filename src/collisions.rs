@@ -74,11 +74,6 @@ fn collision_detection(mut query: Query<(Entity, &GlobalTransform, &mut Collider
                 let distance = transform_a
                     .translation()
                     .distance(transform_b.translation());
-                info!("entity_a: {:?}", entity_a);
-                info!("trans_a: {:?}", transform_a.translation());
-                info!("entity_b: {:?}", entity_b);
-                info!("trans_b: {:?}", transform_b.translation());
-                info!("distance: {:?}", distance);
 
                 //  here for weird transform::Zero bug
                 if distance == 0.0 {

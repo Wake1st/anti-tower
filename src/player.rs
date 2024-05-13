@@ -1,17 +1,18 @@
 use bevy::prelude::*;
-use bevy_inspector_egui::{prelude::ReflectInspectorOptions, InspectorOptions};
+use bevy_inspector_egui::InspectorOptions;
+
+use crate::schedule::InGameSet;
 
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, spawn_player)
-            .add_systems(Update, character_movement);
+            .add_systems(Update, (character_movement).in_set(InGameSet::UserInput));
     }
 }
 
-#[derive(Component, InspectorOptions, Default, Reflect)]
-#[reflect(Component, InspectorOptions)]
+#[derive(Component, InspectorOptions, Default)]
 pub struct Player {
     #[inspector(min = 0.0)]
     pub speed: f32,
@@ -32,22 +33,22 @@ fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
 
 fn character_movement(
     mut characters: Query<(&mut Transform, &Player)>,
-    input: Res<Input<KeyCode>>,
+    input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
 ) {
     for (mut transform, player) in &mut characters {
         let movement_amount = player.speed * time.delta_seconds();
 
-        if input.pressed(KeyCode::Up) {
+        if input.pressed(KeyCode::ArrowUp) {
             transform.translation.y += movement_amount;
         }
-        if input.pressed(KeyCode::Down) {
+        if input.pressed(KeyCode::ArrowDown) {
             transform.translation.y -= movement_amount;
         }
-        if input.pressed(KeyCode::Right) {
+        if input.pressed(KeyCode::ArrowRight) {
             transform.translation.x += movement_amount;
         }
-        if input.pressed(KeyCode::Left) {
+        if input.pressed(KeyCode::ArrowLeft) {
             transform.translation.x -= movement_amount;
         }
     }

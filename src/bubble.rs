@@ -1,6 +1,12 @@
 use bevy::prelude::*;
 
-use crate::{collisions::Collider, player::Player};
+use crate::{
+    collisions::{Collider, CollisionDamage},
+    health::Health,
+    movement::{Acceleration, KinematicBundle, Velocity},
+    player::Player,
+    schedule::InGameSet,
+};
 
 const SPAWNER_SPAWN_OFFSET: f32 = 32.0;
 const SPAWNER_SPRITE_LAYER: f32 = -1.0;
@@ -11,21 +17,19 @@ const BUBBLE_SPRITE_LAYER: f32 = 1.0;
 const BUBBLE_SPEED: f32 = 1.2;
 const BUBBLE_LIFETIME: f32 = 6.0;
 const BUBBLE_COLLIDER_RADIUS: f32 = 8.0;
+const BUBBLE_HEALTH: f32 = 1.0;
+const BUBBLE_COLLISION_DAMAGE: f32 = 3.0;
 
 pub struct BubblePlugin;
 
 impl Plugin for BubblePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (
-                spawn_bubble_spawner,
-                spawn_bubble,
-                bubble_lifetime,
-                bubble_movement,
-                handle_bubble_collisions,
-            ),
-        );
+        app.add_systems(Update, (bubble_lifetime).in_set(InGameSet::DespawnEntities))
+            .add_systems(
+                Update,
+                (spawn_bubble_spawner, spawn_bubble, bubble_movement)
+                    .in_set(InGameSet::EntityUpdates),
+            );
     }
 }
 
@@ -43,16 +47,18 @@ pub struct Bubble {
 fn spawn_bubble_spawner(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    input: Res<Input<KeyCode>>,
+    input: Res<ButtonInput<KeyCode>>,
     player: Query<&Transform, With<Player>>,
 ) {
-    if !input.just_pressed(KeyCode::W) {
+    if !input.just_pressed(KeyCode::KeyW) {
         return;
     }
 
     let texture: Handle<Image> = asset_server.load("bubble spawner.png");
 
-    let player_transform = player.single();
+    let Ok(player_transform) = player.get_single() else {
+        return;
+    };
 
     commands.spawn((
         SpriteBundle {
@@ -99,7 +105,13 @@ fn spawn_bubble(
                     },
                     ..default()
                 },
+                KinematicBundle {
+                    velocity: Velocity::new(Vec3::ZERO),
+                    acceleration: Acceleration::new(Vec3::ZERO),
+                },
                 Collider::new(BUBBLE_COLLIDER_RADIUS),
+                Health::new(BUBBLE_HEALTH),
+                CollisionDamage::new(BUBBLE_COLLISION_DAMAGE),
                 Bubble {
                     speed: BUBBLE_SPEED,
                     lifetime: Timer::from_seconds(BUBBLE_LIFETIME, TimerMode::Once),
@@ -131,22 +143,5 @@ fn bubble_movement(time: Res<Time>, mut bubbles: Query<(&Bubble, &mut Transform)
     for (bubble, mut transform) in &mut bubbles {
         transform.translation.x += 0.4 * f32::cos(time.elapsed_seconds() * bubble.speed);
         transform.translation.y += 0.4 * f32::sin(time.elapsed_seconds() * bubble.speed);
-    }
-}
-
-fn handle_bubble_collisions(
-    mut commands: Commands,
-    query: Query<(Entity, &Collider), With<Bubble>>,
-) {
-    for (entity, collider) in query.iter() {
-        for &collided_entity in collider.colliding_entities.iter() {
-            //  bubbles colliding with another bubble
-            if query.get(collided_entity).is_ok() {
-                continue;
-            }
-
-            //  despawn the bubble if anything else
-            commands.entity(entity).despawn_recursive();
-        }
     }
 }

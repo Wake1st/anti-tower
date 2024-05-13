@@ -1,4 +1,4 @@
-use bevy::{core_pipeline::clear_color::ClearColorConfig, prelude::*, render::camera::ScalingMode};
+use bevy::{prelude::*, render::camera::ScalingMode};
 
 use crate::player::Player;
 
@@ -14,7 +14,7 @@ impl Plugin for CameraPlugin {
 fn spawn_camera(mut commands: Commands) {
     let mut camera = Camera2dBundle {
         camera_2d: Camera2d {
-            clear_color: ClearColorConfig::Custom(Color::SEA_GREEN),
+            // clear_color: ClearColorConfig::Custom(Color::SEA_GREEN),
         },
         ..default()
     };
@@ -31,7 +31,9 @@ fn camera_follow(
     player: Query<&Transform, With<Player>>,
     mut camera: Query<&mut Transform, (With<Camera2d>, Without<Player>)>,
 ) {
-    let player_transform = player.single();
+    let Ok(player_transform) = player.get_single() else {
+        return;
+    };
 
     for mut transform in &mut camera {
         let pos = player_transform.translation;

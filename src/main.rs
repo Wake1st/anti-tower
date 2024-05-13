@@ -1,21 +1,25 @@
-use bevy::{input::common_conditions::input_toggle_active, prelude::*};
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy::prelude::*;
 
 use bubble::BubblePlugin;
 use camera::CameraPlugin;
 use collisions::CollisionsPlugin;
+use despawn::DespawnPlugin;
 use footman::FootmanPlugin;
+use movement::MovementPlugin;
 use player::PlayerPlugin;
-use potion::PotionPlugin;
+use schedule::SchedulePlugin;
 use state::StatePlugin;
 use ui::GameUI;
 
 mod bubble;
 mod camera;
 mod collisions;
+mod despawn;
 mod footman;
+mod health;
+mod movement;
 mod player;
-mod potion;
+mod schedule;
 mod state;
 mod ui;
 
@@ -39,17 +43,17 @@ fn main() {
                 })
                 .build(),
         )
-        .add_plugins(
-            WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)),
-        )
+        // .add_plugins(WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)))
         .insert_resource(Money(100.0))
         .add_plugins((
+            SchedulePlugin,
             StatePlugin,
+            MovementPlugin,
             CollisionsPlugin,
+            DespawnPlugin,
             CameraPlugin,
             PlayerPlugin,
             BubblePlugin,
-            PotionPlugin,
             FootmanPlugin,
             GameUI,
         ))

@@ -1,21 +1,8 @@
-use bevy::prelude::*;
-// use bevy_rapier2d::prelude::*;
-
-use bubble::BubblePlugin;
-use camera::CameraPlugin;
-use collisions::CollisionsPlugin;
-use despawn::DespawnPlugin;
-use footman::FootmanPlugin;
-use movement::MovementPlugin;
-use player::PlayerPlugin;
-use schedule::SchedulePlugin;
-use state::StatePlugin;
-use ui::GameUI;
-
 mod bubble;
 mod camera;
 mod collisions;
 mod despawn;
+mod detection;
 mod footman;
 mod health;
 mod movement;
@@ -23,6 +10,21 @@ mod player;
 mod schedule;
 mod state;
 mod ui;
+
+use bevy::prelude::*;
+// use bevy_rapier2d::prelude::*;
+
+use bubble::BubblePlugin;
+use camera::CameraPlugin;
+use collisions::CollisionsPlugin;
+use despawn::DespawnPlugin;
+use detection::DetectionPlugin;
+use footman::FootmanPlugin;
+use movement::MovementPlugin;
+use player::PlayerPlugin;
+use schedule::SchedulePlugin;
+use state::StatePlugin;
+use ui::GameUI;
 
 #[derive(Resource)]
 pub struct Money(pub f32);
@@ -51,6 +53,7 @@ fn main() {
         .add_plugins((
             SchedulePlugin,
             StatePlugin,
+            DetectionPlugin,
             MovementPlugin,
             CollisionsPlugin,
             DespawnPlugin,

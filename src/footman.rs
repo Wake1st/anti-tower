@@ -2,11 +2,12 @@ use bevy::prelude::*;
 
 use crate::{
     collisions::{Collider, CollisionDamage},
+    detection::Target,
     health::Health,
     schedule::InGameSet,
 };
 
-const HEALTH: f32 = 10.0;
+const HEALTH: f32 = 100.0;
 const COLLIDER_RADIUS: f32 = 16.0;
 const DAMAGE: f32 = 5.0;
 
@@ -31,6 +32,7 @@ fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
         },
         Collider::new(COLLIDER_RADIUS),
         CollisionDamage::new(DAMAGE),
+        Target,
         Health::new(HEALTH),
         Footman,
         Name::new("Footman"),

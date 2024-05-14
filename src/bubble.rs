@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     collisions::{Collider, CollisionDamage},
+    detection::{DetectionEvent, Target, Tracker},
     health::Health,
     movement::{Acceleration, KinematicBundle, Velocity},
     player::Player,
@@ -14,11 +15,12 @@ const SPAWNER_SPAWN_RATE: f32 = 2.0;
 
 const BUBBLE_SPAWN_OFFSET: f32 = 6.0;
 const BUBBLE_SPRITE_LAYER: f32 = 1.0;
-const BUBBLE_SPEED: f32 = 1.2;
+const BUBBLE_ACCELERATION_RATE: f32 = 1800.0;
 const BUBBLE_LIFETIME: f32 = 6.0;
 const BUBBLE_COLLIDER_RADIUS: f32 = 8.0;
 const BUBBLE_HEALTH: f32 = 1.0;
 const BUBBLE_COLLISION_DAMAGE: f32 = 3.0;
+const BUBBLE_TRACKER_VISION: f32 = 420.0;
 
 pub struct BubblePlugin;
 
@@ -27,7 +29,7 @@ impl Plugin for BubblePlugin {
         app.add_systems(Update, (bubble_lifetime).in_set(InGameSet::DespawnEntities))
             .add_systems(
                 Update,
-                (spawn_bubble_spawner, spawn_bubble, bubble_movement)
+                (spawn_bubble_spawner, spawn_bubble, bubble_tracking)
                     .in_set(InGameSet::EntityUpdates),
             );
     }
@@ -40,7 +42,6 @@ pub struct BubbleSpawner {
 
 #[derive(Component)]
 pub struct Bubble {
-    pub speed: f32,
     pub lifetime: Timer,
 }
 
@@ -112,14 +113,12 @@ fn spawn_bubble(
                 Collider::new(BUBBLE_COLLIDER_RADIUS),
                 Health::new(BUBBLE_HEALTH),
                 CollisionDamage::new(BUBBLE_COLLISION_DAMAGE),
+                Tracker::new(BUBBLE_TRACKER_VISION),
                 Bubble {
-                    speed: BUBBLE_SPEED,
                     lifetime: Timer::from_seconds(BUBBLE_LIFETIME, TimerMode::Once),
                 },
                 Name::new("Bubble"),
             ));
-
-            info!("Bubble spawned!");
         }
     }
 }
@@ -134,14 +133,35 @@ fn bubble_lifetime(
 
         if bubble.lifetime.finished() {
             commands.entity(bubble_entity).despawn_recursive();
-            info!("Bubble died from old age.");
         }
     }
 }
 
-fn bubble_movement(time: Res<Time>, mut bubbles: Query<(&Bubble, &mut Transform), With<Bubble>>) {
-    for (bubble, mut transform) in &mut bubbles {
-        transform.translation.x += 0.4 * f32::cos(time.elapsed_seconds() * bubble.speed);
-        transform.translation.y += 0.4 * f32::sin(time.elapsed_seconds() * bubble.speed);
+fn bubble_tracking(
+    mut detection_event_reader: EventReader<DetectionEvent>,
+    mut bubble_query: Query<(&GlobalTransform, &mut Acceleration), With<Bubble>>,
+    target_query: Query<&GlobalTransform, With<Target>>,
+) {
+    for &DetectionEvent {
+        tracker_entity,
+        target_entity,
+    } in detection_event_reader.read()
+    {
+        let Ok((bubble_transform, mut bubble_acceleration)) = bubble_query.get_mut(tracker_entity)
+        else {
+            continue;
+        };
+
+        let Ok(target_transform) = target_query.get(target_entity) else {
+            continue;
+        };
+
+        let direction =
+            (target_transform.translation() - bubble_transform.translation()).normalize();
+        let distance = bubble_transform
+            .translation()
+            .distance(target_transform.translation());
+
+        bubble_acceleration.value = direction * BUBBLE_ACCELERATION_RATE / distance;
     }
 }

@@ -26,7 +26,7 @@ pub fn game_state_input_events(
         match state.get() {
             GameState::InGame => next_state.set(GameState::Paused),
             GameState::Paused => next_state.set(GameState::InGame),
-            _ => (),
+            // _ => (),
         }
     }
 }

@@ -1,11 +1,10 @@
 use bevy::prelude::*;
-
-use crate::{
-    collisions::{Collider, CollisionDamage},
-    detection::Target,
-    health::Health,
-    schedule::InGameSet,
+use bevy_rapier2d::{
+    dynamics::RigidBody,
+    geometry::{Collider, CollisionGroups, Group},
 };
+
+use crate::{collisions::CollisionDamage, detection::Target, health::Health, schedule::InGameSet};
 
 const HEALTH: f32 = 100.0;
 const COLLIDER_RADIUS: f32 = 16.0;
@@ -30,7 +29,13 @@ fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
             texture,
             ..default()
         },
-        Collider::new(COLLIDER_RADIUS),
+        // Collider::new(COLLIDER_RADIUS),
+        RigidBody::KinematicVelocityBased,
+        CollisionGroups::new(
+            Group::GROUP_2,
+            Group::GROUP_1 | Group::GROUP_4 | Group::GROUP_11,
+        ),
+        Collider::cuboid(COLLIDER_RADIUS, COLLIDER_RADIUS),
         CollisionDamage::new(DAMAGE),
         Target,
         Health::new(HEALTH),

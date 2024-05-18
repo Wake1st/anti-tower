@@ -45,12 +45,17 @@ impl Acceleration {
 
 fn update_velocity(mut query: Query<(&Acceleration, &mut Velocity)>, time: Res<Time>) {
     for (acceleration, mut velocity) in query.iter_mut() {
+        // info!("real accel {:?}", acceleration.value);
+        // info!("pre vel {:?}", velocity.value);
         velocity.value += acceleration.value * time.delta_seconds();
+        // info!("post vel {:?}", velocity.value);
     }
 }
 
 fn update_position(mut query: Query<(&Velocity, &mut Transform)>, time: Res<Time>) {
     for (velocity, mut transform) in query.iter_mut() {
+        // info!("pre trans {:?}", transform.translation);
         transform.translation += velocity.value * time.delta_seconds();
+        // info!("post trans {:?}", transform.translation);
     }
 }

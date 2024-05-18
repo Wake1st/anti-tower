@@ -78,7 +78,7 @@ fn spawn_bubble_spawner(
             ..default()
         },
         Collider::new(SPAWNER_COLLIDER_RADIUS),
-        CollisionGroups::new(Group::ALLY | Group::STRUCTURE, Group::NONE),
+        CollisionGroups::new(Group::ALLY, Group::NONE),
         Health::new(SPAWNER_HEALTH),
         BubbleSpawner {
             spawn_rate: Timer::from_seconds(SPAWNER_SPAWN_RATE, TimerMode::Repeating),
@@ -163,12 +163,15 @@ fn bubble_tracking(
             continue;
         };
 
-        let direction =
-            (target_transform.translation() - bubble_transform.translation()).normalize();
+        let ttt: Vec3 = target_transform.translation();
+        let planar_transform = Transform::from_xyz(ttt.x, ttt.y, bubble_transform.translation().z);
+        let direction = (planar_transform.translation - bubble_transform.translation()).normalize();
         let distance = bubble_transform
             .translation()
-            .distance(target_transform.translation());
+            .distance(planar_transform.translation);
 
+        // info!("pre accel {:?}", bubble_acceleration.value);
         bubble_acceleration.value = direction * BUBBLE_ACCELERATION_RATE / distance;
+        // info!("post accel {:?}", bubble_acceleration.value);
     }
 }

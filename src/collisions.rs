@@ -1,8 +1,13 @@
-use bevy::{prelude::*, utils::hashbrown::HashMap};
+use bevy::{
+    prelude::*,
+    utils::hashbrown::{hash_map::Entry, HashMap},
+};
 
 use crate::{
     bubble::Bubble, footman::Footman, health::Health, movement::Velocity, schedule::InGameSet,
 };
+
+const BOUNCE_BUFFER: f32 = 2.0;
 
 pub struct CollisionsPlugin;
 
@@ -21,7 +26,7 @@ impl Plugin for CollisionsPlugin {
                 .chain()
                 .in_set(InGameSet::EntityUpdates),
         )
-        // .insert_resource(CollisionRecords::new(HashMap::new()))
+        .insert_resource(CollisionRecords::new(HashMap::new()))
         .add_event::<CollisionEvent>();
     }
 }
@@ -75,6 +80,17 @@ pub struct CollisionDamage {
 impl CollisionDamage {
     pub fn new(amount: f32) -> Self {
         Self { amount }
+    }
+}
+
+#[derive(Resource, Debug)]
+pub struct CollisionRecords {
+    pub value: HashMap<(Entity, Entity), bool>,
+}
+
+impl CollisionRecords {
+    pub fn new(value: HashMap<(Entity, Entity), bool>) -> Self {
+        Self { value }
     }
 }
 
@@ -216,7 +232,7 @@ impl CollisionGroups {
 
 fn collision_detection(
     mut query: Query<(Entity, &CollisionGroups, &GlobalTransform, &mut Collider)>,
-    // mut collision_records: ResMut<CollisionRecords>,
+    mut collision_records: ResMut<CollisionRecords>,
 ) {
     let mut colliding_entities: HashMap<Entity, Vec<Entity>> = HashMap::new();
     // let mut filtered_entities: HashMap<Entity, Vec<Entity>> = HashMap::new();
@@ -224,28 +240,51 @@ fn collision_detection(
     //  phase 1: detect collisions
     for (entity_a, groups_a, transform_a, collider_a) in query.iter() {
         for (entity_b, groups_b, transform_b, collider_b) in query.iter() {
-            if entity_a != entity_b {
-                //  first, check the groups for a match - [fastest check(?) should be first]
-                if (groups_a.memberships & groups_b.filters) == Group::NONE {
-                    continue;
+            //  cannot collide with self
+            if entity_a == entity_b {
+                continue;
+            }
+
+            //  first, check the groups for a match - [fastest check(?) should be first]
+            if (groups_a.memberships & groups_b.filters) == Group::NONE {
+                continue;
+            }
+
+            //  next, check if a collision would occur
+            let distance = transform_a
+                .translation()
+                .distance(transform_b.translation());
+
+            //  here for weird transform::Zero bug
+            if distance == 0.0 {
+                continue;
+            }
+
+            if distance < (collider_a.radius + collider_b.radius) {
+                //  check for immediately previous collision
+                match collision_records.value.entry((entity_a, entity_b)) {
+                    Entry::Occupied(_) => {
+                        info!("entry {:?} | {:?} removed", entity_a, entity_b);
+                        let Some(_) = collision_records.value.remove(&(entity_a, entity_b)) else {
+                            continue;
+                        };
+                        continue;
+                    }
+                    _ => {
+                        info!("entry {:?} | {:?} added", entity_a, entity_b);
+                        collision_records.value.insert((entity_a, entity_b), true);
+                    }
                 }
 
-                //  next, check if a collision would occur
-                let distance = transform_a
-                    .translation()
-                    .distance(transform_b.translation());
-
-                //  here for weird transform::Zero bug
-                if distance == 0.0 {
-                    continue;
-                }
-
-                if distance < (collider_a.radius + collider_b.radius) {
-                    colliding_entities
-                        .entry(entity_a)
-                        .or_insert_with(Vec::new)
-                        .push(entity_b);
-                }
+                info!(
+                    "new collision: distance {:?}\t| radius {:?}",
+                    distance,
+                    (collider_a.radius + collider_b.radius)
+                );
+                colliding_entities
+                    .entry(entity_a)
+                    .or_insert_with(Vec::new)
+                    .push(entity_b);
             }
         }
     }
@@ -291,6 +330,7 @@ fn handle_collisions<T: Component>(
                 continue;
             }
 
+            info!("collision event written");
             collision_event_writer.send(CollisionEvent::new(entity, colliding_entity));
 
             // //  if a collision record exists, it means the entities are in currently "colliding" - we only need the single event
@@ -330,7 +370,7 @@ pub fn apply_collision_damage(
 
         health.value -= collision_damage.amount;
         info!(
-            "entity: {:?}\t| health {:?}\ncolliding {:?}\t| damage {:?}",
+            "entity: {:?}\t| health {:?}\tcolliding {:?}\t| damage {:?}",
             entity, health.value, colliding_entity, collision_damage.amount
         );
     }
@@ -361,27 +401,30 @@ pub fn update_collision_transforms(
         };
 
         //  0: gather variables
-        let mut deflection_vec: Vec3 = (attacker_global_transform.translation()
-            - attacked_transform.translation())
-        .normalize();
+        let planar_transform = Transform::from_xyz(
+            attacked_transform.translation().x,
+            attacked_transform.translation().y,
+            attacker_global_transform.translation().z,
+        );
+        let deflection_vec =
+            (attacker_global_transform.translation() - planar_transform.translation).normalize();
         let required_distance: f32 = attacked_collider.radius + attacker_collider.radius;
         let current_distance: f32 = attacker_global_transform
             .translation()
-            .distance(attacked_transform.translation());
+            .distance(planar_transform.translation);
         let adjusted_distance = required_distance - current_distance;
 
         //  1: "shift" the attacker off of the attacked to ensure no overlap
-        deflection_vec.z = attacker_global_transform.translation().z;
         info!(
             "deflection: {:?}\t| adjusted_dist {:?}",
             deflection_vec, adjusted_distance
         );
         info!("pre trans {:?}", attacker_transform.translation);
-        attacker_transform.translation += deflection_vec * adjusted_distance;
+        attacker_transform.translation += deflection_vec * (adjusted_distance + BOUNCE_BUFFER);
         info!("post trans {:?}", attacker_transform.translation);
 
         //  2: "bounce" the attacker off the attacked
-        let radial_velocity = attacker_velocity.value.dot_into_vec(deflection_vec);
+        let radial_velocity = attacker_velocity.value * deflection_vec;
         info!("radial vel {:?}", radial_velocity);
         info!("pre atk vel {:?}", attacker_velocity.value);
         attacker_velocity.value += -(1. + 0.9) * radial_velocity;

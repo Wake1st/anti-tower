@@ -7,7 +7,7 @@ use crate::{
     schedule::InGameSet,
 };
 
-const HEALTH: f32 = 10.0;
+const HEALTH: f32 = 100.0;
 const COLLIDER_RADIUS: f32 = 16.0;
 const DAMAGE: f32 = 5.0;
 

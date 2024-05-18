@@ -13,10 +13,6 @@ mod ui;
 
 use bevy::prelude::*;
 
-use bevy_rapier2d::{
-    plugin::{NoUserData, RapierPhysicsPlugin},
-    render::RapierDebugRenderPlugin,
-};
 use bubble::BubblePlugin;
 use camera::CameraPlugin;
 use collisions::CollisionsPlugin;
@@ -28,8 +24,6 @@ use player::PlayerPlugin;
 use schedule::SchedulePlugin;
 use state::StatePlugin;
 use ui::GameUI;
-
-const PIXELS_PER_METER: f32 = 32.0;
 
 #[derive(Resource)]
 pub struct Money(pub f32);
@@ -53,10 +47,6 @@ fn main() {
         )
         // .add_plugins(WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)))
         .insert_resource(Money(100.0))
-        .add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(
-            PIXELS_PER_METER,
-        ))
-        .add_plugins(RapierDebugRenderPlugin::default())
         .add_plugins((
             SchedulePlugin,
             StatePlugin,

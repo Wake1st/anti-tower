@@ -1,11 +1,7 @@
 use bevy::prelude::*;
-use bevy_rapier2d::{
-    dynamics::{Ccd, RigidBody, Sleeping},
-    geometry::{ActiveEvents, Collider, CollisionGroups, Group, Restitution, Sensor},
-};
 
 use crate::{
-    collisions::CollisionDamage,
+    collisions::{Collider, CollisionDamage},
     detection::{DetectionEvent, Target, Tracker},
     health::Health,
     movement::{Acceleration, KinematicBundle, Velocity},
@@ -81,9 +77,6 @@ fn spawn_bubble_spawner(
             },
             ..default()
         },
-        RigidBody::Fixed,
-        CollisionGroups::new(Group::GROUP_4, Group::GROUP_2),
-        Collider::cuboid(SPAWNER_COLLIDER_SIZE.x / 2.0, SPAWNER_COLLIDER_SIZE.y / 2.0),
         Health::new(SPAWNER_HEALTH),
         BubbleSpawner {
             spawn_rate: Timer::from_seconds(SPAWNER_SPAWN_RATE, TimerMode::Repeating),
@@ -121,15 +114,7 @@ fn spawn_bubble(
                     velocity: Velocity::new(Vec3::ZERO),
                     acceleration: Acceleration::new(Vec3::ZERO),
                 },
-                // Collider::new(BUBBLE_COLLIDER_RADIUS),
-                Sleeping::disabled(),
-                Ccd::enabled(),
-                RigidBody::KinematicVelocityBased,
-                ActiveEvents::COLLISION_EVENTS,
-                Sensor,
-                CollisionGroups::new(Group::GROUP_11, Group::GROUP_2),
-                Collider::ball(BUBBLE_COLLIDER_RADIUS),
-                Restitution::coefficient(BUBBLE_BOUNCINESS),
+                Collider::new(BUBBLE_COLLIDER_RADIUS),
                 Health::new(BUBBLE_HEALTH),
                 CollisionDamage::new(BUBBLE_COLLISION_DAMAGE),
                 Tracker::new(BUBBLE_TRACKER_VISION),

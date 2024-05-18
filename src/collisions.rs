@@ -338,26 +338,53 @@ pub fn apply_collision_damage(
 
 pub fn update_collision_transforms(
     mut collision_event_reader: EventReader<CollisionEvent>,
-    attacked_query: Query<&GlobalTransform>,
-    mut attacker_query: Query<(&mut GlobalTransform, &mut Velocity)>,
+    attacked_query: Query<(&GlobalTransform, &Collider)>,
+    mut attacker_query: Query<(&GlobalTransform, &Collider, &mut Transform, &mut Velocity)>,
 ) {
     for &CollisionEvent {
         entity,
         colliding_entity,
     } in collision_event_reader.read()
     {
-        let Ok(attacked_transform) = attacked_query.get(entity) else {
+        let Ok((attacked_transform, attacked_collider)) = attacked_query.get(entity) else {
             continue;
         };
 
-        let Ok((mut attacker_transform, mut attacker_velocity)) =
-            attacker_query.get_mut(colliding_entity)
+        let Ok((
+            attacker_global_transform,
+            attacker_collider,
+            mut attacker_transform,
+            mut attacker_velocity,
+        )) = attacker_query.get_mut(colliding_entity)
         else {
             continue;
         };
 
-        //  1: "push" the colliders to ensure no overlap
+        //  0: gather variables
+        let mut deflection_vec: Vec3 = (attacker_global_transform.translation()
+            - attacked_transform.translation())
+        .normalize();
+        let required_distance: f32 = attacked_collider.radius + attacker_collider.radius;
+        let current_distance: f32 = attacker_global_transform
+            .translation()
+            .distance(attacked_transform.translation());
+        let adjusted_distance = required_distance - current_distance;
 
-        //  2: apply some instantaneous velocity, "bouncing" the attacker off the attacked
+        //  1: "shift" the attacker off of the attacked to ensure no overlap
+        deflection_vec.z = attacker_global_transform.translation().z;
+        info!(
+            "deflection: {:?}\t| adjusted_dist {:?}",
+            deflection_vec, adjusted_distance
+        );
+        info!("pre trans {:?}", attacker_transform.translation);
+        attacker_transform.translation += deflection_vec * adjusted_distance;
+        info!("post trans {:?}", attacker_transform.translation);
+
+        //  2: "bounce" the attacker off the attacked
+        let radial_velocity = attacker_velocity.value.dot_into_vec(deflection_vec);
+        info!("radial vel {:?}", radial_velocity);
+        info!("pre atk vel {:?}", attacker_velocity.value);
+        attacker_velocity.value += -(1. + 0.9) * radial_velocity;
+        info!("post atk vel {:?}", attacker_velocity.value);
     }
 }

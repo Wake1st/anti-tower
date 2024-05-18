@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    collisions::{Collider, CollisionDamage},
+    collisions::{Collider, CollisionDamage, CollisionGroups, Group},
     detection::{DetectionEvent, Target, Tracker},
     health::Health,
     movement::{Acceleration, KinematicBundle, Velocity},
@@ -13,7 +13,7 @@ const SPAWNER_SPAWN_OFFSET: f32 = 32.0;
 const SPAWNER_SPRITE_LAYER: f32 = -1.0;
 const SPAWNER_SPAWN_RATE: f32 = 2.0;
 const SPAWNER_HEALTH: f32 = 80.0;
-const SPAWNER_COLLIDER_SIZE: Vec2 = Vec2::new(32.0, 32.0);
+const SPAWNER_COLLIDER_RADIUS: f32 = 16.0;
 
 const BUBBLE_SPAWN_OFFSET: f32 = 6.0;
 const BUBBLE_SPRITE_LAYER: f32 = 1.0;
@@ -22,7 +22,7 @@ const BUBBLE_LIFETIME: f32 = 6.0;
 const BUBBLE_COLLIDER_RADIUS: f32 = 8.0;
 const BUBBLE_HEALTH: f32 = 1.0;
 const BUBBLE_COLLISION_DAMAGE: f32 = 3.0;
-const BUBBLE_BOUNCINESS: f32 = 0.8;
+// const BUBBLE_BOUNCINESS: f32 = 0.8;
 const BUBBLE_TRACKER_VISION: f32 = 420.0;
 
 pub struct BubblePlugin;
@@ -77,6 +77,8 @@ fn spawn_bubble_spawner(
             },
             ..default()
         },
+        Collider::new(SPAWNER_COLLIDER_RADIUS),
+        CollisionGroups::new(Group::ALLY | Group::STRUCTURE, Group::NONE),
         Health::new(SPAWNER_HEALTH),
         BubbleSpawner {
             spawn_rate: Timer::from_seconds(SPAWNER_SPAWN_RATE, TimerMode::Repeating),
@@ -115,6 +117,7 @@ fn spawn_bubble(
                     acceleration: Acceleration::new(Vec3::ZERO),
                 },
                 Collider::new(BUBBLE_COLLIDER_RADIUS),
+                CollisionGroups::new(Group::ALLY, Group::ENEMY | Group::STRUCTURE),
                 Health::new(BUBBLE_HEALTH),
                 CollisionDamage::new(BUBBLE_COLLISION_DAMAGE),
                 Tracker::new(BUBBLE_TRACKER_VISION),

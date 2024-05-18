@@ -255,6 +255,7 @@ version = "0.1.0"
 dependencies = [
  "bevy 0.13.2",
  "bevy-inspector-egui",
+ "bitflags 2.5.0",
  "proc-macro2",
 ]
 

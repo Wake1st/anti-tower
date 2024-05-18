@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    collisions::{Collider, CollisionDamage},
+    collisions::{Collider, CollisionDamage, CollisionGroups, Group},
     detection::Target,
     health::Health,
     schedule::InGameSet,
@@ -31,6 +31,7 @@ fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
             ..default()
         },
         Collider::new(COLLIDER_RADIUS),
+        CollisionGroups::new(Group::ENEMY, Group::NONE),
         CollisionDamage::new(DAMAGE),
         Target,
         Health::new(HEALTH),

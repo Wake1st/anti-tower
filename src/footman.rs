@@ -15,7 +15,8 @@ pub struct FootmanPlugin;
 
 impl Plugin for FootmanPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, (spawn_footman).in_set(InGameSet::EntityUpdates));
+        app.add_systems(Startup, (spawn_footman).in_set(InGameSet::EntityUpdates))
+            .add_systems(Update, move_in_circle.in_set(InGameSet::EntityUpdates));
     }
 }
 
@@ -38,4 +39,15 @@ fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
         Footman,
         Name::new("Footman"),
     ));
+}
+
+fn move_in_circle(mut query: Query<&mut Transform, With<Footman>>, time: Res<Time>) {
+    for mut transform in query.iter_mut() {
+        transform.translation = 40.0
+            * Vec3::new(
+                time.elapsed_seconds().cos(),
+                time.elapsed_seconds().sin(),
+                0.0,
+            );
+    }
 }

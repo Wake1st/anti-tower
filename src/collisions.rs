@@ -419,12 +419,16 @@ pub fn update_collision_transforms(
             "deflection: {:?}\t| adjusted_dist {:?}",
             deflection_vec, adjusted_distance
         );
-        info!("pre trans {:?}", attacker_transform.translation);
+        // info!("pre trans {:?}", attacker_transform.translation);
         attacker_transform.translation += deflection_vec * (adjusted_distance + BOUNCE_BUFFER);
-        info!("post trans {:?}", attacker_transform.translation);
+        // info!("post trans {:?}", attacker_transform.translation);
 
         //  2: "bounce" the attacker off the attacked
-        let radial_velocity = attacker_velocity.value * deflection_vec;
+        let radial_velocity = deflection_vec.dot(attacker_velocity.value) * deflection_vec;
+        info!(
+            "scalar dot {:?}",
+            deflection_vec.dot(attacker_velocity.value)
+        );
         info!("radial vel {:?}", radial_velocity);
         info!("pre atk vel {:?}", attacker_velocity.value);
         attacker_velocity.value += -(1. + 0.9) * radial_velocity;

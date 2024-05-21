@@ -45,7 +45,9 @@ fn main() {
                 })
                 .build(),
         )
-        // .add_plugins(WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)))
+        // .add_plugins(
+        //     WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::Tab)),
+        // )
         .insert_resource(Money(100.0))
         .add_plugins((
             SchedulePlugin,

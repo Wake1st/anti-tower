@@ -1,8 +1,10 @@
 use bevy::prelude::*;
 
 use crate::{
-    collisions::{Collider, CollisionDamage, CollisionGroups, Group},
-    detection::{DetectionEvent, Target, Tracker},
+    collisions::{Collider, CollisionDamage, CollisionGroups},
+    detection::{DetectionEvent, DetectionGroups, Tracker},
+    footman::Footman,
+    group::Group,
     health::Health,
     movement::{Acceleration, KinematicBundle, Velocity},
     player::Player,
@@ -17,13 +19,13 @@ const SPAWNER_COLLIDER_RADIUS: f32 = 16.0;
 
 const BUBBLE_SPAWN_OFFSET: f32 = 6.0;
 const BUBBLE_SPRITE_LAYER: f32 = 1.0;
-const BUBBLE_ACCELERATION_RATE: f32 = 1800.0;
 const BUBBLE_LIFETIME: f32 = 6.0;
+const BUBBLE_ACCELERATION_RATE: f32 = 1800.;
 const BUBBLE_COLLIDER_RADIUS: f32 = 8.0;
 const BUBBLE_HEALTH: f32 = 1.0;
 const BUBBLE_COLLISION_DAMAGE: f32 = 3.0;
 // const BUBBLE_BOUNCINESS: f32 = 0.8;
-const BUBBLE_TRACKER_VISION: f32 = 420.0;
+const BUBBLE_DETECTION_RADIUS: f32 = 420.0;
 
 pub struct BubblePlugin;
 
@@ -32,7 +34,7 @@ impl Plugin for BubblePlugin {
         app.add_systems(Update, (bubble_lifetime).in_set(InGameSet::DespawnEntities))
             .add_systems(
                 Update,
-                (spawn_bubble_spawner, spawn_bubble, bubble_tracking)
+                (spawn_bubble_spawner, spawn_bubble, tracking::<Footman>)
                     .in_set(InGameSet::EntityUpdates),
             );
     }
@@ -79,6 +81,7 @@ fn spawn_bubble_spawner(
         },
         Collider::new(SPAWNER_COLLIDER_RADIUS),
         CollisionGroups::new(Group::ALLY, Group::NONE),
+        DetectionGroups::new(Group::ALLY, Group::NONE),
         Health::new(SPAWNER_HEALTH),
         BubbleSpawner {
             spawn_rate: Timer::from_seconds(SPAWNER_SPAWN_RATE, TimerMode::Repeating),
@@ -117,10 +120,11 @@ fn spawn_bubble(
                     acceleration: Acceleration::new(Vec3::ZERO),
                 },
                 Collider::new(BUBBLE_COLLIDER_RADIUS),
-                CollisionGroups::new(Group::ALLY, Group::ENEMY | Group::STRUCTURE),
+                CollisionGroups::new(Group::ALLY, Group::ENEMY),
+                DetectionGroups::new(Group::ALLY, Group::ENEMY),
                 Health::new(BUBBLE_HEALTH),
                 CollisionDamage::new(BUBBLE_COLLISION_DAMAGE),
-                Tracker::new(BUBBLE_TRACKER_VISION),
+                Tracker::new(BUBBLE_DETECTION_RADIUS),
                 Bubble {
                     lifetime: Timer::from_seconds(BUBBLE_LIFETIME, TimerMode::Once),
                 },
@@ -144,17 +148,17 @@ fn bubble_lifetime(
     }
 }
 
-fn bubble_tracking(
+fn tracking<T: Component>(
     mut detection_event_reader: EventReader<DetectionEvent>,
-    mut bubble_query: Query<(&GlobalTransform, &mut Acceleration), With<Bubble>>,
-    target_query: Query<&GlobalTransform, With<Target>>,
+    mut tracker_query: Query<(&GlobalTransform, &mut Acceleration), With<Bubble>>,
+    target_query: Query<&GlobalTransform, With<T>>,
 ) {
     for &DetectionEvent {
         tracker_entity,
         target_entity,
     } in detection_event_reader.read()
     {
-        let Ok((bubble_transform, mut bubble_acceleration)) = bubble_query.get_mut(tracker_entity)
+        let Ok((tracker_transform, mut acceleration)) = tracker_query.get_mut(tracker_entity)
         else {
             continue;
         };
@@ -164,14 +168,13 @@ fn bubble_tracking(
         };
 
         let ttt: Vec3 = target_transform.translation();
-        let planar_transform = Transform::from_xyz(ttt.x, ttt.y, bubble_transform.translation().z);
-        let direction = (planar_transform.translation - bubble_transform.translation()).normalize();
-        let distance = bubble_transform
+        let planar_transform = Transform::from_xyz(ttt.x, ttt.y, tracker_transform.translation().z);
+        let direction =
+            (planar_transform.translation - tracker_transform.translation()).normalize();
+        let distance = tracker_transform
             .translation()
             .distance(planar_transform.translation);
 
-        // info!("pre accel {:?}", bubble_acceleration.value);
-        bubble_acceleration.value = direction * BUBBLE_ACCELERATION_RATE / distance;
-        // info!("post accel {:?}", bubble_acceleration.value);
+        acceleration.value = direction * BUBBLE_ACCELERATION_RATE / distance;
     }
 }

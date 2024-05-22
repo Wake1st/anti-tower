@@ -4,6 +4,7 @@ mod collisions;
 mod despawn;
 mod detection;
 mod footman;
+mod group;
 mod health;
 mod movement;
 mod player;

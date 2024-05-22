@@ -1,13 +1,22 @@
 use bevy::prelude::*;
 
-use crate::schedule::InGameSet;
+use crate::{
+    bubble::{Bubble, BubbleSpawner},
+    footman::Footman,
+    group::Group,
+    schedule::InGameSet,
+};
 
 pub struct DetectionPlugin;
 
 impl Plugin for DetectionPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, detect.in_set(InGameSet::EntityUpdates))
-            .add_event::<DetectionEvent>();
+        app.add_systems(
+            Update,
+            (detect::<Bubble, Footman>, detect::<Footman, BubbleSpawner>)
+                .in_set(InGameSet::EntityUpdates),
+        )
+        .add_event::<DetectionEvent>();
     }
 }
 
@@ -41,14 +50,37 @@ impl DetectionEvent {
     }
 }
 
-fn detect(
-    trackers: Query<(Entity, &Tracker, &GlobalTransform)>,
-    targets: Query<(Entity, &GlobalTransform), With<Target>>,
+#[derive(Copy, Clone, Debug, Default, PartialEq, Eq, Hash, Component)]
+pub struct DetectionGroups {
+    /// Groups memberships.
+    pub memberships: Group,
+    /// Groups filter.
+    pub filters: Group,
+}
+
+impl DetectionGroups {
+    /// Creates a new collision-groups with the given membership masks and filter masks.
+    pub const fn new(memberships: Group, filters: Group) -> Self {
+        Self {
+            memberships,
+            filters,
+        }
+    }
+}
+
+fn detect<T: Component, U: Component>(
+    trackers: Query<(Entity, &DetectionGroups, &Tracker, &GlobalTransform), With<T>>,
+    targets: Query<(Entity, &DetectionGroups, &GlobalTransform), With<U>>,
     mut tracking_event_writer: EventWriter<DetectionEvent>,
 ) {
-    for (tracker_entity, tracker, tracker_transform) in trackers.iter() {
-        for (target_entity, target_transform) in targets.iter() {
+    for (tracker_entity, groups_a, tracker, tracker_transform) in trackers.iter() {
+        for (target_entity, groups_b, target_transform) in targets.iter() {
             if tracker_entity == target_entity {
+                continue;
+            }
+
+            //  first, check the groups for a match - [fastest check(?) should be first]
+            if (groups_a.memberships & groups_b.filters) == Group::NONE {
                 continue;
             }
 

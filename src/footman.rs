@@ -1,22 +1,30 @@
 use bevy::prelude::*;
 
 use crate::{
-    collisions::{Collider, CollisionDamage, CollisionGroups, Group},
-    detection::Target,
+    bubble::BubbleSpawner,
+    collisions::{Collider, CollisionDamage, CollisionGroups},
+    detection::{DetectionEvent, DetectionGroups, Target, Tracker},
+    group::Group,
     health::Health,
+    movement::{Acceleration, KinematicBundle, Velocity},
     schedule::InGameSet,
 };
 
-const HEALTH: f32 = 100.0;
+const HEALTH: f32 = 10.0;
 const COLLIDER_RADIUS: f32 = 16.0;
+const DETECTION_RADIUS: f32 = 40.0;
 const DAMAGE: f32 = 5.0;
+const VELOCITY_RATE: f32 = 10.;
 
 pub struct FootmanPlugin;
 
 impl Plugin for FootmanPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, (spawn_footman).in_set(InGameSet::EntityUpdates))
-            .add_systems(Update, move_in_circle.in_set(InGameSet::EntityUpdates));
+        app.add_systems(Startup, spawn_footman.in_set(InGameSet::EntityUpdates))
+            .add_systems(
+                Update,
+                (tracking::<BubbleSpawner>).in_set(InGameSet::EntityUpdates),
+            );
     }
 }
 
@@ -31,9 +39,15 @@ fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
             texture,
             ..default()
         },
+        KinematicBundle {
+            velocity: Velocity::new(Vec3::ZERO),
+            acceleration: Acceleration::new(Vec3::ZERO),
+        },
         Collider::new(COLLIDER_RADIUS),
-        CollisionGroups::new(Group::ENEMY, Group::NONE),
+        CollisionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
+        DetectionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
         CollisionDamage::new(DAMAGE),
+        Tracker::new(DETECTION_RADIUS),
         Target,
         Health::new(HEALTH),
         Footman,
@@ -41,13 +55,32 @@ fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
     ));
 }
 
-fn move_in_circle(mut query: Query<&mut Transform, With<Footman>>, time: Res<Time>) {
-    for mut transform in query.iter_mut() {
-        transform.translation = 40.0
-            * Vec3::new(
-                time.elapsed_seconds().cos(),
-                time.elapsed_seconds().sin(),
-                0.0,
-            );
+fn tracking<T: Component>(
+    mut detection_event_reader: EventReader<DetectionEvent>,
+    mut tracker_query: Query<(&GlobalTransform, &mut Acceleration), With<Footman>>,
+    target_query: Query<&GlobalTransform, With<T>>,
+) {
+    for &DetectionEvent {
+        tracker_entity,
+        target_entity,
+    } in detection_event_reader.read()
+    {
+        let Ok((tracker_transform, mut velocity)) = tracker_query.get_mut(tracker_entity) else {
+            continue;
+        };
+
+        let Ok(target_transform) = target_query.get(target_entity) else {
+            continue;
+        };
+
+        let ttt: Vec3 = target_transform.translation();
+        let planar_transform = Transform::from_xyz(ttt.x, ttt.y, tracker_transform.translation().z);
+        let direction =
+            (planar_transform.translation - tracker_transform.translation()).normalize();
+        let distance = tracker_transform
+            .translation()
+            .distance(planar_transform.translation);
+
+        velocity.value = direction * VELOCITY_RATE / distance;
     }
 }

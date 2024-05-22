@@ -4,7 +4,11 @@ use bevy::{
 };
 
 use crate::{
-    bubble::Bubble, footman::Footman, group::Group, health::Health, movement::Velocity,
+    bubble::{Bubble, BubbleSpawner},
+    footman::Footman,
+    group::Group,
+    health::Health,
+    movement::Velocity,
     schedule::InGameSet,
 };
 
@@ -21,7 +25,11 @@ impl Plugin for CollisionsPlugin {
         .add_systems(
             Update,
             (
-                (handle_collisions::<Footman>, handle_collisions::<Bubble>),
+                (
+                    handle_collisions::<Footman>,
+                    handle_collisions::<Bubble>,
+                    handle_collisions::<BubbleSpawner>,
+                ),
                 (apply_collision_damage, update_collision_transforms),
             )
                 .chain()
@@ -152,23 +160,16 @@ fn collision_detection(
                 //  check for immediately previous collision
                 match collision_records.value.entry((entity_a, entity_b)) {
                     Entry::Occupied(_) => {
-                        info!("entry {:?} | {:?} removed", entity_a, entity_b);
                         let Some(_) = collision_records.value.remove(&(entity_a, entity_b)) else {
                             continue;
                         };
                         continue;
                     }
                     _ => {
-                        info!("entry {:?} | {:?} added", entity_a, entity_b);
                         collision_records.value.insert((entity_a, entity_b), true);
                     }
                 }
 
-                info!(
-                    "new collision: distance {:?}\t| radius {:?}",
-                    distance,
-                    (collider_a.radius + collider_b.radius)
-                );
                 colliding_entities
                     .entry(entity_a)
                     .or_insert_with(Vec::new)
@@ -190,7 +191,6 @@ fn collision_detection(
 
 fn handle_collisions<T: Component>(
     mut collision_event_writer: EventWriter<CollisionEvent>,
-    // mut collision_records: ResMut<CollisionRecords>,
     query: Query<(Entity, &Collider), With<T>>,
 ) {
     for (entity, collider) in query.iter() {
@@ -224,10 +224,6 @@ pub fn apply_collision_damage(
         };
 
         health.value -= collision_damage.amount;
-        info!(
-            "entity: {:?}\t| health {:?}\tcolliding {:?}\t| damage {:?}",
-            entity, health.value, colliding_entity, collision_damage.amount
-        );
     }
 }
 

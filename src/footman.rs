@@ -12,9 +12,9 @@ use crate::{
 
 const HEALTH: f32 = 10.0;
 const COLLIDER_RADIUS: f32 = 16.0;
-const DETECTION_RADIUS: f32 = 40.0;
+const DETECTION_RADIUS: f32 = 600.0;
 const DAMAGE: f32 = 5.0;
-const VELOCITY_RATE: f32 = 10.;
+const VELOCITY_RATE: f32 = 1000.;
 
 pub struct FootmanPlugin;
 
@@ -45,8 +45,8 @@ fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
         },
         Collider::new(COLLIDER_RADIUS),
         CollisionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
-        DetectionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
         CollisionDamage::new(DAMAGE),
+        DetectionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
         Tracker::new(DETECTION_RADIUS),
         Target,
         Health::new(HEALTH),
@@ -82,5 +82,6 @@ fn tracking<T: Component>(
             .distance(planar_transform.translation);
 
         velocity.value = direction * VELOCITY_RATE / distance;
+        info!("velocity {:?}", velocity.value);
     }
 }

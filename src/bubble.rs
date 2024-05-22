@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     collisions::{Collider, CollisionDamage, CollisionGroups},
-    detection::{DetectionEvent, DetectionGroups, Tracker},
+    detection::{DetectionEvent, DetectionGroups, Target, Tracker},
     footman::Footman,
     group::Group,
     health::Health,
@@ -14,7 +14,7 @@ use crate::{
 const SPAWNER_SPAWN_OFFSET: f32 = 32.0;
 const SPAWNER_SPRITE_LAYER: f32 = -1.0;
 const SPAWNER_SPAWN_RATE: f32 = 2.0;
-const SPAWNER_HEALTH: f32 = 80.0;
+const SPAWNER_HEALTH: f32 = 8.0;
 const SPAWNER_COLLIDER_RADIUS: f32 = 16.0;
 
 const BUBBLE_SPAWN_OFFSET: f32 = 6.0;
@@ -82,6 +82,7 @@ fn spawn_bubble_spawner(
         Collider::new(SPAWNER_COLLIDER_RADIUS),
         CollisionGroups::new(Group::ALLY, Group::NONE),
         DetectionGroups::new(Group::ALLY, Group::NONE),
+        Target,
         Health::new(SPAWNER_HEALTH),
         BubbleSpawner {
             spawn_rate: Timer::from_seconds(SPAWNER_SPAWN_RATE, TimerMode::Repeating),
@@ -121,9 +122,9 @@ fn spawn_bubble(
                 },
                 Collider::new(BUBBLE_COLLIDER_RADIUS),
                 CollisionGroups::new(Group::ALLY, Group::ENEMY),
-                DetectionGroups::new(Group::ALLY, Group::ENEMY),
                 Health::new(BUBBLE_HEALTH),
                 CollisionDamage::new(BUBBLE_COLLISION_DAMAGE),
+                DetectionGroups::new(Group::ALLY, Group::ENEMY),
                 Tracker::new(BUBBLE_DETECTION_RADIUS),
                 Bubble {
                     lifetime: Timer::from_seconds(BUBBLE_LIFETIME, TimerMode::Once),

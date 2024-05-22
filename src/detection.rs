@@ -73,14 +73,14 @@ fn detect<T: Component, U: Component>(
     targets: Query<(Entity, &DetectionGroups, &GlobalTransform), With<U>>,
     mut tracking_event_writer: EventWriter<DetectionEvent>,
 ) {
-    for (tracker_entity, groups_a, tracker, tracker_transform) in trackers.iter() {
-        for (target_entity, groups_b, target_transform) in targets.iter() {
+    for (tracker_entity, tracker_groups, tracker, tracker_transform) in trackers.iter() {
+        for (target_entity, target_groups, target_transform) in targets.iter() {
             if tracker_entity == target_entity {
                 continue;
             }
 
             //  first, check the groups for a match - [fastest check(?) should be first]
-            if (groups_a.memberships & groups_b.filters) == Group::NONE {
+            if (tracker_groups.filters & target_groups.memberships) == Group::NONE {
                 continue;
             }
 

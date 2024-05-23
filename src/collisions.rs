@@ -10,6 +10,7 @@ use crate::{
     health::Health,
     movement::Velocity,
     schedule::InGameSet,
+    tower::Tower,
 };
 
 const BOUNCE_BUFFER: f32 = 2.0;
@@ -26,9 +27,10 @@ impl Plugin for CollisionsPlugin {
             Update,
             (
                 (
+                    handle_collisions::<Tower>,
                     handle_collisions::<Footman>,
-                    handle_collisions::<Bubble>,
                     handle_collisions::<BubbleSpawner>,
+                    handle_collisions::<Bubble>,
                 ),
                 (apply_collision_damage, update_collision_transforms),
             )

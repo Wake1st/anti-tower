@@ -20,23 +20,30 @@ pub struct FootmanPlugin;
 
 impl Plugin for FootmanPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_footman.in_set(InGameSet::EntityUpdates))
-            .add_systems(
-                Update,
-                (tracking::<BubbleSpawner>).in_set(InGameSet::EntityUpdates),
-            );
+        app.add_systems(
+            Update,
+            (tracking::<BubbleSpawner>).in_set(InGameSet::EntityUpdates),
+        );
     }
 }
 
 #[derive(Component)]
 pub struct Footman;
 
-fn spawn_footman(mut commands: Commands, asset_server: Res<AssetServer>) {
+pub fn spawn_footman(commands: &mut Commands, asset_server: &Res<AssetServer>, location: Vec3) {
     let texture: Handle<Image> = asset_server.load("footman.png");
 
     commands.spawn((
         SpriteBundle {
             texture,
+            transform: Transform {
+                translation: Vec3 {
+                    x: location.x,
+                    y: location.y,
+                    z: 0.0,
+                },
+                ..default()
+            },
             ..default()
         },
         KinematicBundle {

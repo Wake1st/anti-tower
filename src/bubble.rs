@@ -9,12 +9,13 @@ use crate::{
     movement::{Acceleration, KinematicBundle, Velocity},
     player::Player,
     schedule::InGameSet,
+    tower::Tower,
 };
 
 const SPAWNER_SPAWN_OFFSET: f32 = 32.0;
 const SPAWNER_SPRITE_LAYER: f32 = -1.0;
 const SPAWNER_SPAWN_RATE: f32 = 2.0;
-const SPAWNER_HEALTH: f32 = 8.0;
+const SPAWNER_HEALTH: f32 = 80.0;
 const SPAWNER_COLLIDER_RADIUS: f32 = 16.0;
 
 const BUBBLE_SPAWN_OFFSET: f32 = 6.0;
@@ -34,7 +35,12 @@ impl Plugin for BubblePlugin {
         app.add_systems(Update, (bubble_lifetime).in_set(InGameSet::DespawnEntities))
             .add_systems(
                 Update,
-                (spawn_bubble_spawner, spawn_bubble, tracking::<Footman>)
+                (
+                    spawn_bubble_spawner,
+                    spawn_bubble,
+                    tracking::<Footman>,
+                    tracking::<Tower>,
+                )
                     .in_set(InGameSet::EntityUpdates),
             );
     }

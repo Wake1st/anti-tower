@@ -5,6 +5,7 @@ use crate::{
     footman::Footman,
     group::Group,
     schedule::InGameSet,
+    tower::Tower,
 };
 
 pub struct DetectionPlugin;
@@ -13,7 +14,11 @@ impl Plugin for DetectionPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (detect::<Bubble, Footman>, detect::<Footman, BubbleSpawner>)
+            (
+                detect::<Bubble, Footman>,
+                detect::<Bubble, Tower>,
+                detect::<Footman, BubbleSpawner>,
+            )
                 .in_set(InGameSet::EntityUpdates),
         )
         .add_event::<DetectionEvent>();

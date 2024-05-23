@@ -10,6 +10,7 @@ mod movement;
 mod player;
 mod schedule;
 mod state;
+mod tower;
 mod ui;
 
 use bevy::prelude::*;
@@ -24,6 +25,7 @@ use movement::MovementPlugin;
 use player::PlayerPlugin;
 use schedule::SchedulePlugin;
 use state::StatePlugin;
+use tower::TowerPlugin;
 use ui::GameUI;
 
 #[derive(Resource)]
@@ -61,6 +63,7 @@ fn main() {
             PlayerPlugin,
             BubblePlugin,
             FootmanPlugin,
+            TowerPlugin,
             GameUI,
         ))
         .run();

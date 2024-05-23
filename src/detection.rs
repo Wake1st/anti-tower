@@ -15,8 +15,9 @@ impl Plugin for DetectionPlugin {
         app.add_systems(
             Update,
             (
-                detect::<Bubble, Footman>,
                 detect::<Bubble, Tower>,
+                detect::<Bubble, Footman>,
+                detect::<Footman, Bubble>,
                 detect::<Footman, BubbleSpawner>,
             )
                 .in_set(InGameSet::EntityUpdates),

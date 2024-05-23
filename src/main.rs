@@ -5,6 +5,7 @@ mod despawn;
 mod detection;
 mod footman;
 mod group;
+mod harvester;
 mod health;
 mod movement;
 mod player;
@@ -21,6 +22,7 @@ use collisions::CollisionsPlugin;
 use despawn::DespawnPlugin;
 use detection::DetectionPlugin;
 use footman::FootmanPlugin;
+use harvester::HarvesterPlugin;
 use movement::MovementPlugin;
 use player::PlayerPlugin;
 use schedule::SchedulePlugin;
@@ -29,7 +31,7 @@ use tower::TowerPlugin;
 use ui::GameUI;
 
 #[derive(Resource)]
-pub struct Money(pub f32);
+pub struct Mana(pub f32);
 
 fn main() {
     App::new()
@@ -51,7 +53,7 @@ fn main() {
         // .add_plugins(
         //     WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::Tab)),
         // )
-        .insert_resource(Money(100.0))
+        .insert_resource(Mana(100.0))
         .add_plugins((
             SchedulePlugin,
             StatePlugin,
@@ -61,6 +63,7 @@ fn main() {
             DespawnPlugin,
             CameraPlugin,
             PlayerPlugin,
+            HarvesterPlugin,
             BubblePlugin,
             FootmanPlugin,
             TowerPlugin,

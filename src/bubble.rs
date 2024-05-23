@@ -10,6 +10,7 @@ use crate::{
     player::Player,
     schedule::InGameSet,
     tower::Tower,
+    Mana,
 };
 
 const SPAWNER_SPAWN_OFFSET: f32 = 32.0;
@@ -17,6 +18,7 @@ const SPAWNER_SPRITE_LAYER: f32 = -1.0;
 const SPAWNER_SPAWN_RATE: f32 = 2.0;
 const SPAWNER_HEALTH: f32 = 80.0;
 const SPAWNER_COLLIDER_RADIUS: f32 = 16.0;
+const SPAWNER_COST: f32 = 20.0;
 
 const BUBBLE_SPAWN_OFFSET: f32 = 6.0;
 const BUBBLE_SPRITE_LAYER: f32 = 1.0;
@@ -60,41 +62,45 @@ fn spawn_bubble_spawner(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     input: Res<ButtonInput<KeyCode>>,
+    mut mana: ResMut<Mana>,
     player: Query<&Transform, With<Player>>,
 ) {
     if !input.just_pressed(KeyCode::KeyW) {
         return;
     }
 
-    let texture: Handle<Image> = asset_server.load("bubble spawner.png");
-
     let Ok(player_transform) = player.get_single() else {
         return;
     };
 
-    commands.spawn((
-        SpriteBundle {
-            texture,
-            transform: Transform {
-                translation: Vec3 {
-                    x: player_transform.translation.x,
-                    y: player_transform.translation.y + SPAWNER_SPAWN_OFFSET,
-                    z: SPAWNER_SPRITE_LAYER,
+    if mana.0 >= SPAWNER_COST {
+        mana.0 -= SPAWNER_COST;
+
+        let texture: Handle<Image> = asset_server.load("bubble spawner.png");
+        commands.spawn((
+            SpriteBundle {
+                texture,
+                transform: Transform {
+                    translation: Vec3 {
+                        x: player_transform.translation.x,
+                        y: player_transform.translation.y + SPAWNER_SPAWN_OFFSET,
+                        z: SPAWNER_SPRITE_LAYER,
+                    },
+                    ..default()
                 },
                 ..default()
             },
-            ..default()
-        },
-        Collider::new(SPAWNER_COLLIDER_RADIUS),
-        CollisionGroups::new(Group::ALLY, Group::NONE),
-        DetectionGroups::new(Group::ALLY, Group::NONE),
-        Target,
-        Health::new(SPAWNER_HEALTH),
-        BubbleSpawner {
-            spawn_rate: Timer::from_seconds(SPAWNER_SPAWN_RATE, TimerMode::Repeating),
-        },
-        Name::new("BubbleSpawner"),
-    ));
+            Collider::new(SPAWNER_COLLIDER_RADIUS),
+            CollisionGroups::new(Group::ALLY, Group::NONE),
+            DetectionGroups::new(Group::ALLY, Group::NONE),
+            Target,
+            Health::new(SPAWNER_HEALTH),
+            BubbleSpawner {
+                spawn_rate: Timer::from_seconds(SPAWNER_SPAWN_RATE, TimerMode::Repeating),
+            },
+            Name::new("BubbleSpawner"),
+        ));
+    }
 }
 
 fn spawn_bubble(

@@ -14,7 +14,7 @@ const HEALTH: f32 = 10.0;
 const COLLIDER_RADIUS: f32 = 16.0;
 const DETECTION_RADIUS: f32 = 600.0;
 const DAMAGE: f32 = 5.0;
-const VELOCITY_RATE: f32 = 1000.;
+const VELOCITY_RATE: f32 = 80.;
 
 pub struct FootmanPlugin;
 
@@ -64,7 +64,7 @@ pub fn spawn_footman(commands: &mut Commands, asset_server: &Res<AssetServer>, l
 
 fn tracking<T: Component>(
     mut detection_event_reader: EventReader<DetectionEvent>,
-    mut tracker_query: Query<(&GlobalTransform, &mut Acceleration), With<Footman>>,
+    mut tracker_query: Query<(&GlobalTransform, &mut Velocity), With<Footman>>,
     target_query: Query<&GlobalTransform, With<T>>,
 ) {
     for &DetectionEvent {
@@ -84,11 +84,7 @@ fn tracking<T: Component>(
         let planar_transform = Transform::from_xyz(ttt.x, ttt.y, tracker_transform.translation().z);
         let direction =
             (planar_transform.translation - tracker_transform.translation()).normalize();
-        let distance = tracker_transform
-            .translation()
-            .distance(planar_transform.translation);
 
-        velocity.value = direction * VELOCITY_RATE / distance;
-        info!("velocity {:?}", velocity.value);
+        velocity.value = direction * VELOCITY_RATE;
     }
 }

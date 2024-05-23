@@ -8,17 +8,17 @@ use bevy::{
     },
 };
 
-use crate::Money;
+use crate::Mana;
 
 pub struct GameUI;
 
 #[derive(Component)]
-pub struct MoneyText;
+pub struct ManaText;
 
 impl Plugin for GameUI {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, spawn_game_ui)
-            .add_systems(Update, update_money_ui);
+            .add_systems(Update, update_mana_ui);
     }
 }
 
@@ -42,7 +42,7 @@ fn spawn_game_ui(mut commands: Commands) {
             commands.spawn((
                 TextBundle {
                     text: Text::from_section(
-                        "Money",
+                        "Mana",
                         TextStyle {
                             font_size: 32.0,
                             ..default()
@@ -50,13 +50,13 @@ fn spawn_game_ui(mut commands: Commands) {
                     ),
                     ..default()
                 },
-                MoneyText,
+                ManaText,
             ));
         });
 }
 
-fn update_money_ui(mut texts: Query<&mut Text, With<MoneyText>>, money: Res<Money>) {
+fn update_mana_ui(mut texts: Query<&mut Text, With<ManaText>>, mana: Res<Mana>) {
     for mut text in &mut texts {
-        text.sections[0].value = format!("Money: ${:?}", money.0);
+        text.sections[0].value = format!("Mana: ${:?}", mana.0);
     }
 }

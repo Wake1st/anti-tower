@@ -13,9 +13,9 @@ use crate::{
 const COST: f32 = 100.0;
 const HEALTH: f32 = 200.0;
 const COLLIDER_RADIUS: f32 = 48.0;
-const BASE_GENERATION_RATE: f32 = 10.0;
+const BASE_GENERATION_RATE: f32 = 4.0;
 const MAX_MANA: f32 = 100.0;
-const DRAIN_RADIUS: f32 = 240.0;
+const DRAIN_RADIUS: f32 = 140.0;
 const DRAIN_RATE: f32 = 60.0;
 
 pub struct HarvesterPlugin;

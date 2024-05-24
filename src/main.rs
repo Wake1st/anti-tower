@@ -1,3 +1,4 @@
+mod attack;
 mod bubble;
 mod camera;
 mod collisions;
@@ -16,6 +17,7 @@ mod ui;
 
 use bevy::prelude::*;
 
+use attack::AttackPlugin;
 use bubble::BubblePlugin;
 use camera::CameraPlugin;
 use collisions::CollisionsPlugin;
@@ -50,9 +52,7 @@ fn main() {
                 })
                 .build(),
         )
-        // .add_plugins(
-        //     WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::Tab)),
-        // )
+        // .add_plugins(WorldInspectorPlugin::default().run_if(input_toggle_active(true, KeyCode::Tab)))
         .insert_resource(Mana(100.0))
         .add_plugins((
             SchedulePlugin,
@@ -60,6 +60,7 @@ fn main() {
             DetectionPlugin,
             MovementPlugin,
             CollisionsPlugin,
+            AttackPlugin,
             DespawnPlugin,
             CameraPlugin,
             PlayerPlugin,

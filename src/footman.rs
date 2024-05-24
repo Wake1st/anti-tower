@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
+    attack::Attack,
     bubble::BubbleSpawner,
     collisions::{Collider, CollisionDamage, CollisionGroups},
     detection::{DetectionEvent, DetectionGroups, Target, Tracker},
@@ -14,6 +15,7 @@ const HEALTH: f32 = 10.0;
 const COLLIDER_RADIUS: f32 = 16.0;
 const DETECTION_RADIUS: f32 = 600.0;
 const DAMAGE: f32 = 5.0;
+const ATTACK_RATE: f32 = 1.2;
 const VELOCITY_RATE: f32 = 80.;
 
 pub struct FootmanPlugin;
@@ -56,6 +58,10 @@ pub fn spawn_footman(commands: &mut Commands, asset_server: &Res<AssetServer>, l
         DetectionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
         Tracker::new(DETECTION_RADIUS),
         Target,
+        Attack::new(
+            DAMAGE,
+            Timer::from_seconds(ATTACK_RATE, TimerMode::Repeating),
+        ),
         Health::new(HEALTH),
         Footman,
         Name::new("Footman"),

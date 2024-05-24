@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    collisions::{Collider, CollisionDamage, CollisionGroups},
+    collisions::{Bounce, Collider, CollisionDamage, CollisionGroups},
     detection::{DetectionEvent, DetectionGroups, Target, Tracker},
     footman::Footman,
     group::Group,
@@ -27,7 +27,7 @@ const BUBBLE_ACCELERATION_RATE: f32 = 1800.;
 const BUBBLE_COLLIDER_RADIUS: f32 = 8.0;
 const BUBBLE_HEALTH: f32 = 1.0;
 const BUBBLE_COLLISION_DAMAGE: f32 = 3.0;
-// const BUBBLE_BOUNCINESS: f32 = 0.8;
+const BUBBLE_BOUNCINESS: f32 = 0.9;
 const BUBBLE_DETECTION_RADIUS: f32 = 420.0;
 
 pub struct BubblePlugin;
@@ -136,6 +136,7 @@ fn spawn_bubble(
                 CollisionGroups::new(Group::ALLY, Group::ENEMY),
                 Health::new(BUBBLE_HEALTH),
                 CollisionDamage::new(BUBBLE_COLLISION_DAMAGE),
+                Bounce::new(BUBBLE_BOUNCINESS),
                 DetectionGroups::new(Group::ALLY, Group::ENEMY),
                 Tracker::new(BUBBLE_DETECTION_RADIUS),
                 Bubble {

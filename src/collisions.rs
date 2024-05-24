@@ -13,7 +13,7 @@ use crate::{
     tower::Tower,
 };
 
-const BOUNCE_BUFFER: f32 = 2.0;
+const COLLISION_BUFFER: f32 = 2.0;
 
 pub struct CollisionsPlugin;
 
@@ -32,7 +32,11 @@ impl Plugin for CollisionsPlugin {
                     handle_collisions::<BubbleSpawner>,
                     handle_collisions::<Bubble>,
                 ),
-                (apply_collision_damage, update_collision_transforms),
+                (
+                    apply_collision_damage,
+                    update_solid_collisions,
+                    update_bouncy_collisions,
+                ),
             )
                 .chain()
                 .in_set(InGameSet::EntityUpdates),
@@ -65,6 +69,17 @@ pub struct CollisionDamage {
 impl CollisionDamage {
     pub fn new(amount: f32) -> Self {
         Self { amount }
+    }
+}
+
+#[derive(Component, Debug)]
+pub struct Bounce {
+    pub value: f32,
+}
+
+impl Bounce {
+    pub fn new(value: f32) -> Self {
+        Self { value }
     }
 }
 
@@ -210,7 +225,7 @@ fn handle_collisions<T: Component>(
 pub fn apply_collision_damage(
     mut collision_event_reader: EventReader<CollisionEvent>,
     mut attacked_query: Query<&mut Health>,
-    attacker_query: Query<&CollisionDamage>,
+    attacker_query: Query<&CollisionDamage, With<Bounce>>,
 ) {
     for &CollisionEvent {
         entity,
@@ -229,10 +244,58 @@ pub fn apply_collision_damage(
     }
 }
 
-pub fn update_collision_transforms(
+pub fn update_solid_collisions(
     mut collision_event_reader: EventReader<CollisionEvent>,
     attacked_query: Query<(&GlobalTransform, &Collider)>,
-    mut attacker_query: Query<(&GlobalTransform, &Collider, &mut Transform, &mut Velocity)>,
+    mut attacker_query: Query<(&GlobalTransform, &Collider, &mut Transform), Without<Bounce>>,
+) {
+    for &CollisionEvent {
+        entity,
+        colliding_entity,
+    } in collision_event_reader.read()
+    {
+        let Ok((attacked_transform, attacked_collider)) = attacked_query.get(entity) else {
+            continue;
+        };
+
+        let Ok((attacker_global_transform, attacker_collider, mut attacker_transform)) =
+            attacker_query.get_mut(colliding_entity)
+        else {
+            continue;
+        };
+
+        //  0: gather variables
+        let planar_transform = Transform::from_xyz(
+            attacked_transform.translation().x,
+            attacked_transform.translation().y,
+            attacker_global_transform.translation().z,
+        );
+        let deflection_vec =
+            (attacker_global_transform.translation() - planar_transform.translation).normalize();
+        let required_distance: f32 = attacked_collider.radius + attacker_collider.radius;
+        let current_distance: f32 = attacker_global_transform
+            .translation()
+            .distance(planar_transform.translation);
+        let adjusted_distance = required_distance - current_distance;
+
+        //  1: "shift" the attacker off of the attacked to ensure no overlap
+        attacker_transform.translation += deflection_vec * (adjusted_distance + COLLISION_BUFFER);
+    }
+}
+
+pub fn update_bouncy_collisions(
+    mut collision_event_reader: EventReader<CollisionEvent>,
+    attacked_query: Query<(&GlobalTransform, &Collider)>,
+    mut attacker_query: Query<
+        (
+            &GlobalTransform,
+            &Collider,
+            &mut Transform,
+            &mut Velocity,
+            &Bounce,
+        ),
+        With<Bounce>,
+    >,
 ) {
     for &CollisionEvent {
         entity,
@@ -248,6 +311,7 @@ pub fn update_collision_transforms(
             attacker_collider,
             mut attacker_transform,
             mut attacker_velocity,
+            bounce,
         )) = attacker_query.get_mut(colliding_entity)
         else {
             continue;
@@ -268,10 +332,10 @@ pub fn update_collision_transforms(
         let adjusted_distance = required_distance - current_distance;
 
         //  1: "shift" the attacker off of the attacked to ensure no overlap
-        attacker_transform.translation += deflection_vec * (adjusted_distance + BOUNCE_BUFFER);
+        attacker_transform.translation += deflection_vec * (adjusted_distance + COLLISION_BUFFER);
 
         //  2: "bounce" the attacker off the attacked
         let radial_velocity = deflection_vec.dot(attacker_velocity.value) * deflection_vec;
-        attacker_velocity.value += -(1. + 0.9) * radial_velocity;
+        attacker_velocity.value += -(1. + bounce.value) * radial_velocity;
     }
 }

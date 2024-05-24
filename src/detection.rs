@@ -1,12 +1,15 @@
 use bevy::prelude::*;
 
 use crate::{
+    attack::AttackEvent,
     bubble::{Bubble, BubbleSpawner},
     footman::Footman,
     group::Group,
     schedule::InGameSet,
     tower::Tower,
 };
+
+const ATTACK_RANGE: f32 = 10.0;
 
 pub struct DetectionPlugin;
 
@@ -78,6 +81,7 @@ fn detect<T: Component, U: Component>(
     trackers: Query<(Entity, &DetectionGroups, &Tracker, &GlobalTransform), With<T>>,
     targets: Query<(Entity, &DetectionGroups, &GlobalTransform), With<U>>,
     mut tracking_event_writer: EventWriter<DetectionEvent>,
+    mut attacking_event_writer: EventWriter<AttackEvent>,
 ) {
     for (tracker_entity, tracker_groups, tracker, tracker_transform) in trackers.iter() {
         for (target_entity, target_groups, target_transform) in targets.iter() {
@@ -98,8 +102,14 @@ fn detect<T: Component, U: Component>(
                 continue;
             }
 
-            if distance < tracker.vision {
-                tracking_event_writer.send(DetectionEvent::new(tracker_entity, target_entity));
+            match distance {
+                i if i < ATTACK_RANGE => {
+                    attacking_event_writer.send(AttackEvent::new(tracker_entity, target_entity));
+                }
+                i if i < tracker.vision => {
+                    tracking_event_writer.send(DetectionEvent::new(tracker_entity, target_entity));
+                }
+                _ => continue,
             }
         }
     }

@@ -9,7 +9,7 @@ use crate::{
     tower::Tower,
 };
 
-const ATTACK_RANGE: f32 = 10.0;
+const ATTACK_RANGE: f32 = 40.0;
 
 pub struct DetectionPlugin;
 

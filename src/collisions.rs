@@ -279,7 +279,7 @@ pub fn update_solid_collisions(
         let adjusted_distance = required_distance - current_distance;
 
         //  1: "shift" the attacker off of the attacked to ensure no overlap
-        attacker_transform.translation += deflection_vec * (adjusted_distance + COLLISION_BUFFER);
+        attacker_transform.translation += deflection_vec * adjusted_distance;
     }
 }
 

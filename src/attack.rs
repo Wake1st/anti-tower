@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{health::Health, schedule::InGameSet};
+use crate::{health::Health, movement::Velocity, schedule::InGameSet};
 
 pub struct AttackPlugin;
 
@@ -37,15 +37,19 @@ impl AttackEvent {
 
 fn attack(
     mut attack_event_reader: EventReader<AttackEvent>,
-    mut attacker_query: Query<&mut Attack>,
+    mut attacker_query: Query<(&mut Attack, &mut Velocity)>,
     mut target_query: Query<&mut Health>,
     time: Res<Time>,
 ) {
     for &AttackEvent { attacker, target } in attack_event_reader.read() {
-        let Ok(mut attack) = attacker_query.get_mut(attacker) else {
+        let Ok((mut attack, mut velocity)) = attacker_query.get_mut(attacker) else {
             continue;
         };
 
+        //  first: stop movement
+        velocity.value = Vec3::ZERO;
+
+        //  second: attack at a consistant rate
         attack.rate.tick(time.delta());
 
         if attack.rate.just_finished() {

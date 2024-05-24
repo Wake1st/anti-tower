@@ -13,7 +13,7 @@ const SPRITE_LAYER: f32 = -1.0;
 const COLLIDER_RADIUS: f32 = 60.0;
 const HEALTH: f32 = 500.0;
 const SPAWN_RATE: f32 = 10.0;
-const SPAWN_OFFSET: Vec3 = Vec3::new(0.0, -40.0, 0.0);
+const SPAWN_OFFSET: Vec3 = Vec3::new(0.0, -46.0, 0.0);
 
 pub struct TowerPlugin;
 

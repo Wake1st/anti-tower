@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    attack::AttackEvent,
+    attack::AttackOccurance,
     bubble::{Bubble, BubbleSpawner},
     footman::Footman,
     group::Group,
@@ -78,12 +78,28 @@ impl DetectionGroups {
 }
 
 fn detect<T: Component, U: Component>(
-    trackers: Query<(Entity, &DetectionGroups, &Tracker, &GlobalTransform), With<T>>,
+    mut commands: Commands,
+    trackers: Query<
+        (
+            Entity,
+            &DetectionGroups,
+            &Tracker,
+            &GlobalTransform,
+            Option<&AttackOccurance>,
+        ),
+        With<T>,
+    >,
     targets: Query<(Entity, &DetectionGroups, &GlobalTransform), With<U>>,
     mut tracking_event_writer: EventWriter<DetectionEvent>,
-    mut attacking_event_writer: EventWriter<AttackEvent>,
 ) {
-    for (tracker_entity, tracker_groups, tracker, tracker_transform) in trackers.iter() {
+    for (tracker_entity, tracker_groups, tracker, tracker_transform, attack_option) in
+        trackers.iter()
+    {
+        //  no need to track if there is attack
+        if let Some(_) = attack_option {
+            continue;
+        }
+
         for (target_entity, target_groups, target_transform) in targets.iter() {
             if tracker_entity == target_entity {
                 continue;
@@ -104,7 +120,9 @@ fn detect<T: Component, U: Component>(
 
             match distance {
                 i if i < ATTACK_RANGE => {
-                    attacking_event_writer.send(AttackEvent::new(tracker_entity, target_entity));
+                    commands
+                        .entity(tracker_entity)
+                        .insert(AttackOccurance::new(tracker_entity, target_entity));
                 }
                 i if i < tracker.vision => {
                     tracking_event_writer.send(DetectionEvent::new(tracker_entity, target_entity));

@@ -66,6 +66,8 @@ pub fn spawn_footman(commands: &mut Commands, asset_server: &Res<AssetServer>, l
         Footman,
         Name::new("Footman"),
     ));
+
+    //  must spawn a spear child; give spear Sprite.Anchor.BottomCenter
 }
 
 fn tracking<T: Component>(

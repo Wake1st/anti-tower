@@ -1,5 +1,4 @@
-use bevy::{prelude::*, sprite::Anchor, transform};
-use bevy_inspector_egui::egui::lerp;
+use bevy::{prelude::*, sprite::Anchor};
 
 use crate::{
     attack::{Attack, AttackOccurance},

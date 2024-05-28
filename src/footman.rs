@@ -1,7 +1,8 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, sprite::Anchor, transform};
+use bevy_inspector_egui::egui::lerp;
 
 use crate::{
-    attack::Attack,
+    attack::{Attack, AttackOccurance},
     bubble::BubbleSpawner,
     collisions::{Collider, CollisionDamage, CollisionGroups},
     detection::{DetectionEvent, DetectionGroups, Target, Tracker},
@@ -11,6 +12,7 @@ use crate::{
     schedule::InGameSet,
 };
 
+const Z_LAYER: f32 = 0.0;
 const HEALTH: f32 = 10.0;
 const COLLIDER_RADIUS: f32 = 16.0;
 const DETECTION_RADIUS: f32 = 600.0;
@@ -24,7 +26,7 @@ impl Plugin for FootmanPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (tracking::<BubbleSpawner>).in_set(InGameSet::EntityUpdates),
+            (tracking::<BubbleSpawner>, spear_attack_animation).in_set(InGameSet::EntityUpdates),
         );
     }
 }
@@ -32,40 +34,65 @@ impl Plugin for FootmanPlugin {
 #[derive(Component)]
 pub struct Footman;
 
-pub fn spawn_footman(commands: &mut Commands, asset_server: &Res<AssetServer>, location: Vec3) {
-    let texture: Handle<Image> = asset_server.load("footman.png");
+#[derive(Component)]
+pub struct Spear;
 
-    commands.spawn((
-        SpriteBundle {
-            texture,
-            transform: Transform {
-                translation: Vec3 {
-                    x: location.x,
-                    y: location.y,
-                    z: 0.0,
-                },
+pub fn spawn_footman(commands: &mut Commands, asset_server: &Res<AssetServer>, location: Vec3) {
+    let footman_texture: Handle<Image> = asset_server.load("footman.png");
+    let spear_texture: Handle<Image> = asset_server.load("spear.png");
+
+    let footman_transform: Transform = Transform {
+        translation: Vec3 {
+            x: location.x,
+            y: location.y,
+            z: Z_LAYER,
+        },
+        ..default()
+    };
+
+    commands
+        .spawn((
+            SpriteBundle {
+                texture: footman_texture,
+                transform: footman_transform,
                 ..default()
             },
-            ..default()
-        },
-        KinematicBundle {
-            velocity: Velocity::new(Vec3::ZERO),
-            acceleration: Acceleration::new(Vec3::ZERO),
-        },
-        Collider::new(COLLIDER_RADIUS),
-        CollisionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
-        CollisionDamage::new(DAMAGE),
-        DetectionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
-        Tracker::new(DETECTION_RADIUS),
-        Target,
-        Attack::new(
-            DAMAGE,
-            Timer::from_seconds(ATTACK_RATE, TimerMode::Repeating),
-        ),
-        Health::new(HEALTH),
-        Footman,
-        Name::new("Footman"),
-    ));
+            KinematicBundle {
+                velocity: Velocity::new(Vec3::ZERO),
+                acceleration: Acceleration::new(Vec3::ZERO),
+            },
+            Collider::new(COLLIDER_RADIUS),
+            CollisionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
+            CollisionDamage::new(DAMAGE),
+            DetectionGroups::new(Group::ENEMY, Group::ALLY | Group::PLAYER),
+            Tracker::new(DETECTION_RADIUS),
+            Target,
+            Attack::new(
+                DAMAGE,
+                Timer::from_seconds(ATTACK_RATE, TimerMode::Repeating),
+            ),
+            Health::new(HEALTH),
+            Footman,
+            Name::new("Footman"),
+        ))
+        .with_children(|builder| {
+            builder.spawn((
+                SpriteBundle {
+                    transform: Transform {
+                        translation: Vec3::new(-16., -16., Z_LAYER),
+                        ..default()
+                    },
+                    texture: spear_texture,
+                    sprite: Sprite {
+                        anchor: Anchor::BottomCenter,
+                        ..default()
+                    },
+                    ..default()
+                },
+                Spear,
+                Name::new("Spear"),
+            ));
+        });
 
     //  must spawn a spear child; give spear Sprite.Anchor.BottomCenter
 }
@@ -94,5 +121,28 @@ fn tracking<T: Component>(
             (planar_transform.translation - tracker_transform.translation()).normalize();
 
         velocity.value = direction * VELOCITY_RATE;
+    }
+}
+
+fn spear_attack_animation(
+    attacker_query: Query<(&Attack, &Children), With<AttackOccurance>>,
+    mut spear_query: Query<&mut Transform, With<Spear>>,
+) {
+    for (attack, children) in attacker_query.iter() {
+        for &child in children.iter() {
+            let Ok(mut transform) = spear_query.get_mut(child) else {
+                continue;
+            };
+
+            let ratio = attack.rate.duration().as_secs_f32() / ATTACK_RATE;
+
+            //  moving up and down
+            transform.translation = transform.translation.lerp(Vec3::new(0., 32., 0.), ratio);
+
+            //  rotating around pivot
+            transform.rotation = transform
+                .rotation
+                .lerp(Quat::from_rotation_z(90.), 1. - ratio);
+        }
     }
 }

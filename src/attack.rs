@@ -35,7 +35,6 @@ impl AttackOccurance {
 }
 
 fn attack(
-    // mut attack_event_reader: EventReader<AttackEvent>,
     mut commmands: Commands,
     occurances: Query<&AttackOccurance>,
     mut attacker_query: Query<(&mut Attack, &mut Velocity), With<AttackOccurance>>,

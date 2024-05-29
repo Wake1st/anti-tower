@@ -1,3 +1,5 @@
+use std::f32::consts::PI;
+
 use bevy::{prelude::*, sprite::Anchor};
 
 use crate::{
@@ -18,6 +20,11 @@ const DETECTION_RADIUS: f32 = 600.0;
 const DAMAGE: f32 = 5.0;
 const ATTACK_RATE: f32 = 1.2;
 const VELOCITY_RATE: f32 = 80.;
+
+const ATTACK_END_TRANSLATION: Vec3 = Vec3::new(-16., -16., Z_LAYER);
+const ATTACK_START_TRANSLATION: Vec3 = Vec3::new(-16., 0., Z_LAYER);
+const ATTACK_END_ANGLE: f32 = PI / 2.;
+const ATTACK_START_ROTATION: Quat = Quat::IDENTITY;
 
 pub struct FootmanPlugin;
 
@@ -133,15 +140,21 @@ fn spear_attack_animation(
                 continue;
             };
 
-            let ratio = attack.rate.duration().as_secs_f32() / ATTACK_RATE;
+            if attack.rate.just_finished() {
+                //  reset transform
+                transform.translation = ATTACK_START_TRANSLATION;
+                transform.rotation = ATTACK_START_ROTATION;
+            } else {
+                let ratio = attack.rate.elapsed_secs() / ATTACK_RATE;
 
-            //  moving up and down
-            transform.translation = transform.translation.lerp(Vec3::new(0., 32., 0.), ratio);
+                //  moving up and down
+                transform.translation = transform.translation.lerp(ATTACK_END_TRANSLATION, ratio);
 
-            //  rotating around pivot
-            transform.rotation = transform
-                .rotation
-                .lerp(Quat::from_rotation_z(90.), 1. - ratio);
+                //  rotating around pivot
+                transform.rotation = transform
+                    .rotation
+                    .lerp(Quat::from_rotation_z(ATTACK_END_ANGLE), ratio);
+            }
         }
     }
 }

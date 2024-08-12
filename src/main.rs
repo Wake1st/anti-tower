@@ -42,7 +42,7 @@ fn main() {
                 .set(ImagePlugin::default_nearest())
                 .set(WindowPlugin {
                     primary_window: Some(Window {
-                        title: "Learning Bevy".into(),
+                        title: "Anti-Tower".into(),
                         position: WindowPosition::At(IVec2 { x: 50, y: 70 }),
                         resolution: (1800.0, 900.0).into(),
                         resizable: false,

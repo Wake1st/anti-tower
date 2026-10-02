@@ -10,8 +10,7 @@ height = 26.0
 [node name="Unit" type="PathFollow2D" unique_id=832900579]
 loop = false
 script = ExtResource("1_tbnru")
-speed = 0.2
-damage = 3.0
+speed = 5.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=72296144]
 texture_filter = 1
@@ -19,7 +18,11 @@ position = Vector2(0, -15)
 texture = ExtResource("1_ooawy")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1278146321]
+collision_layer = 2
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1316931059]
 position = Vector2(0, -13)
 shape = SubResource("CapsuleShape2D_fknq4")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

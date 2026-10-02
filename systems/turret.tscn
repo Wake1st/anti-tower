@@ -1,10 +1,27 @@
 [gd_scene format=3 uid="uid://dejixxsy8uecn"]
 
+[ext_resource type="Script" uid="uid://f3hy53uyvlmu" path="res://systems/turret.gd" id="1_pgawy"]
 [ext_resource type="Texture2D" uid="uid://cernp1yh6t7d1" path="res://assets/sprites/bubble spawner.png" id="1_vtcmu"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_q8uxy"]
+radius = 200.0
+
 [node name="Turret" type="Node2D" unique_id=815908323]
+script = ExtResource("1_pgawy")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=208160446]
 texture_filter = 1
 position = Vector2(0, 6)
 texture = ExtResource("1_vtcmu")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=572764461]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=231857722]
+shape = SubResource("CircleShape2D_q8uxy")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

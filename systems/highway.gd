@@ -10,7 +10,7 @@ func spawn(unit: Unit) -> void:
 	add_child(unit)
 
 
-func _process(delta) -> void:
+func _process(delta: float) -> void:
 	for follow: Unit in get_children():
 		follow.update(delta)
 

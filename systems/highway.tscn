@@ -1,6 +1,13 @@
 [gd_scene format=3 uid="uid://cagxv72k4jdgj"]
 
+[ext_resource type="Script" uid="uid://dnnj4psvo6x83" path="res://systems/highway.gd" id="1_5h178"]
+
 [sub_resource type="Curve2D" id="Curve2D_nqpu1"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 20, 8, 114.15007, 71.75229, -114.15007, -71.75229, -771, -163, -67.29538, 47.78769, 67.29538, -47.78769, -776, -376, -119.83472, -20.661158, 119.83472, 20.661158, -357, -392, -119.008255, 28.92562, 119.008255, -28.92562, -43, -319, 159.72, 15.7300005, -159.72, -15.7300005, -50, -556, 208.12001, -2.42, -208.12001, 2.42, -454, -523, 0, 0, 0, 0, -888, -645)
+}
+point_count = 8
 
 [node name="Highway" type="Path2D" unique_id=1166710709]
 curve = SubResource("Curve2D_nqpu1")
+script = ExtResource("1_5h178")

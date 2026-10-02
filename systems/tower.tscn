@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://catj20am8qj6w"]
+
+[ext_resource type="Texture2D" uid="uid://c3p8hb5lgifjl" path="res://assets/sprites/auto factory.png" id="1_bsu8m"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bqfps"]
+radius = 19.0
+height = 114.0
+
+[node name="Tower" type="Node2D" unique_id=699395279]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1289968194]
+texture_filter = 1
+position = Vector2(0, -35)
+texture = ExtResource("1_bsu8m")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1327068916]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1197574744]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_bqfps")

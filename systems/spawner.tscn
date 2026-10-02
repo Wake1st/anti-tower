@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c4xsgw5uaw6lq"]
+
+[ext_resource type="Texture2D" uid="uid://b8oxg8bi14edu" path="res://assets/sprites/harvester.png" id="1_bu5ra"]
+
+[node name="Spawner" type="Node2D" unique_id=1976013547]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=153048389]
+texture_filter = 1
+position = Vector2(0, -34)
+texture = ExtResource("1_bu5ra")

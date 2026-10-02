@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dejixxsy8uecn"]
+
+[ext_resource type="Texture2D" uid="uid://cernp1yh6t7d1" path="res://assets/sprites/bubble spawner.png" id="1_vtcmu"]
+
+[node name="Turret" type="Node2D" unique_id=815908323]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=208160446]
+texture_filter = 1
+position = Vector2(0, 6)
+texture = ExtResource("1_vtcmu")

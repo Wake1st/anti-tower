@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://catj20am8qj6w"]
 
 [ext_resource type="Texture2D" uid="uid://c3p8hb5lgifjl" path="res://assets/sprites/auto factory.png" id="1_bsu8m"]
+[ext_resource type="Script" uid="uid://c0dg3kymw2r0l" path="res://systems/tower.gd" id="1_vtpp7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bqfps"]
 radius = 19.0
 height = 114.0
 
 [node name="Tower" type="Node2D" unique_id=699395279]
+script = ExtResource("1_vtpp7")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1289968194]
 texture_filter = 1

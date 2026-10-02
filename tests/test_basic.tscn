@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://djcsqfiv15a8y"]
+
+[ext_resource type="PackedScene" uid="uid://catj20am8qj6w" path="res://systems/tower.tscn" id="1_kn67i"]
+[ext_resource type="Script" uid="uid://bcl8yst1yxoc1" path="res://tests/test_basic.gd" id="1_sl752"]
+[ext_resource type="PackedScene" uid="uid://c4xsgw5uaw6lq" path="res://systems/spawner.tscn" id="2_oscg7"]
+[ext_resource type="PackedScene" uid="uid://cagxv72k4jdgj" path="res://systems/highway.tscn" id="3_sl752"]
+
+[node name="TestBasic" type="Node2D" unique_id=1874556914]
+script = ExtResource("1_sl752")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=831762014]
+
+[node name="Tower" parent="." unique_id=699395279 instance=ExtResource("1_kn67i")]
+position = Vector2(-475, -281)
+
+[node name="Spawner" parent="." unique_id=1976013547 instance=ExtResource("2_oscg7")]
+position = Vector2(437, 387)
+units_per_second = 2.0
+
+[node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("3_sl752")]
+position = Vector2(415, 379)

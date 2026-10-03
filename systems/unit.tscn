@@ -10,7 +10,7 @@ height = 26.0
 [node name="Unit" type="PathFollow2D" unique_id=832900579]
 loop = false
 script = ExtResource("1_tbnru")
-speed = 5.0
+speed = 7.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=72296144]
 texture_filter = 1

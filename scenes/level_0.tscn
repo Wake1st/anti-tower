@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bkrjxoqlakabm"]
+
+[ext_resource type="Script" uid="uid://g5t35odn7ho1" path="res://scenes/level_0.gd" id="1_rerym"]
+[ext_resource type="PackedScene" uid="uid://d3vyqpubrioi3" path="res://ui/pause_menu_ui.tscn" id="2_uijja"]
+[ext_resource type="PackedScene" uid="uid://dn24f3wk3futr" path="res://ui/settings_menu_ui.tscn" id="3_5nv5w"]
+
+[node name="Level0" type="Node" unique_id=1519597089]
+script = ExtResource("1_rerym")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=330982563]
+
+[node name="PauseMenuUI" parent="CanvasLayer" unique_id=789262559 instance=ExtResource("2_uijja")]
+unique_name_in_owner = true
+visible = false
+mouse_filter = 1
+
+[node name="SettingsMenuUI" parent="CanvasLayer" unique_id=1973352614 instance=ExtResource("3_5nv5w")]
+unique_name_in_owner = true
+visible = false
+mouse_filter = 1

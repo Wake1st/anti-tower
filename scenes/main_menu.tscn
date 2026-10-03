@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cwp03pu5lpawm"]
+
+[ext_resource type="Script" uid="uid://dmo6hmeakqwoo" path="res://scenes/main_menu.gd" id="1_bqqt6"]
+[ext_resource type="PackedScene" uid="uid://c2onu8wxyouay" path="res://ui/main_menu_ui.tscn" id="2_wu84c"]
+[ext_resource type="PackedScene" uid="uid://dn24f3wk3futr" path="res://ui/settings_menu_ui.tscn" id="3_8ln24"]
+[ext_resource type="PackedScene" uid="uid://dy321iwuayi5w" path="res://ui/credits_menu_ui.tscn" id="4_wu84c"]
+
+[node name="MainMenu" type="Node" unique_id=1663835177]
+script = ExtResource("1_bqqt6")
+
+[node name="MainMenuUI" parent="." unique_id=1029722067 instance=ExtResource("2_wu84c")]
+
+[node name="SettingsMenuUI" parent="." unique_id=1973352614 instance=ExtResource("3_8ln24")]
+visible = false
+
+[node name="CreditsMenuUI" parent="." unique_id=118515599 instance=ExtResource("4_wu84c")]
+visible = false

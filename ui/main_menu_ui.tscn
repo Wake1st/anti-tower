@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://c2onu8wxyouay"]
+
+[ext_resource type="Script" uid="uid://c3xw2b70mxphf" path="res://ui/main_menu_ui.gd" id="1_5f3v2"]
+
+[node name="MainMenuUI" type="Control" unique_id=1029722067]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5f3v2")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1877641955]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -381.75
+offset_top = -276.75
+offset_right = 381.75
+offset_bottom = 276.75
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10980392, 0.31764707, 0.22352941, 0.1882353)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect" unique_id=529302616]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -299.0
+offset_top = -248.0
+offset_right = 299.0
+offset_bottom = 248.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="BtnPlay" type="Button" parent="ColorRect/VBoxContainer" unique_id=712140563]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "PLAY"
+
+[node name="BtnSettings" type="Button" parent="ColorRect/VBoxContainer" unique_id=1862256054]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "SETTINGS"
+
+[node name="BtnCredits" type="Button" parent="ColorRect/VBoxContainer" unique_id=493954794]
+process_mode = 2
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "CREDITS"
+
+[connection signal="pressed" from="ColorRect/VBoxContainer/BtnPlay" to="." method="_on_btn_play_pressed"]
+[connection signal="pressed" from="ColorRect/VBoxContainer/BtnSettings" to="." method="_on_btn_settings_pressed"]
+[connection signal="pressed" from="ColorRect/VBoxContainer/BtnCredits" to="." method="_on_btn_credits_pressed"]

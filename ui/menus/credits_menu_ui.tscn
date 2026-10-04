@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dy321iwuayi5w"]
 
-[ext_resource type="Script" uid="uid://ddqchmsq8wwhs" path="res://ui/credits_menu_ui.gd" id="1_lafmh"]
+[ext_resource type="Script" uid="uid://ddqchmsq8wwhs" path="res://ui/menus/credits_menu_ui.gd" id="1_lafmh"]
 
 [node name="CreditsMenuUI" type="Control" unique_id=118515599]
 layout_mode = 3

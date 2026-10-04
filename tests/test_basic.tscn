@@ -10,12 +10,13 @@
 script = ExtResource("1_sl752")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=831762014]
+anchor_mode = 0
 
 [node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("3_sl752")]
-position = Vector2(415, 379)
+position = Vector2(967, 763)
 
 [node name="Tower" parent="." unique_id=699395279 instance=ExtResource("1_kn67i")]
-position = Vector2(-475, -281)
+position = Vector2(77, 103)
 health = 5.0
 
 [node name="Turret" parent="Tower" unique_id=815908323 instance=ExtResource("4_kp47n")]
@@ -23,5 +24,5 @@ position = Vector2(794, 217)
 rate_of_fire = 0.34
 
 [node name="Spawner" parent="." unique_id=1976013547 instance=ExtResource("2_oscg7")]
-position = Vector2(437, 387)
+position = Vector2(771, 635)
 units_per_second = 0.6

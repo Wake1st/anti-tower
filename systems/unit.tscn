@@ -15,6 +15,7 @@ speed = 7.0
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=72296144]
 texture_filter = 1
 position = Vector2(0, -15)
+scale = Vector2(2, 2)
 texture = ExtResource("1_ooawy")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1278146321]

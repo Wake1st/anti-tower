@@ -10,6 +10,8 @@ var control: Control
 
 
 func _ready() -> void:
+	get_tree().paused = true
+	
 	main_menu_ui.play_selected.connect(_handle_play_selected)
 	main_menu_ui.settings_selected.connect(_handle_settings_selected)
 	main_menu_ui.credits_selected.connect(_handle_credits_selected)

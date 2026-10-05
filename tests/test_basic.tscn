@@ -6,6 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://cagxv72k4jdgj" path="res://systems/highway.tscn" id="3_sl752"]
 [ext_resource type="PackedScene" uid="uid://dejixxsy8uecn" path="res://systems/turret.tscn" id="4_kp47n"]
 
+[sub_resource type="Curve2D" id="Curve2D_kp47n"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 15, -77, 114.15007, 71.75229, -114.15007, -71.75229, -771, -163, -67.29538, 47.78769, 67.29538, -47.78769, -776, -376, -119.83472, -20.661158, 119.83472, 20.661158, -357, -392, -119.008255, 28.92562, 119.008255, -28.92562, -43, -319, 159.72, 15.7300005, -159.72, -15.7300005, -50, -556, 208.12001, -2.42, -208.12001, 2.42, -454, -523, 0, 0, 0, 0, -888, -645)
+}
+point_count = 8
+
 [node name="TestBasic" type="Node2D" unique_id=1874556914]
 script = ExtResource("1_sl752")
 
@@ -14,6 +20,7 @@ anchor_mode = 0
 
 [node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("3_sl752")]
 position = Vector2(967, 763)
+curve = SubResource("Curve2D_kp47n")
 
 [node name="Tower" parent="." unique_id=699395279 instance=ExtResource("1_kn67i")]
 position = Vector2(77, 103)
@@ -24,5 +31,5 @@ position = Vector2(794, 217)
 rate_of_fire = 0.34
 
 [node name="Spawner" parent="." unique_id=1976013547 instance=ExtResource("2_oscg7")]
-position = Vector2(771, 635)
+position = Vector2(1011, 657)
 units_per_second = 0.6

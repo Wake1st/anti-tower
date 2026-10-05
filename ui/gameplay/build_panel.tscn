@@ -34,30 +34,30 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 88.0
-offset_top = 8.0
+offset_top = 16.0
 offset_right = -197.0
-offset_bottom = -10.0
+offset_bottom = -11.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
 
 [node name="BtnBasic" type="TextureButton" parent="ColorRect/SpawnOptions" unique_id=193809169]
 texture_filter = 1
-custom_minimum_size = Vector2(170, 0)
+custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
 texture_normal = ExtResource("2_cp1rw")
 stretch_mode = 0
 
 [node name="BtnHeavy" type="TextureButton" parent="ColorRect/SpawnOptions" unique_id=1781649509]
 texture_filter = 1
-custom_minimum_size = Vector2(170, 0)
+custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
 texture_normal = ExtResource("4_1dd7v")
 stretch_mode = 0
 
 [node name="BtnMagic" type="TextureButton" parent="ColorRect/SpawnOptions" unique_id=2096106430]
 texture_filter = 1
-custom_minimum_size = Vector2(170, 0)
+custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
 texture_normal = ExtResource("3_eq54d")
 stretch_mode = 0
@@ -96,7 +96,7 @@ layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 14.0
-offset_top = 8.0
+offset_top = 15.9999695
 offset_right = 73.0
 offset_bottom = -9.630768
 grow_vertical = 2
@@ -113,7 +113,7 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -186.83246
-offset_top = 8.0
+offset_top = 16.0
 offset_right = -10.209473
 offset_bottom = -10.0
 grow_horizontal = 0

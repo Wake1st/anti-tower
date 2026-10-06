@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Upgrades" format=3 uid="uid://cvn2nbam77ifa"]
+
+[ext_resource type="Script" uid="uid://dycqehq3y3fyv" path="res://data/Upgrades.gd" id="1_a5r3n"]
+
+[resource]
+script = ExtResource("1_a5r3n")
+rate = 0.6
+speed = 4.0
+damage = 1.0
+metadata/_custom_type_script = "uid://dycqehq3y3fyv"

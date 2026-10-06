@@ -6,7 +6,8 @@ const SPEED_DAMP: float = 0.01
 
 signal finished(unit: Unit)
 
-@export var speed: float = 4
+@export var spawn_type: Types.Spawn
+@export var speed: float = 4.0
 @export var damage: float = 1.0
 
 
@@ -20,6 +21,13 @@ func update(delta: float) -> void:
 func destroy() -> void:
 	print("unit destroyed: ", name)
 	queue_free()
+
+
+func _ready() -> void:
+	speed = UpgradeLibrary.value(spawn_type, Types.Upgrade.SPEED)
+	damage = UpgradeLibrary.value(spawn_type, Types.Upgrade.DAMAGE)
+	
+	print("stats: sp - %s\tdmg - %s" % [speed, damage])
 
 
 func _on_area_2d_body_entered(body: Projectile) -> void:

@@ -6,6 +6,8 @@ const UNIT = preload("uid://5exn17g76420")
 
 signal spawn(unit: Unit)
 
+@export var spawn_type: Types.Spawn
+
 @export_range(0,1,0.01) var units_per_second: float = 0.2
 var cooldown: float
 
@@ -17,7 +19,7 @@ func start() -> void:
 
 
 func _ready() -> void:
-	cooldown = 1/units_per_second
+	_reset_rate()
 
 
 func _process(delta: float) -> void:
@@ -26,6 +28,13 @@ func _process(delta: float) -> void:
 	cooldown -= delta
 	
 	if cooldown <= 0:
-		cooldown = 1/units_per_second
+		_reset_rate()
 		
-		spawn.emit(UNIT.instantiate())
+		var unit = UNIT.instantiate()
+		unit.spawn_type = spawn_type
+		spawn.emit(unit)
+
+
+func _reset_rate() -> void:
+	units_per_second = UpgradeLibrary.value(spawn_type, Types.Upgrade.RATE)
+	cooldown = 1/units_per_second

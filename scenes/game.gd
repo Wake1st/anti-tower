@@ -56,7 +56,7 @@ func _handle_start_selected() -> void:
 
 
 func _handle_upgrade_selected(spawner: Types.Spawn, upgrade: Types.Upgrade) -> void:
-	print("spawn: %s\t%s" %[spawner, upgrade])
+	UpgradeLibrary.increase(spawner,upgrade)
 
 
 func _handle_tower_damaged(amount: float) -> void:

@@ -32,4 +32,5 @@ rate_of_fire = 0.34
 
 [node name="Spawner" parent="." unique_id=1976013547 instance=ExtResource("4_3mnpy")]
 position = Vector2(95, 609)
+spawn_type = 1
 units_per_second = 0.6

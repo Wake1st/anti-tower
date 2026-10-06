@@ -10,5 +10,6 @@ enum Spawn {
 
 enum Upgrade {
 	RATE,
-	SPEED
+	SPEED,
+	DAMAGE
 }

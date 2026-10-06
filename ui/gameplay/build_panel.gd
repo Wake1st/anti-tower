@@ -47,6 +47,10 @@ func _on_btn_speed_pressed() -> void:
 	upgrade_selected.emit(current_spawner, Types.Upgrade.SPEED)
 
 
+func _on_btn_damage_pressed() -> void:
+	upgrade_selected.emit(current_spawner, Types.Upgrade.DAMAGE)
+
+
 func _focus_spawns() -> void:
 	btn_menu.text = "M\nE\nN\nU"
 	

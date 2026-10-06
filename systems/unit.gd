@@ -20,7 +20,7 @@ func update(delta: float) -> void:
 
 func destroy() -> void:
 	print("unit destroyed: ", name)
-	queue_free()
+	call_deferred("queue_free")
 
 
 func _ready() -> void:

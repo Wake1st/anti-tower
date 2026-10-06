@@ -16,7 +16,7 @@ func fire(tar: Unit) -> void:
 
 func destroy() -> void:
 	print("projectile destroyed: ", name)
-	queue_free()
+	call_deferred("queue_free")
 
 
 func _physics_process(delta: float) -> void:

@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://1q5jo7hesbel" path="res://assets/sprites/up_arrow.png" id="3_cp1rw"]
 [ext_resource type="Texture2D" uid="uid://dvghw31ubw5f4" path="res://assets/sprites/character.png" id="3_eq54d"]
 [ext_resource type="Texture2D" uid="uid://bngf288ujgr3" path="res://assets/sprites/spear.png" id="4_1dd7v"]
-[ext_resource type="Texture2D" uid="uid://dhgvdmro0arx" path="res://assets/sprites/potion.png" id="6_lgqm3"]
+[ext_resource type="PackedScene" uid="uid://g5ur46er5jwy" path="res://ui/gameplay/btn_upgrade.tscn" id="5_eq54d"]
 
 [node name="BuildPanel" type="Control" unique_id=612374130]
 layout_mode = 3
@@ -77,25 +77,30 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
 
-[node name="BtnRate" type="TextureButton" parent="ColorRect/UpgradeOptions" unique_id=67653416]
-custom_minimum_size = Vector2(170, 0)
+[node name="BtnRate" parent="ColorRect/UpgradeOptions" unique_id=650399832 instance=ExtResource("5_eq54d")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
 texture_normal = ExtResource("3_cp1rw")
 stretch_mode = 0
 
-[node name="BtnSpeed" type="TextureButton" parent="ColorRect/UpgradeOptions" unique_id=624061546]
+[node name="BtnSpeed" parent="ColorRect/UpgradeOptions" unique_id=766144176 instance=ExtResource("5_eq54d")]
+unique_name_in_owner = true
 texture_filter = 1
-custom_minimum_size = Vector2(170, 0)
+custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
-texture_normal = ExtResource("6_lgqm3")
+texture_normal = ExtResource("3_cp1rw")
 stretch_mode = 0
+upgrade_type = 1
 
-[node name="BtnDamage" type="TextureButton" parent="ColorRect/UpgradeOptions" unique_id=1701804155]
+[node name="BtnDamage" parent="ColorRect/UpgradeOptions" unique_id=1683146989 instance=ExtResource("5_eq54d")]
+unique_name_in_owner = true
 texture_filter = 1
-custom_minimum_size = Vector2(170, 0)
+custom_minimum_size = Vector2(164, 0)
 layout_mode = 2
-texture_normal = ExtResource("4_1dd7v")
+texture_normal = ExtResource("3_cp1rw")
 stretch_mode = 0
+upgrade_type = 2
 
 [node name="BtnMenu" type="Button" parent="ColorRect" unique_id=700398578]
 unique_name_in_owner = true
@@ -131,8 +136,5 @@ text = "GO"
 [connection signal="pressed" from="ColorRect/SpawnOptions/BtnBasic" to="." method="_on_btn_basic_spawner_pressed"]
 [connection signal="pressed" from="ColorRect/SpawnOptions/BtnHeavy" to="." method="_on_btn_heavy_pressed"]
 [connection signal="pressed" from="ColorRect/SpawnOptions/BtnMagic" to="." method="_on_btn_magic_pressed"]
-[connection signal="pressed" from="ColorRect/UpgradeOptions/BtnRate" to="." method="_on_btn_rate_pressed"]
-[connection signal="pressed" from="ColorRect/UpgradeOptions/BtnSpeed" to="." method="_on_btn_speed_pressed"]
-[connection signal="pressed" from="ColorRect/UpgradeOptions/BtnDamage" to="." method="_on_btn_damage_pressed"]
 [connection signal="pressed" from="ColorRect/BtnMenu" to="." method="_on_btn_menu_pressed"]
 [connection signal="pressed" from="ColorRect/BtnStart" to="." method="_on_btn_start_pressed"]

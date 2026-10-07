@@ -16,7 +16,6 @@ func _ready() -> void:
 	
 	build_panel.pause_selected.connect(_handle_pause_selected)
 	build_panel.start_selected.connect(_handle_start_selected)
-	build_panel.upgrade_selected.connect(_handle_upgrade_selected)
 	
 	level.tower_damaged.connect(_handle_tower_damaged)
 	level.tower_destroyed.connect(_handle_tower_destroyed)
@@ -55,12 +54,8 @@ func _handle_start_selected() -> void:
 	level.start()
 
 
-func _handle_upgrade_selected(spawner: Types.Spawn, upgrade: Types.Upgrade) -> void:
-	UpgradeLibrary.increase(spawner,upgrade)
-
-
 func _handle_tower_damaged(amount: float) -> void:
-	print("ammount: ", amount)
+	print("ammount: ", amount) 
 
 
 func _handle_tower_destroyed() -> void:

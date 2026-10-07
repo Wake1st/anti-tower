@@ -4,11 +4,14 @@ extends Control
 
 signal pause_selected()
 signal start_selected()
-signal upgrade_selected(spawner: Types.Spawn, upgrade: Types.Upgrade)
 
 @onready var spawn_options: HBoxContainer = %SpawnOptions
 @onready var upgrade_options: HBoxContainer = %UpgradeOptions
 @onready var btn_menu: Button = %BtnMenu
+
+@onready var btn_rate: BtnUpgrade = %BtnRate
+@onready var btn_speed: BtnUpgrade = %BtnSpeed
+@onready var btn_damage: BtnUpgrade = %BtnDamage
 
 var current_spawner: Types.Spawn
 
@@ -25,30 +28,15 @@ func _on_btn_start_pressed() -> void:
 
 
 func _on_btn_basic_spawner_pressed() -> void:
-	_focus_upgrades()
-	current_spawner = Types.Spawn.BASIC
-
-
-func _on_btn_magic_pressed() -> void:
-	_focus_upgrades()
-	current_spawner = Types.Spawn.HEAVY
+	_focus_upgrades(Types.Spawn.BASIC)
 
 
 func _on_btn_heavy_pressed() -> void:
-	_focus_upgrades()
-	current_spawner = Types.Spawn.MAGIC
+	_focus_upgrades(Types.Spawn.HEAVY)
 
 
-func _on_btn_rate_pressed() -> void:
-	upgrade_selected.emit(current_spawner, Types.Upgrade.RATE)
-
-
-func _on_btn_speed_pressed() -> void:
-	upgrade_selected.emit(current_spawner, Types.Upgrade.SPEED)
-
-
-func _on_btn_damage_pressed() -> void:
-	upgrade_selected.emit(current_spawner, Types.Upgrade.DAMAGE)
+func _on_btn_magic_pressed() -> void:
+	_focus_upgrades(Types.Spawn.MAGIC)
 
 
 func _focus_spawns() -> void:
@@ -60,7 +48,13 @@ func _focus_spawns() -> void:
 	current_spawner = Types.Spawn.NONE
 
 
-func _focus_upgrades() -> void:
+func _focus_upgrades(spawn: Types.Spawn) -> void:
+	current_spawner = spawn
+	
+	btn_rate.open(current_spawner)
+	btn_speed.open(current_spawner)
+	btn_damage.open(current_spawner)
+	
 	btn_menu.text = "B\nA\nC\nK"
 	
 	spawn_options.visible = false

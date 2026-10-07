@@ -22,7 +22,6 @@ func _ready() -> void:
 
 func _handle_spawn(unit: Unit) -> void:
 	highway.spawn(unit)
-	print("spawning: %s\t%s" % [unit.name, unit.spawn_type])
 
 
 func _handle_attack(damage: float) -> void:

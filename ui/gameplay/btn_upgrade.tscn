@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://g5ur46er5jwy"]
+
+[ext_resource type="Script" uid="uid://dr35ec1gaxus" path="res://ui/gameplay/btn_upgrade.gd" id="1_xhln0"]
+
+[node name="BtnUpgrade" type="TextureButton" unique_id=650399832]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xhln0")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=858233899]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.043137256, 0.078431375, 0.043137256, 0.39215687)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect" unique_id=1658529352]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer" unique_id=1420388200]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 1
+theme_override_font_sizes/font_size = 16
+text = "RATE"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

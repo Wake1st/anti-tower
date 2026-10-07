@@ -19,15 +19,12 @@ func update(delta: float) -> void:
 
 
 func destroy() -> void:
-	print("unit destroyed: ", name)
 	call_deferred("queue_free")
 
 
 func _ready() -> void:
 	speed = UpgradeLibrary.value(spawn_type, Types.Upgrade.SPEED)
 	damage = UpgradeLibrary.value(spawn_type, Types.Upgrade.DAMAGE)
-	
-	print("stats: sp - %s\tdmg - %s" % [speed, damage])
 
 
 func _on_area_2d_body_entered(body: Projectile) -> void:

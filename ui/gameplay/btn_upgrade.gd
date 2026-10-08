@@ -1,17 +1,16 @@
 class_name BtnUpgrade
-extends TextureButton
+extends Button
 
 
-const TEMPLATE: String = "%s - %s (+%s)\n(next -> %s)"
+const TEMPLATE: String = "%s - %s (+%s)\n(next = $%s)"
 
 @export var upgrade_type: Types.Upgrade
-var spawn_type: Types.Spawn
+@export var spawn_type: Types.Spawn
 
 @onready var label: Label = %Label
 
 
-func open(type: Types.Spawn) -> void:
-	spawn_type = type
+func _ready() -> void:
 	update_ui()
 
 

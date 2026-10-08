@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dr35ec1gaxus" path="res://ui/gameplay/btn_upgrade.gd" id="1_xhln0"]
 
-[node name="BtnUpgrade" type="TextureButton" unique_id=650399832]
+[node name="BtnUpgrade" type="Button" unique_id=173683713]
+custom_minimum_size = Vector2(164, 48)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -18,28 +19,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-color = Color(0.043137256, 0.078431375, 0.043137256, 0.39215687)
+color = Color(0.98039216, 0.019607844, 0.65882355, 0.34901962)
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect" unique_id=1658529352]
+[node name="Label" type="Label" parent="ColorRect" unique_id=1420388200]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 12
-
-[node name="Label" type="Label" parent="ColorRect/MarginContainer" unique_id=1420388200]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 8
+size_flags_vertical = 1
 mouse_filter = 1
-theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.7764706, 0.9490196, 0, 1)
+theme_override_font_sizes/font_size = 14
 text = "RATE"
 horizontal_alignment = 1
-vertical_alignment = 2
+vertical_alignment = 1
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

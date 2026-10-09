@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://ybaasehv8m0"]
+
+[ext_resource type="PackedScene" uid="uid://cagxv72k4jdgj" path="res://systems/highway.tscn" id="1_fiq81"]
+[ext_resource type="Script" uid="uid://c7ixmton47j00" path="res://scenes/levels/level.gd" id="1_l37oo"]
+[ext_resource type="PackedScene" uid="uid://catj20am8qj6w" path="res://systems/tower.tscn" id="2_l37oo"]
+[ext_resource type="PackedScene" uid="uid://dejixxsy8uecn" path="res://systems/turret.tscn" id="3_qpwj6"]
+[ext_resource type="PackedScene" uid="uid://c4xsgw5uaw6lq" path="res://systems/spawner.tscn" id="4_ibugp"]
+
+[sub_resource type="Curve2D" id="Curve2D_8qukl"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 101, -60, 0, 0, 0, 0, -888, -645)
+}
+point_count = 2
+
+[node name="Level2" type="Node2D" unique_id=1531921563]
+script = ExtResource("1_l37oo")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1268747749]
+anchor_mode = 0
+
+[node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("1_fiq81")]
+position = Vector2(967, 763)
+curve = SubResource("Curve2D_8qukl")
+
+[node name="Tower" parent="." unique_id=699395279 instance=ExtResource("2_l37oo")]
+position = Vector2(77, 103)
+health = 5.0
+
+[node name="Turret" parent="Tower" unique_id=815908323 instance=ExtResource("3_qpwj6")]
+position = Vector2(786, 431)
+rate_of_fire = 0.34
+
+[node name="Turret2" parent="Tower" unique_id=719103934 instance=ExtResource("3_qpwj6")]
+position = Vector2(568, 386)
+rate_of_fire = 0.34
+
+[node name="Turret3" parent="Tower" unique_id=2128032146 instance=ExtResource("3_qpwj6")]
+position = Vector2(417, 212)
+rate_of_fire = 0.34
+
+[node name="Turret4" parent="Tower" unique_id=1133996476 instance=ExtResource("3_qpwj6")]
+position = Vector2(199, 169)
+rate_of_fire = 0.34
+
+[node name="Spawner" parent="." unique_id=1976013547 instance=ExtResource("4_ibugp")]
+position = Vector2(1093, 693)
+spawn_type = 1
+units_per_second = 0.6

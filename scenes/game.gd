@@ -2,10 +2,21 @@ class_name Game
 extends Node
 
 
+signal return_to_main()
+
 @onready var pause_menu_ui: PauseMenuUI = %PauseMenuUI
 @onready var settings_menu_ui: SettingsMenuUI = %SettingsMenuUI
 @onready var build_panel: BuildPanel = %BuildPanel
-@onready var level: Level = $Level0
+@onready var level: Level
+
+
+func run(lvl: Level) -> void:
+	if level:
+		_unplug_level()
+		level.queue_free()
+	
+	level = lvl
+	_plugin_level()
 
 
 func _ready() -> void:
@@ -16,9 +27,6 @@ func _ready() -> void:
 	
 	build_panel.pause_selected.connect(_handle_pause_selected)
 	build_panel.start_selected.connect(_handle_start_selected)
-	
-	level.tower_damaged.connect(_handle_tower_damaged)
-	level.tower_destroyed.connect(_handle_tower_destroyed)
 
 
 func _input(event) -> void:
@@ -38,7 +46,7 @@ func _handle_settings_selected() -> void:
 
 func _handle_menu_selected() -> void:
 	# exit level
-	pass
+	return_to_main.emit()
 
 
 func _handle_return_selected() -> void:
@@ -62,3 +70,15 @@ func _handle_tower_destroyed() -> void:
 	get_tree().paused = true
 	
 	# some kind of score screen
+
+
+func _plugin_level() -> void:
+	add_child(level)
+	level.tower_damaged.connect(_handle_tower_damaged)
+	level.tower_destroyed.connect(_handle_tower_destroyed)
+
+
+func _unplug_level() -> void:
+	level.tower_damaged.disconnect(_handle_tower_damaged)
+	level.tower_destroyed.disconnect(_handle_tower_destroyed)
+	remove_child(level)

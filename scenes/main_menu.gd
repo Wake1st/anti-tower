@@ -1,6 +1,8 @@
 class_name MainMenu
-extends Node
+extends CanvasLayer
 
+
+signal play_level()
 
 @onready var main_menu_ui: MainMenuUI = $MainMenuUI
 @onready var settings_menu_ui: SettingsMenuUI = $SettingsMenuUI
@@ -10,8 +12,6 @@ var control: Control
 
 
 func _ready() -> void:
-	get_tree().paused = true
-	
 	main_menu_ui.play_selected.connect(_handle_play_selected)
 	main_menu_ui.settings_selected.connect(_handle_settings_selected)
 	main_menu_ui.credits_selected.connect(_handle_credits_selected)
@@ -21,8 +21,7 @@ func _ready() -> void:
 
 
 func _handle_play_selected() -> void:
-	# some kind of transition
-	pass
+	play_level.emit()
 
 
 func _handle_settings_selected() -> void:

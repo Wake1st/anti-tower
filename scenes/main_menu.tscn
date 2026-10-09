@@ -5,18 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://dn24f3wk3futr" path="res://ui/menus/settings_menu_ui.tscn" id="3_8ln24"]
 [ext_resource type="PackedScene" uid="uid://dy321iwuayi5w" path="res://ui/menus/credits_menu_ui.tscn" id="4_wu84c"]
 
-[node name="MainMenu" type="Node" unique_id=1663835177]
+[node name="MainMenu" type="CanvasLayer" unique_id=2048161399]
 script = ExtResource("1_bqqt6")
 
 [node name="MainMenuUI" parent="." unique_id=1029722067 instance=ExtResource("2_wu84c")]
-process_mode = 2
 mouse_filter = 1
 
 [node name="SettingsMenuUI" parent="." unique_id=1973352614 instance=ExtResource("3_8ln24")]
+process_mode = 0
 visible = false
 mouse_filter = 1
 
 [node name="CreditsMenuUI" parent="." unique_id=118515599 instance=ExtResource("4_wu84c")]
-process_mode = 2
 visible = false
 mouse_filter = 1

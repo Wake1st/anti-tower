@@ -36,12 +36,11 @@ func _ready() -> void:
 
 func _input(event) -> void:
 	if event.is_action("pause_game"):
-		get_tree().paused = true
 		pause_menu_ui.focus()
 
 
 func _handle_resume_selected() -> void:
-	get_tree().paused = false
+	pass
 
 
 func _handle_settings_selected() -> void:
@@ -63,7 +62,6 @@ func _handle_return_selected() -> void:
 
 
 func _handle_pause_selected() -> void:
-	get_tree().paused = true
 	pause_menu_ui.focus()
 
 
@@ -76,9 +74,8 @@ func _handle_tower_damaged(amount: float) -> void:
 
 
 func _handle_tower_destroyed() -> void:
-	get_tree().paused = true
-	
-	# some kind of score screen
+	level.stop()
+	score_panel_ui.open()
 
 
 func _plugin_level() -> void:

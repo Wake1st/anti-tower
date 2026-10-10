@@ -27,6 +27,7 @@ func _ready() -> void:
 func _process(_delta) -> void:
 	var progress = []
 	ResourceLoader.load_threaded_get_status(scene_path, progress)
+	print("prog: ", progress)
 	
 	if progress[0] == 1:
 		# set new scene
@@ -39,7 +40,6 @@ func _process(_delta) -> void:
 
 func _handle_return_selected() -> void:
 	main_menu.open()
-	get_tree().paused = false
 
 
 func _handle_level_selected() -> void:
@@ -58,7 +58,7 @@ func _handle_next_level() -> void:
 
 func _load_scene(path: String) -> void:
 	# remove old scene
-	if current_scene:
+	if current_scene && current_scene.get_parent() == self:
 		remove_child(current_scene)
 		current_scene.queue_free()
 	

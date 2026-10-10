@@ -4,7 +4,6 @@
 [ext_resource type="Theme" uid="uid://b6ynjc8svelca" path="res://assets/themes/button_theme.tres" id="2_xx0et"]
 
 [node name="PauseMenuUI" type="Control" unique_id=789262559]
-process_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

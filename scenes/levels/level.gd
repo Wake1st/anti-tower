@@ -9,15 +9,29 @@ signal tower_destroyed()
 @onready var spawner: Spawner = $Spawner
 @onready var highway: Highway = $Highway
 
+var standby: bool = true
+
 
 func start() -> void:
-	spawner.start()
+	standby = false
+
+
+func stop() -> void:
+	standby = true
 
 
 func _ready() -> void:
 	spawner.spawn.connect(_handle_spawn)
 	highway.attack.connect(_handle_attack)
 	tower.destroyed.connect(_handle_destroyed)
+
+
+func _process(delta: float) -> void:
+	if standby: return
+	
+	spawner.process(delta)
+	highway.process(delta)
+
 
 
 func _handle_spawn(unit: Unit) -> void:

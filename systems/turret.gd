@@ -20,7 +20,8 @@ func _process(delta: float) -> void:
 	if cooldown <= 0 && targets.size() > 0:
 			# fire at closest
 			var closest_target = targets.get(0)
-			_fire(closest_target)
+			if closest_target != null:
+				_fire(closest_target)
 			
 			# turret fires the moment targets are available
 			cooldown = 1/rate_of_fire

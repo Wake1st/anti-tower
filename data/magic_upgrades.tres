@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Upgrades" format=3 uid="uid://b0uh65l5pn5j5"]
-
-[ext_resource type="Script" uid="uid://dycqehq3y3fyv" path="res://data/Upgrades.gd" id="1_hhaw2"]
-
-[resource]
-script = ExtResource("1_hhaw2")
-rate = 2.0
-speed = 2.2
-metadata/_custom_type_script = "uid://dycqehq3y3fyv"

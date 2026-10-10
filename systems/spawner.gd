@@ -11,20 +11,13 @@ signal spawn(unit: Unit)
 @export_range(0,1,0.01) var units_per_second: float = 0.2
 var cooldown: float
 
-var standby: bool = true
-
-
-func start() -> void:
-	standby = false
 
 
 func _ready() -> void:
 	_reset_rate()
 
 
-func _process(delta: float) -> void:
-	if standby: return
-	
+func process(delta: float) -> void:
 	cooldown -= delta
 	
 	if cooldown <= 0:

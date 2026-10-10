@@ -8,8 +8,8 @@ const levels: Array[String] = [
 	"res://scenes/levels/level_2.tscn"
 ]
 
-@onready var main_menu: MainMenu = $MainMenu
 @onready var game: Game = $Game
+@onready var main_menu: MainMenu = $MainMenu
 
 var scene_path: String
 var current_scene: Node

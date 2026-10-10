@@ -10,12 +10,10 @@ var target: Unit
 
 
 func fire(tar: Unit) -> void:
-	print("projectile %s - fired at - %s" % [name, tar.name])
 	target = tar
 
 
 func destroy() -> void:
-	print("projectile destroyed: ", name)
 	call_deferred("queue_free")
 
 

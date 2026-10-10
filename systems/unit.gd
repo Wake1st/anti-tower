@@ -15,6 +15,7 @@ func update(delta: float) -> void:
 	progress_ratio += SPEED_DAMP * speed * delta
 	
 	if progress_ratio >= 1.0:
+		damage = UpgradeLibrary.value(spawn_type, Types.Upgrade.DAMAGE)
 		finished.emit(self)
 
 
@@ -24,7 +25,6 @@ func destroy() -> void:
 
 func _ready() -> void:
 	speed = UpgradeLibrary.value(spawn_type, Types.Upgrade.SPEED)
-	damage = UpgradeLibrary.value(spawn_type, Types.Upgrade.DAMAGE)
 
 
 func _on_area_2d_body_entered(body: Projectile) -> void:

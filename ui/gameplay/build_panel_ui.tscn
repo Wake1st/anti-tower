@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://4daxmvub6vv7"]
 
-[ext_resource type="Script" uid="uid://cyp0vsknbcoxc" path="res://ui/gameplay/build_panel.gd" id="1_qbvjw"]
-[ext_resource type="PackedScene" uid="uid://g5ur46er5jwy" path="res://ui/gameplay/btn_upgrade.tscn" id="5_eq54d"]
+[ext_resource type="Script" uid="uid://cyp0vsknbcoxc" path="res://ui/gameplay/build_panel_ui.gd" id="1_k2r3w"]
+[ext_resource type="PackedScene" uid="uid://g5ur46er5jwy" path="res://ui/gameplay/btn_upgrade.tscn" id="2_u3jch"]
+[ext_resource type="Theme" uid="uid://b6ynjc8svelca" path="res://assets/themes/button_theme.tres" id="3_u3jch"]
 
-[node name="BuildPanel" type="Control" unique_id=612374130]
+[node name="BuildPanelUI" type="Control" unique_id=612374130]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-script = ExtResource("1_qbvjw")
+script = ExtResource("1_k2r3w")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1417002996]
 layout_mode = 1
@@ -23,7 +24,7 @@ offset_top = -191.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 1
-color = Color(0.15686275, 0.23529412, 0.16862746, 1)
+color = Color(0.08235294, 0.05882353, 0.11764706, 1)
 
 [node name="ColorRect" type="ColorRect" parent="ColorRect" unique_id=718552275]
 layout_mode = 1
@@ -37,7 +38,7 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-color = Color(0.27, 0.021599997, 0.021599997, 0.627451)
+color = Color(0.13333334, 0.09411765, 0.1882353, 1)
 
 [node name="UpgradeContainer" type="VBoxContainer" parent="ColorRect" unique_id=901019151]
 layout_mode = 1
@@ -60,20 +61,21 @@ theme_override_constants/separation = 12
 [node name="LblBasic" type="Label" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=2035907385]
 custom_minimum_size = Vector2(128, 48)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.3764706, 0.8666667, 0.1254902, 1)
 text = "BASIC"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnBasicRate" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=173683713 instance=ExtResource("5_eq54d")]
+[node name="BtnBasicRate" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=173683713 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 spawn_type = 1
 
-[node name="BtnBasicSpeed" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=425356437 instance=ExtResource("5_eq54d")]
+[node name="BtnBasicSpeed" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=425356437 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 1
 spawn_type = 1
 
-[node name="BtnBasicDamage" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=1184199747 instance=ExtResource("5_eq54d")]
+[node name="BtnBasicDamage" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=1184199747 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 2
 spawn_type = 1
@@ -85,20 +87,21 @@ theme_override_constants/separation = 12
 [node name="LblHeavy" type="Label" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=599718054]
 custom_minimum_size = Vector2(128, 48)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.3764706, 0.8666667, 0.1254902, 1)
 text = "HEAVY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnHeavyRate" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=1454690622 instance=ExtResource("5_eq54d")]
+[node name="BtnHeavyRate" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=1454690622 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 spawn_type = 2
 
-[node name="BtnHeavySpeed" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=99940237 instance=ExtResource("5_eq54d")]
+[node name="BtnHeavySpeed" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=99940237 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 1
 spawn_type = 2
 
-[node name="BtnHeavyDamage" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=900594259 instance=ExtResource("5_eq54d")]
+[node name="BtnHeavyDamage" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=900594259 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 2
 spawn_type = 2
@@ -110,20 +113,21 @@ theme_override_constants/separation = 12
 [node name="LblMagic" type="Label" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=747478297]
 custom_minimum_size = Vector2(128, 48)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.3764706, 0.8666667, 0.1254902, 1)
 text = "MAGIC"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnMagicRate" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=1206326394 instance=ExtResource("5_eq54d")]
+[node name="BtnMagicRate" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=1206326394 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 spawn_type = 3
 
-[node name="BtnMagicSpeed" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=503737125 instance=ExtResource("5_eq54d")]
+[node name="BtnMagicSpeed" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=503737125 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 1
 spawn_type = 3
 
-[node name="BtnMagicDamage" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=689794490 instance=ExtResource("5_eq54d")]
+[node name="BtnMagicDamage" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=689794490 instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 2
 spawn_type = 3
@@ -137,6 +141,7 @@ offset_top = 15.9999695
 offset_right = 151.0
 offset_bottom = -128.00003
 grow_vertical = 2
+theme = ExtResource("3_u3jch")
 theme_override_font_sizes/font_size = 28
 text = "MENU"
 
@@ -152,6 +157,7 @@ offset_right = -10.209473
 offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 2
+theme = ExtResource("3_u3jch")
 theme_override_font_sizes/font_size = 96
 text = "GO"
 

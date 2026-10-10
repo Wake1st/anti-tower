@@ -11,6 +11,10 @@ signal play_level()
 var control: Control
 
 
+func open() -> void:
+	main_menu_ui.visible = true
+
+
 func _ready() -> void:
 	main_menu_ui.play_selected.connect(_handle_play_selected)
 	main_menu_ui.settings_selected.connect(_handle_settings_selected)
@@ -21,6 +25,7 @@ func _ready() -> void:
 
 
 func _handle_play_selected() -> void:
+	main_menu_ui.visible = false
 	play_level.emit()
 
 

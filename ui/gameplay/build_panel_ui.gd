@@ -1,4 +1,4 @@
-class_name BuildPanel
+class_name BuildPanelUI
 extends Control
 
 

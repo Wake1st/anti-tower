@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://bkrjxoqlakabm"]
 
 [ext_resource type="Script" uid="uid://g5t35odn7ho1" path="res://scenes/game.gd" id="1_iywne"]
-[ext_resource type="PackedScene" uid="uid://4daxmvub6vv7" path="res://ui/gameplay/build_panel.tscn" id="3_u5sy4"]
+[ext_resource type="PackedScene" uid="uid://cb5c84l84irfg" path="res://ui/gameplay/score_panel_ui.tscn" id="3_iywne"]
+[ext_resource type="PackedScene" uid="uid://4daxmvub6vv7" path="res://ui/gameplay/build_panel_ui.tscn" id="3_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://d3vyqpubrioi3" path="res://ui/menus/pause_menu_ui.tscn" id="4_gee14"]
 [ext_resource type="PackedScene" uid="uid://dn24f3wk3futr" path="res://ui/menus/settings_menu_ui.tscn" id="5_0tnpc"]
 
@@ -10,7 +11,10 @@ script = ExtResource("1_iywne")
 
 [node name="GameplayCanvas" type="CanvasLayer" parent="." unique_id=1995045689]
 
-[node name="BuildPanel" parent="GameplayCanvas" unique_id=612374130 instance=ExtResource("3_u5sy4")]
+[node name="BuildPanelUI" parent="GameplayCanvas" unique_id=612374130 instance=ExtResource("3_u5sy4")]
+unique_name_in_owner = true
+
+[node name="ScorePanelUI" parent="GameplayCanvas" unique_id=1689028540 instance=ExtResource("3_iywne")]
 unique_name_in_owner = true
 
 [node name="MenuCanvas" type="CanvasLayer" parent="." unique_id=330982563]
@@ -18,9 +22,9 @@ unique_name_in_owner = true
 [node name="PauseMenuUI" parent="MenuCanvas" unique_id=789262559 instance=ExtResource("4_gee14")]
 unique_name_in_owner = true
 visible = false
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="SettingsMenuUI" parent="MenuCanvas" unique_id=1973352614 instance=ExtResource("5_0tnpc")]
 unique_name_in_owner = true
 visible = false
-mouse_filter = 1
+mouse_filter = 2

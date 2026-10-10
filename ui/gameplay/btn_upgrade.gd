@@ -7,8 +7,6 @@ const TEMPLATE: String = "%s - %s (+%s)\n(next = $%s)"
 @export var upgrade_type: Types.Upgrade
 @export var spawn_type: Types.Spawn
 
-@onready var label: Label = %Label
-
 
 func _ready() -> void:
 	update_ui()
@@ -17,7 +15,7 @@ func _ready() -> void:
 func update_ui() -> void:
 	disabled = UpgradeLibrary.get_cost(spawn_type, upgrade_type) > Score.points
 	
-	label.text = TEMPLATE % [
+	text = TEMPLATE % [
 		Types.Upgrade.find_key(upgrade_type), 
 		UpgradeLibrary.value(spawn_type, upgrade_type),
 		UpgradeLibrary.get_rate(spawn_type, upgrade_type),

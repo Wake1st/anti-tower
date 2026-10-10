@@ -21,12 +21,12 @@ func _ready() -> void:
 	
 	main_menu.play_level.connect(_handle_level_selected)
 	game.return_to_main.connect(_handle_return_selected)
+	game.next_level_selected.connect(_handle_next_level)
 
 
 func _process(_delta) -> void:
 	var progress = []
 	ResourceLoader.load_threaded_get_status(scene_path, progress)
-	print("prog: ", progress)
 	
 	if progress[0] == 1:
 		# set new scene
@@ -35,31 +35,25 @@ func _process(_delta) -> void:
 		
 		# connect the signals
 		game.run(current_scene)
-		
-		# flip
-		main_menu.visible = false
 
 
 func _handle_return_selected() -> void:
-	main_menu.visible = true
+	main_menu.open()
+	get_tree().paused = false
 
 
 func _handle_level_selected() -> void:
 	_load_scene(scene_path)
 
 
-#func _handle_replay_level() -> void:
-	#_load_scene(scene_path)
-
-
-#func _handle_next_level() -> void:
-	#var next_level_index = levels.rfind(scene_path) + 1
-	#if next_level_index == levels.size():
-		## game over man
-		#next_level_index = 0
-	#else:
-		#var path = levels[next_level_index]
-		#_load_scene(path)
+func _handle_next_level() -> void:
+	var next_level_index = levels.rfind(scene_path) + 1
+	if next_level_index == levels.size():
+		# game over man
+		next_level_index = 0
+	else:
+		var path = levels[next_level_index]
+		_load_scene(path)
 
 
 func _load_scene(path: String) -> void:

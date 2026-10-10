@@ -3,10 +3,12 @@ extends Node
 
 
 signal return_to_main()
+signal next_level_selected()
 
 @onready var pause_menu_ui: PauseMenuUI = %PauseMenuUI
 @onready var settings_menu_ui: SettingsMenuUI = %SettingsMenuUI
-@onready var build_panel: BuildPanel = %BuildPanel
+@onready var build_panel_ui: BuildPanelUI = %BuildPanelUI
+@onready var score_panel_ui: ScorePanelUI = %ScorePanelUI
 @onready var level: Level
 
 
@@ -25,8 +27,11 @@ func _ready() -> void:
 	pause_menu_ui.menu_selected.connect(_handle_menu_selected)
 	settings_menu_ui.return_selected.connect(_handle_return_selected)
 	
-	build_panel.pause_selected.connect(_handle_pause_selected)
-	build_panel.start_selected.connect(_handle_start_selected)
+	build_panel_ui.pause_selected.connect(_handle_pause_selected)
+	build_panel_ui.start_selected.connect(_handle_start_selected)
+	
+	score_panel_ui.menu_selected.connect(_handle_menu_selected)
+	score_panel_ui.next_selected.connect(_handle_next_level)
 
 
 func _input(event) -> void:
@@ -47,6 +52,10 @@ func _handle_settings_selected() -> void:
 func _handle_menu_selected() -> void:
 	# exit level
 	return_to_main.emit()
+
+
+func _handle_next_level() -> void:
+	next_level_selected.emit()
 
 
 func _handle_return_selected() -> void:

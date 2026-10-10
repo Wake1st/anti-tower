@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://cb5c84l84irfg"]
+
+[ext_resource type="Script" uid="uid://cy3bmi2ieoqjv" path="res://ui/gameplay/score_panel_ui.gd" id="1_rh8on"]
+[ext_resource type="Theme" uid="uid://b6ynjc8svelca" path="res://assets/themes/button_theme.tres" id="2_k4nok"]
+
+[sub_resource type="Animation" id="Animation_k4nok"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2),
+"points": PackedFloat32Array(-1000, -0.2, 0, 0.2, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_rh8on"]
+resource_name = "open"
+length = 0.4
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2, 0),
+"points": PackedFloat32Array(-1000, 0, 0, 0, 996.74036, 0, -0.36666667, -3.2596714, 0.2, 0),
+"times": PackedFloat32Array(0, 0.4)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k4nok"]
+_data = {
+&"RESET": SubResource("Animation_k4nok"),
+&"open": SubResource("Animation_rh8on")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rh8on"]
+bg_color = Color(0.2901961, 0.21960784, 0.3764706, 1)
+
+[node name="ScorePanelUI" type="Control" unique_id=1689028540]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_rh8on")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1609722280]
+libraries/ = SubResource("AnimationLibrary_k4nok")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=131884663]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1000.0
+offset_bottom = -1000.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13333334, 0.09411765, 0.1882353, 1)
+
+[node name="Label" type="Label" parent="ColorRect" unique_id=151810905]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -562.5
+offset_top = -362.5
+offset_right = 562.5
+offset_bottom = 90.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.3764706, 0.8666667, 0.1254902, 1)
+theme_override_font_sizes/font_size = 128
+text = "! EXCELLENT !
+! DESTRUCTION !"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnNextLevel" type="Button" parent="ColorRect" unique_id=1014032138]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -330.0
+offset_right = 536.0
+offset_bottom = -144.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6901961, 1, 0.3764706, 1)
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_rh8on")
+text = "NEXT LEVEL"
+
+[node name="BtnMainMenu" type="Button" parent="ColorRect" unique_id=72049563]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -536.0
+offset_top = -330.0
+offset_right = -24.0
+offset_bottom = -144.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_k4nok")
+theme_override_colors/font_color = Color(0.6901961, 1, 0.3764706, 1)
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_rh8on")
+text = "MAIN MENU"
+
+[connection signal="pressed" from="ColorRect/BtnNextLevel" to="." method="_on_btn_next_level_pressed"]
+[connection signal="pressed" from="ColorRect/BtnMainMenu" to="." method="_on_btn_main_menu_pressed"]

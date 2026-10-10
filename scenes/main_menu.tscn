@@ -9,13 +9,13 @@
 script = ExtResource("1_bqqt6")
 
 [node name="MainMenuUI" parent="." unique_id=1029722067 instance=ExtResource("2_wu84c")]
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="SettingsMenuUI" parent="." unique_id=1973352614 instance=ExtResource("3_8ln24")]
 process_mode = 0
 visible = false
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="CreditsMenuUI" parent="." unique_id=118515599 instance=ExtResource("4_wu84c")]
 visible = false
-mouse_filter = 1
+mouse_filter = 2

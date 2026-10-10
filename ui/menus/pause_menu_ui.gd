@@ -21,4 +21,5 @@ func _on_btn_settings_pressed() -> void:
 
 
 func _on_btn_menu_pressed() -> void:
+	visible = false
 	menu_selected.emit()

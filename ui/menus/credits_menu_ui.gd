@@ -9,6 +9,6 @@ func focus() -> void:
 	visible = true
 
 
-func _on_btn_return_pressed():
+func _on_btn_return_pressed() -> void:
 	visible = false
 	return_selected.emit()

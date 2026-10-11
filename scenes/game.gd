@@ -3,6 +3,7 @@ extends Node
 
 
 signal return_to_main()
+signal reset_selected()
 signal next_level_selected()
 
 @onready var pause_menu_ui: PauseMenuUI = %PauseMenuUI
@@ -17,6 +18,10 @@ func run(lvl: Level) -> void:
 		_unplug_level()
 		level.queue_free()
 	
+	Score.reset()
+	UpgradeLibrary.reset()
+	build_panel_ui.reset()
+	
 	level = lvl
 	_plugin_level()
 
@@ -29,6 +34,7 @@ func _ready() -> void:
 	
 	build_panel_ui.pause_selected.connect(_handle_pause_selected)
 	build_panel_ui.start_selected.connect(_handle_start_selected)
+	build_panel_ui.stop_selected.connect(_handle_stop_selected)
 	
 	score_panel_ui.menu_selected.connect(_handle_menu_selected)
 	score_panel_ui.next_selected.connect(_handle_next_level)
@@ -69,11 +75,18 @@ func _handle_start_selected() -> void:
 	level.start()
 
 
+func _handle_stop_selected() -> void:
+	level.stop()
+	reset_selected.emit()
+
+
 func _handle_tower_damaged(amount: float) -> void:
-	print("ammount: ", amount) 
+	build_panel_ui.tower_damaged(TowerHealth.hit(amount))
 
 
-func _handle_tower_destroyed() -> void:
+func _handle_tower_destroyed(amount: float) -> void:
+	Score.add_points(amount)
+	
 	level.stop()
 	score_panel_ui.open()
 

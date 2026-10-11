@@ -4,16 +4,14 @@ extends Button
 
 const TEMPLATE: String = "%s - %s (+%s)\n(next = $%s)"
 
+signal upgrade_purchased()
+
 @export var upgrade_type: Types.Upgrade
 @export var spawn_type: Types.Spawn
 
 
-func _ready() -> void:
-	update_ui()
-
-
 func update_ui() -> void:
-	disabled = UpgradeLibrary.get_cost(spawn_type, upgrade_type) > Score.points
+	disabled = UpgradeLibrary.get_cost(spawn_type, upgrade_type) > Score.currency
 	
 	text = TEMPLATE % [
 		Types.Upgrade.find_key(upgrade_type), 
@@ -23,8 +21,12 @@ func update_ui() -> void:
 	]
 
 
+func _ready() -> void:
+	update_ui()
+
+
 func _on_pressed() -> void:
-	Score.points -= UpgradeLibrary.get_cost(spawn_type, upgrade_type)
+	Score.charge(UpgradeLibrary.get_cost(spawn_type, upgrade_type))
 	UpgradeLibrary.purchase(spawn_type, upgrade_type)
 	
-	update_ui()
+	upgrade_purchased.emit()

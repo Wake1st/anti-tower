@@ -24,7 +24,8 @@ curve = SubResource("Curve2D_s8va5")
 
 [node name="Tower" parent="." unique_id=699395279 instance=ExtResource("2_6761a")]
 position = Vector2(77, 103)
-health = 5.0
+health = 15.0
+points = 22.0
 
 [node name="Turret" parent="Tower" unique_id=815908323 instance=ExtResource("3_sk5k4")]
 position = Vector2(599, 185)

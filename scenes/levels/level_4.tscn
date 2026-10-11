@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://ga51bymfxyo2"]
+
+[ext_resource type="Script" uid="uid://c7ixmton47j00" path="res://scenes/levels/level.gd" id="1_06474"]
+[ext_resource type="PackedScene" uid="uid://cagxv72k4jdgj" path="res://systems/highway.tscn" id="2_anwe6"]
+[ext_resource type="PackedScene" uid="uid://catj20am8qj6w" path="res://systems/tower.tscn" id="3_rej77"]
+[ext_resource type="PackedScene" uid="uid://dejixxsy8uecn" path="res://systems/turret.tscn" id="4_5vn0v"]
+[ext_resource type="PackedScene" uid="uid://c4xsgw5uaw6lq" path="res://systems/spawner.tscn" id="5_ts8eg"]
+
+[sub_resource type="Curve2D" id="Curve2D_um320"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 122, -137, 11.224918, 435.8619, -11.224918, -435.8619, -939, -362, -1.8563843, -424.4518, 1.8563843, 424.4518, 69, -427, -97.86303, 266.59122, 97.86303, -266.59122, -850, -389, -108.88393, -235.76285, 108.88393, 235.76285, -22, -483, 49.603714, 165.10951, -49.603714, -165.10951, -724, -358, -43.22611, -141.01631, 43.22611, 141.01631, -116, -465, 0, 0, 0, 0, -490, -407)
+}
+point_count = 8
+
+[node name="Level4" type="Node2D" unique_id=15890281]
+script = ExtResource("1_06474")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=888432805]
+anchor_mode = 0
+
+[node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("2_anwe6")]
+position = Vector2(967, 763)
+curve = SubResource("Curve2D_um320")
+
+[node name="Tower" parent="." unique_id=699395279 instance=ExtResource("3_rej77")]
+position = Vector2(424, 384)
+health = 34.0
+points = 56.0
+
+[node name="Turret" parent="Tower" unique_id=815908323 instance=ExtResource("4_5vn0v")]
+position = Vector2(-247, 11)
+rate_of_fire = 0.34
+
+[node name="Turret2" parent="Tower" unique_id=2137490473 instance=ExtResource("4_5vn0v")]
+position = Vector2(-15, -172)
+rate_of_fire = 0.34
+
+[node name="Turret3" parent="Tower" unique_id=436383758 instance=ExtResource("4_5vn0v")]
+position = Vector2(318, -182)
+rate_of_fire = 0.34
+
+[node name="Turret4" parent="Tower" unique_id=218854251 instance=ExtResource("4_5vn0v")]
+position = Vector2(480, -34)
+rate_of_fire = 0.34
+
+[node name="Turret5" parent="Tower" unique_id=80855196 instance=ExtResource("4_5vn0v")]
+position = Vector2(312, 126)
+rate_of_fire = 0.34
+
+[node name="Turret6" parent="Tower" unique_id=1216643330 instance=ExtResource("4_5vn0v")]
+position = Vector2(-19, 126)
+rate_of_fire = 0.34
+
+[node name="Spawner" parent="." unique_id=1976013547 instance=ExtResource("5_ts8eg")]
+position = Vector2(1124, 604)
+spawn_type = 1
+units_per_second = 0.6

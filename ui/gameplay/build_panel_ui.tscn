@@ -4,6 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://g5ur46er5jwy" path="res://ui/gameplay/btn_upgrade.tscn" id="2_u3jch"]
 [ext_resource type="Theme" uid="uid://b6ynjc8svelca" path="res://assets/themes/button_theme.tres" id="3_u3jch"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u3jch"]
+bg_color = Color(1, 0.2509804, 0.2509804, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slqsk"]
+bg_color = Color(0.6, 0, 0, 1)
+
 [node name="BuildPanelUI" type="Control" unique_id=612374130]
 layout_mode = 3
 anchors_preset = 15
@@ -66,16 +72,16 @@ text = "BASIC"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnBasicRate" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=173683713 instance=ExtResource("2_u3jch")]
+[node name="BtnBasicRate" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=173683713 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 spawn_type = 1
 
-[node name="BtnBasicSpeed" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=425356437 instance=ExtResource("2_u3jch")]
+[node name="BtnBasicSpeed" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=425356437 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 1
 spawn_type = 1
 
-[node name="BtnBasicDamage" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=1184199747 instance=ExtResource("2_u3jch")]
+[node name="BtnBasicDamage" parent="ColorRect/UpgradeContainer/BasicContainer" unique_id=1184199747 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 2
 spawn_type = 1
@@ -92,16 +98,16 @@ text = "HEAVY"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnHeavyRate" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=1454690622 instance=ExtResource("2_u3jch")]
+[node name="BtnHeavyRate" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=1454690622 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 spawn_type = 2
 
-[node name="BtnHeavySpeed" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=99940237 instance=ExtResource("2_u3jch")]
+[node name="BtnHeavySpeed" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=99940237 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 1
 spawn_type = 2
 
-[node name="BtnHeavyDamage" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=900594259 instance=ExtResource("2_u3jch")]
+[node name="BtnHeavyDamage" parent="ColorRect/UpgradeContainer/HeavyContainer" unique_id=900594259 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 2
 spawn_type = 2
@@ -118,16 +124,16 @@ text = "MAGIC"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnMagicRate" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=1206326394 instance=ExtResource("2_u3jch")]
+[node name="BtnMagicRate" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=1206326394 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 spawn_type = 3
 
-[node name="BtnMagicSpeed" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=503737125 instance=ExtResource("2_u3jch")]
+[node name="BtnMagicSpeed" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=503737125 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 1
 spawn_type = 3
 
-[node name="BtnMagicDamage" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=689794490 instance=ExtResource("2_u3jch")]
+[node name="BtnMagicDamage" parent="ColorRect/UpgradeContainer/MagicContainer" unique_id=689794490 groups=["upgrade_btn"] instance=ExtResource("2_u3jch")]
 layout_mode = 2
 upgrade_type = 2
 spawn_type = 3
@@ -137,29 +143,124 @@ layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 14.0
-offset_top = 15.9999695
+offset_top = 12.9999695
 offset_right = 151.0
-offset_bottom = -128.00003
+offset_bottom = -131.00003
 grow_vertical = 2
 theme = ExtResource("3_u3jch")
 theme_override_font_sizes/font_size = 28
 text = "MENU"
 
 [node name="BtnStart" type="Button" parent="ColorRect" unique_id=673048818]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -186.83246
-offset_top = 16.0
+offset_left = -191.0
+offset_top = 13.0
 offset_right = -10.209473
-offset_bottom = -10.0
+offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 2
 theme = ExtResource("3_u3jch")
-theme_override_font_sizes/font_size = 96
+theme_override_font_sizes/font_size = 56
 text = "GO"
 
+[node name="ColorRect2" type="ColorRect" parent="ColorRect" unique_id=1448773503]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -362.0
+offset_top = -82.5
+offset_right = -201.0
+offset_bottom = -21.5
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.13333334, 0.09411765, 0.1882353, 1)
+
+[node name="Label" type="Label" parent="ColorRect/ColorRect2" unique_id=1236996474]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.3764706, 0.8666667, 0.1254902, 1)
+text = "TOWER HEALTH"
+horizontal_alignment = 1
+
+[node name="TowerHealth" type="ProgressBar" parent="ColorRect/ColorRect2" unique_id=217615784]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -32.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6901961, 1, 0.3764706, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_u3jch")
+theme_override_styles/fill = SubResource("StyleBoxFlat_slqsk")
+max_value = 1.0
+value = 1.0
+
+[node name="ColorRect3" type="ColorRect" parent="ColorRect" unique_id=660700477]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -362.0
+offset_top = 0.5
+offset_right = -201.0
+offset_bottom = 87.5
+grow_horizontal = 0
+grow_vertical = 2
+color = Color(0.13333334, 0.09411765, 0.1882353, 1)
+
+[node name="Label" type="Label" parent="ColorRect/ColorRect3" unique_id=413776291]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.3764706, 0.8666667, 0.1254902, 1)
+text = "CURRENCY"
+horizontal_alignment = 1
+
+[node name="CurrencyAmount" type="Label" parent="ColorRect/ColorRect3" unique_id=437158657]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -61.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.3764706, 0.8666667, 0.1254902, 1)
+theme_override_font_sizes/font_size = 40
+text = "$ 0000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicRate" to="." method="_handle_upgrade_purchased"]
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicSpeed" to="." method="_handle_upgrade_purchased"]
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicDamage" to="." method="_handle_upgrade_purchased"]
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavyRate" to="." method="_handle_upgrade_purchased"]
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavySpeed" to="." method="_handle_upgrade_purchased"]
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavyDamage" to="." method="_handle_upgrade_purchased"]
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicRate" to="." method="_handle_upgrade_purchased"]
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicSpeed" to="." method="_handle_upgrade_purchased"]
+[connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicDamage" to="." method="_handle_upgrade_purchased"]
 [connection signal="pressed" from="ColorRect/BtnMenu" to="." method="_on_btn_menu_pressed"]
 [connection signal="pressed" from="ColorRect/BtnStart" to="." method="_on_btn_start_pressed"]

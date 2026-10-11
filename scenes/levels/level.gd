@@ -3,7 +3,7 @@ extends Node2D
 
 
 signal tower_damaged(amount: float)
-signal tower_destroyed()
+signal tower_destroyed(amount: float)
 
 @onready var tower: Tower = $Tower
 @onready var spawner: Spawner = $Spawner
@@ -13,6 +13,8 @@ var standby: bool = true
 
 
 func start() -> void:
+	TowerHealth.set_max(tower.health)
+	
 	standby = false
 
 
@@ -43,5 +45,5 @@ func _handle_attack(damage: float) -> void:
 	tower_damaged.emit(damage)
 
 
-func _handle_destroyed() -> void:
-	tower_destroyed.emit()
+func _handle_destroyed(amount: float) -> void:
+	tower_destroyed.emit(amount)

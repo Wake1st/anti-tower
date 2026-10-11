@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://cna8lt2ypypih"]
+
+[ext_resource type="Script" uid="uid://c7ixmton47j00" path="res://scenes/levels/level.gd" id="1_fmg3e"]
+[ext_resource type="PackedScene" uid="uid://cagxv72k4jdgj" path="res://systems/highway.tscn" id="2_ftfob"]
+[ext_resource type="PackedScene" uid="uid://catj20am8qj6w" path="res://systems/tower.tscn" id="3_fkk1g"]
+[ext_resource type="PackedScene" uid="uid://dejixxsy8uecn" path="res://systems/turret.tscn" id="4_ugcn1"]
+[ext_resource type="PackedScene" uid="uid://c4xsgw5uaw6lq" path="res://systems/spawner.tscn" id="5_pimnq"]
+
+[sub_resource type="Curve2D" id="Curve2D_2bnyt"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -854, -99, -7.0780067, 144.26332, 7.0780067, -144.26332, 205, -204, 3.9930038, 163.713, -3.9930038, -163.713, -922, -312, -10.243853, 169.50528, 10.243853, -169.50528, 199, -441, -5.3240128, 165.044, 5.3240128, -165.044, -928, -549, 0, 0, 0, 0, 75, -665)
+}
+point_count = 6
+
+[node name="Level3" type="Node2D" unique_id=1211911148]
+script = ExtResource("1_fmg3e")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1720143507]
+anchor_mode = 0
+
+[node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("2_ftfob")]
+position = Vector2(970, 760)
+curve = SubResource("Curve2D_2bnyt")
+
+[node name="Tower" parent="." unique_id=699395279 instance=ExtResource("3_fkk1g")]
+position = Vector2(1113, 121)
+health = 26.0
+points = 48.0
+
+[node name="Turret" parent="Tower" unique_id=815908323 instance=ExtResource("4_ugcn1")]
+position = Vector2(-124, 404)
+rate_of_fire = 0.34
+
+[node name="Turret2" parent="Tower" unique_id=330163375 instance=ExtResource("4_ugcn1")]
+position = Vector2(-822, 298)
+rate_of_fire = 0.34
+
+[node name="Turret3" parent="Tower" unique_id=1084841011 instance=ExtResource("4_ugcn1")]
+position = Vector2(-132, 187)
+rate_of_fire = 0.34
+
+[node name="Turret4" parent="Tower" unique_id=764363216 instance=ExtResource("4_ugcn1")]
+position = Vector2(-840, 115)
+rate_of_fire = 0.34
+
+[node name="Turret5" parent="Tower" unique_id=1561727275 instance=ExtResource("4_ugcn1")]
+position = Vector2(-826, 419)
+rate_of_fire = 0.34
+
+[node name="Spawner" parent="." unique_id=1976013547 instance=ExtResource("5_pimnq")]
+position = Vector2(64, 649)
+spawn_type = 1
+units_per_second = 0.6

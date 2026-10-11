@@ -4,8 +4,10 @@ extends Node
 
 const levels: Array[String] = [
 	"res://scenes/levels/level_0.tscn",
-	"res://scenes/levels/level_1.tscn",
-	"res://scenes/levels/level_2.tscn"
+	#"res://scenes/levels/level_1.tscn",
+	#"res://scenes/levels/level_2.tscn",
+	#"res://scenes/levels/level_3.tscn",
+	"res://scenes/levels/level_4.tscn"
 ]
 
 @onready var game: Game = $Game
@@ -17,17 +19,18 @@ var current_scene: Node
 
 func _ready() -> void:
 	#DataAccess.load_user_data()
+	Score.add_points(100)
 	scene_path = levels[0]
 	
 	main_menu.play_level.connect(_handle_level_selected)
 	game.return_to_main.connect(_handle_return_selected)
+	game.reset_selected.connect(_handle_reset_selected)
 	game.next_level_selected.connect(_handle_next_level)
 
 
 func _process(_delta) -> void:
 	var progress = []
 	ResourceLoader.load_threaded_get_status(scene_path, progress)
-	print("prog: ", progress)
 	
 	if progress[0] == 1:
 		# set new scene
@@ -42,6 +45,10 @@ func _handle_return_selected() -> void:
 	main_menu.open()
 
 
+func _handle_reset_selected() -> void:
+	_load_scene(scene_path)
+
+
 func _handle_level_selected() -> void:
 	_load_scene(scene_path)
 
@@ -51,6 +58,8 @@ func _handle_next_level() -> void:
 	if next_level_index == levels.size():
 		# game over man
 		next_level_index = 0
+		scene_path = levels[0]
+		main_menu.open()
 	else:
 		var path = levels[next_level_index]
 		_load_scene(path)

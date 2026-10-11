@@ -13,6 +13,30 @@ enum Set {
 	MAGIC_DAMAGE
 }
 
+static var lib_start: Dictionary[Set, float] = {
+	Set.BASIC_RATE: 0.6,
+	Set.BASIC_SPEED: 4.0,
+	Set.BASIC_DAMAGE: 1.0,
+	Set.HEAVY_RATE: 0.1,
+	Set.HEAVY_SPEED: 1.2,
+	Set.HEAVY_DAMAGE: 3.4,
+	Set.MAGIC_RATE: 0.2,
+	Set.MAGIC_SPEED: 2.6,
+	Set.MAGIC_DAMAGE: 0.0
+}
+
+static var cost_start: Dictionary[Set, float] = {
+	Set.BASIC_RATE: 1,
+	Set.BASIC_SPEED: 1,
+	Set.BASIC_DAMAGE: 1,
+	Set.HEAVY_RATE: 1,
+	Set.HEAVY_SPEED: 1,
+	Set.HEAVY_DAMAGE: 1,
+	Set.MAGIC_RATE: 1,
+	Set.MAGIC_SPEED: 1,
+	Set.MAGIC_DAMAGE: 1
+}
+
 static var lib: Dictionary[Set, float] = {
 	Set.BASIC_RATE: 0.6,
 	Set.BASIC_SPEED: 4.0,
@@ -48,6 +72,12 @@ static var cost: Dictionary[Set, float] = {
 	Set.MAGIC_SPEED: 1,
 	Set.MAGIC_DAMAGE: 1
 }
+
+
+static func reset() -> void:
+	for item in lib.keys():
+		lib[item] = lib_start[item]
+		cost[item] = cost_start[item]
 
 
 static func get_cost(spawner: Types.Spawn, upgrade: Types.Upgrade) -> float:

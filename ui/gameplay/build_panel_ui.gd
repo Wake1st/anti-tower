@@ -19,6 +19,7 @@ func reset() -> void:
 	_update()
 	
 	tower_health.value = 1.0
+	btn_start.text = "GO"
 
 
 func tower_damaged(amount: float) -> void:

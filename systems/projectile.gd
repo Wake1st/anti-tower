@@ -4,7 +4,9 @@ extends CharacterBody2D
 
 const SPEED_BOOST: float = 100
 
-@export var speed: float = 3.0
+@export var speed: float = 9.0
+
+@onready var sprite: Sprite2D = $Sprite2D
 
 var target: Unit
 
@@ -22,7 +24,10 @@ func _physics_process(delta: float) -> void:
 	if target == null:
 		destroy()
 	else:
-		var movement = (
-			target.global_position - global_position
-		).normalized() * SPEED_BOOST * speed * delta
+		# move towards target
+		var norm = (target.global_position - global_position).normalized()
+		var movement = norm * SPEED_BOOST * speed * delta
 		move_and_collide(movement)
+		
+		# face target
+		global_rotation = norm.angle()

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://f3hy53uyvlmu" path="res://systems/turret.gd" id="1_pgawy"]
 [ext_resource type="Texture2D" uid="uid://18g54w6sr0sw" path="res://assets/sprites/TURRET_BODY.png" id="2_pgawy"]
 [ext_resource type="Texture2D" uid="uid://cj50i7kx3ngkx" path="res://assets/sprites/TURRET _BARREL.png" id="3_7ya63"]
+[ext_resource type="AudioStream" uid="uid://505kg0o6okmq" path="res://assets/sfx/Blaster.wav" id="4_njj86"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q8uxy"]
 radius = 200.0
@@ -31,6 +32,10 @@ rotation = 1.1447945
 scale = Vector2(2, 2)
 texture = ExtResource("3_7ya63")
 flip_h = true
+
+[node name="ShootSFX" type="AudioStreamPlayer2D" parent="." unique_id=307676043]
+stream = ExtResource("4_njj86")
+bus = &"SFX"
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

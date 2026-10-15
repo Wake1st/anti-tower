@@ -15,6 +15,10 @@ run/main_scene="uid://d8d5xdtfdw1l"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://assets/icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://bsn81vgxc221e"
+
 [display]
 
 window/size/viewport_width=1200
@@ -30,6 +34,10 @@ folder_colors={
 "res://tests/": "red",
 "res://ui/": "orange"
 }
+
+[global_group]
+
+unit=""
 
 [input]
 

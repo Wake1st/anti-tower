@@ -12,6 +12,11 @@ signal next_level_selected()
 @onready var score_panel_ui: ScorePanelUI = %ScorePanelUI
 @onready var level: Level
 
+@onready var begin_sfx: AudioStreamPlayer = $BeginSFX
+@onready var win_sfx: AudioStreamPlayer = $WinSFX
+@onready var select_sfx: AudioStreamPlayer = $SelectSFX
+@onready var deselect_sfx: AudioStreamPlayer = $DeselectSFX
+
 
 func run(lvl: Level) -> void:
 	if level:
@@ -43,41 +48,49 @@ func _ready() -> void:
 func _input(event) -> void:
 	if event.is_action("pause_game"):
 		pause_menu_ui.focus()
+		select_sfx.play()
 
 
 func _handle_resume_selected() -> void:
-	pass
+	deselect_sfx.play()
 
 
 func _handle_settings_selected() -> void:
 	pause_menu_ui.visible = false
 	settings_menu_ui.focus()
+	select_sfx.play()
 
 
 func _handle_menu_selected() -> void:
 	# exit level
 	return_to_main.emit()
+	deselect_sfx.play()
 
 
 func _handle_next_level() -> void:
 	next_level_selected.emit()
+	select_sfx.play()
 
 
 func _handle_return_selected() -> void:
 	pause_menu_ui.focus()
+	deselect_sfx.play()
 
 
 func _handle_pause_selected() -> void:
 	pause_menu_ui.focus()
+	select_sfx.play()
 
 
 func _handle_start_selected() -> void:
 	level.start()
+	begin_sfx.play()
 
 
 func _handle_stop_selected() -> void:
 	level.stop()
 	reset_selected.emit()
+	deselect_sfx.play()
 
 
 func _handle_tower_damaged(amount: float) -> void:
@@ -89,6 +102,8 @@ func _handle_tower_destroyed(amount: float) -> void:
 	
 	level.stop()
 	score_panel_ui.open()
+	
+	win_sfx.play()
 
 
 func _plugin_level() -> void:

@@ -6,7 +6,9 @@ signal tower_damaged(amount: float)
 signal tower_destroyed(amount: float)
 
 @onready var tower: Tower = $Tower
-@onready var spawner: Spawner = $Spawner
+@onready var basic_spawner: Spawner = $BasicSpawner
+@onready var heavy_spawner: Spawner = $HeavySpawner
+@onready var magic_spawner: Spawner = $MagicSpawner
 @onready var highway: Highway = $Highway
 
 var standby: bool = true
@@ -23,7 +25,9 @@ func stop() -> void:
 
 
 func _ready() -> void:
-	spawner.spawn.connect(_handle_spawn)
+	basic_spawner.spawn.connect(_handle_spawn)
+	heavy_spawner.spawn.connect(_handle_spawn)
+	magic_spawner.spawn.connect(_handle_spawn)
 	highway.attack.connect(_handle_attack)
 	tower.destroyed.connect(_handle_destroyed)
 
@@ -31,7 +35,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if standby: return
 	
-	spawner.process(delta)
+	basic_spawner.process(delta)
+	heavy_spawner.process(delta)
+	magic_spawner.process(delta)
 	highway.process(delta)
 
 

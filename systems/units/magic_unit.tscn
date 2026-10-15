@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://wwrdl40up8le"]
+
+[ext_resource type="Script" uid="uid://bko2vkp3piab4" path="res://systems/units/unit.gd" id="1_f1spt"]
+[ext_resource type="Texture2D" uid="uid://ctgvd4xejs0p6" path="res://assets/sprites/MONSTER _MAGIC.png" id="2_0ql7j"]
+[ext_resource type="AudioStream" uid="uid://bndydc0w68hcp" path="res://assets/sfx/Organic_SquashPop_Magic.wav" id="3_hqsly"]
+[ext_resource type="AudioStream" uid="uid://vuvuorv7q8o1" path="res://assets/sfx/Building_Strike_Magic.wav" id="4_hqsly"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f5lbv"]
+radius = 21.0
+height = 46.0
+
+[node name="MagicUnit" type="PathFollow2D" unique_id=346318667 groups=["unit"]]
+loop = false
+script = ExtResource("1_f1spt")
+spawn_type = 3
+death_wav = ExtResource("3_hqsly")
+hit_wav = ExtResource("4_hqsly")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1005235014]
+position = Vector2(3, -15)
+texture = ExtResource("2_0ql7j")
+flip_h = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=969959632]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1762265400]
+position = Vector2(6, -13)
+shape = SubResource("CapsuleShape2D_f5lbv")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -12,6 +12,8 @@ const CURRENCY_LABEL: String = "$ %s"
 @onready var tower_health: ProgressBar = %TowerHealth
 @onready var currency_amount: Label = %CurrencyAmount
 
+@onready var purchase_sfx: AudioStreamPlayer = $PurchaseSFX
+
 var running: bool
 
 
@@ -35,9 +37,11 @@ func _update() -> void:
 
 func _handle_upgrade_purchased() -> void:
 	_update()
+	
+	purchase_sfx.play()
 
 
-func _on_btn_menu_pressed() -> void:
+func _on_btn_pause_pressed() -> void:
 	pause_selected.emit()
 
 

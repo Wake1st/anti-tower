@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://c4xsgw5uaw6lq"]
 
 [ext_resource type="Script" uid="uid://dgosjoj7p0kb6" path="res://systems/spawner.gd" id="1_im8li"]
-[ext_resource type="Texture2D" uid="uid://6roqmpw23jc0" path="res://assets/sprites/SPAWNING PORTAL _GOBLIN.png" id="2_im8li"]
 
-[node name="Spawner" type="Node2D" unique_id=1976013547]
+[node name="Spawner" type="Sprite2D" unique_id=822408826]
 script = ExtResource("1_im8li")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=153048389]
-texture = ExtResource("2_im8li")
+[node name="SpawnSFX" type="AudioStreamPlayer2D" parent="." unique_id=1293867363]
+bus = &"SFX"

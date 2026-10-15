@@ -4,9 +4,13 @@ extends PathFollow2D
 
 const SPEED_DAMP: float = 0.01
 
+signal attacked(unit: Unit)
 signal finished(unit: Unit)
 
 @export var spawn_type: Types.Spawn
+@export var death_wav: AudioStreamWAV
+@export var hit_wav: AudioStreamWAV
+
 @export var speed: float = 4.0
 @export var damage: float = 1.0
 
@@ -29,4 +33,4 @@ func _ready() -> void:
 
 func _on_area_2d_body_entered(body: Projectile) -> void:
 	body.destroy()
-	destroy()
+	attacked.emit(self)

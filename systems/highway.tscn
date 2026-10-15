@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cagxv72k4jdgj"]
 
 [ext_resource type="Script" uid="uid://dnnj4psvo6x83" path="res://systems/highway.gd" id="1_5h178"]
+[ext_resource type="PackedScene" uid="uid://vsi6posj0lvw" path="res://systems/sfx_manager.tscn" id="2_q5frp"]
 
 [sub_resource type="Curve2D" id="Curve2D_nqpu1"]
 _data = {
@@ -11,3 +12,5 @@ point_count = 8
 [node name="Highway" type="Path2D" unique_id=1166710709]
 curve = SubResource("Curve2D_nqpu1")
 script = ExtResource("1_5h178")
+
+[node name="SFXManager" parent="." unique_id=603680970 instance=ExtResource("2_q5frp")]

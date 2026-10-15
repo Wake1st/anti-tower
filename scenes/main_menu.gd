@@ -8,6 +8,9 @@ signal play_level()
 @onready var settings_menu_ui: SettingsMenuUI = $SettingsMenuUI
 @onready var credits_menu_ui: CreditsMenuUI = $CreditsMenuUI
 
+@onready var select_sfx: AudioStreamPlayer = $SelectSFX
+@onready var deselect_sfx: AudioStreamPlayer = $DeselectSFX
+
 var control: Control
 
 
@@ -27,15 +30,19 @@ func _ready() -> void:
 func _handle_play_selected() -> void:
 	main_menu_ui.visible = false
 	play_level.emit()
+	select_sfx.play()
 
 
 func _handle_settings_selected() -> void:
 	settings_menu_ui.focus()
+	select_sfx.play()
 
 
 func _handle_credits_selected() -> void:
 	credits_menu_ui.focus()
+	select_sfx.play()
 
 
 func _handle_return_selected() -> void:
 	main_menu_ui.focus()
+	deselect_sfx.play()

@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://c2onu8wxyouay" path="res://ui/menus/main_menu_ui.tscn" id="2_wu84c"]
 [ext_resource type="PackedScene" uid="uid://dn24f3wk3futr" path="res://ui/menus/settings_menu_ui.tscn" id="3_8ln24"]
 [ext_resource type="PackedScene" uid="uid://dy321iwuayi5w" path="res://ui/menus/credits_menu_ui.tscn" id="4_wu84c"]
+[ext_resource type="AudioStream" uid="uid://5h413dmbk2p4" path="res://assets/sfx/UI_Button_Click_Positive.wav" id="5_8ln24"]
+[ext_resource type="AudioStream" uid="uid://cp58gs7ofhqa3" path="res://assets/sfx/UI_Button_Click_Negative.wav" id="6_rtw2f"]
 
 [node name="MainMenu" type="CanvasLayer" unique_id=2048161399]
 script = ExtResource("1_bqqt6")
@@ -12,10 +14,17 @@ script = ExtResource("1_bqqt6")
 mouse_filter = 2
 
 [node name="SettingsMenuUI" parent="." unique_id=1973352614 instance=ExtResource("3_8ln24")]
-process_mode = 0
 visible = false
 mouse_filter = 2
 
 [node name="CreditsMenuUI" parent="." unique_id=118515599 instance=ExtResource("4_wu84c")]
 visible = false
 mouse_filter = 2
+
+[node name="SelectSFX" type="AudioStreamPlayer" parent="." unique_id=896585756]
+stream = ExtResource("5_8ln24")
+bus = &"SFX"
+
+[node name="DeselectSFX" type="AudioStreamPlayer" parent="." unique_id=363483375]
+stream = ExtResource("6_rtw2f")
+bus = &"SFX"

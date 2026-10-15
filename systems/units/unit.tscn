@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://5exn17g76420"]
 
-[ext_resource type="Script" uid="uid://bko2vkp3piab4" path="res://systems/unit.gd" id="1_tbnru"]
-[ext_resource type="Texture2D" uid="uid://bfrmgwk2mdwgy" path="res://assets/sprites/MONSTER _GOBLIN.png" id="2_tbnru"]
+[ext_resource type="Script" uid="uid://bko2vkp3piab4" path="res://systems/units/unit.gd" id="1_ijrb3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fknq4"]
 radius = 18.0
@@ -9,12 +8,11 @@ height = 46.0
 
 [node name="Unit" type="PathFollow2D" unique_id=832900579]
 loop = false
-script = ExtResource("1_tbnru")
+script = ExtResource("1_ijrb3")
 speed = 7.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=72296144]
 position = Vector2(3, -15)
-texture = ExtResource("2_tbnru")
 flip_h = true
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1278146321]

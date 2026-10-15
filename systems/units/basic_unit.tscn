@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dle57kaif558s"]
+
+[ext_resource type="Script" uid="uid://bko2vkp3piab4" path="res://systems/units/unit.gd" id="1_rxbcn"]
+[ext_resource type="Texture2D" uid="uid://bfrmgwk2mdwgy" path="res://assets/sprites/MONSTER _GOBLIN.png" id="1_wy5ws"]
+[ext_resource type="AudioStream" uid="uid://dcbu1aha7p0cl" path="res://assets/sfx/Organic_SquashPop_Goblin.wav" id="3_6bm6b"]
+[ext_resource type="AudioStream" uid="uid://dwuh2ei1jg243" path="res://assets/sfx/Building_Strike_Goblin.wav" id="3_qj50b"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rxbcn"]
+radius = 18.0
+height = 42.0
+
+[node name="BasicUnit" type="PathFollow2D" unique_id=472762116 groups=["unit"]]
+loop = false
+script = ExtResource("1_rxbcn")
+spawn_type = 1
+death_wav = ExtResource("3_6bm6b")
+hit_wav = ExtResource("3_qj50b")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=957317843]
+position = Vector2(3, -15)
+texture = ExtResource("1_wy5ws")
+flip_h = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1374397656]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2138549645]
+position = Vector2(5, -15)
+shape = SubResource("CapsuleShape2D_rxbcn")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

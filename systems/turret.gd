@@ -9,6 +9,7 @@ var cooldown: float
 
 @onready var base_sprite: Sprite2D = $BaseSprite
 @onready var barrel_pivot: Node2D = $BarrelPivot
+@onready var shoot_sfx: AudioStreamPlayer2D = $ShootSFX
 
 var targets: Array[Unit]
 
@@ -43,6 +44,8 @@ func _fire(target: Unit) -> void:
 	var projectile: Projectile = PROJECTILE.instantiate()
 	add_child(projectile)
 	projectile.fire(target)
+	
+	shoot_sfx.play()
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:

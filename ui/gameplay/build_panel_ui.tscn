@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cyp0vsknbcoxc" path="res://ui/gameplay/build_panel_ui.gd" id="1_k2r3w"]
 [ext_resource type="PackedScene" uid="uid://g5ur46er5jwy" path="res://ui/gameplay/btn_upgrade.tscn" id="2_u3jch"]
 [ext_resource type="Theme" uid="uid://b6ynjc8svelca" path="res://assets/themes/button_theme.tres" id="3_u3jch"]
+[ext_resource type="AudioStream" uid="uid://db1037nk5f3pj" path="res://assets/sfx/Purchase.wav" id="4_slqsk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u3jch"]
 bg_color = Color(1, 0.2509804, 0.2509804, 1)
@@ -138,7 +139,7 @@ layout_mode = 2
 upgrade_type = 2
 spawn_type = 3
 
-[node name="BtnMenu" type="Button" parent="ColorRect" unique_id=700398578]
+[node name="BtnPause" type="Button" parent="ColorRect" unique_id=700398578]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -149,7 +150,7 @@ offset_bottom = -131.00003
 grow_vertical = 2
 theme = ExtResource("3_u3jch")
 theme_override_font_sizes/font_size = 28
-text = "MENU"
+text = "PAUSE"
 
 [node name="BtnStart" type="Button" parent="ColorRect" unique_id=673048818]
 unique_name_in_owner = true
@@ -253,6 +254,10 @@ text = "$ 0000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PurchaseSFX" type="AudioStreamPlayer" parent="." unique_id=1840620220]
+stream = ExtResource("4_slqsk")
+bus = &"SFX"
+
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicRate" to="." method="_handle_upgrade_purchased"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicSpeed" to="." method="_handle_upgrade_purchased"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicDamage" to="." method="_handle_upgrade_purchased"]
@@ -262,5 +267,5 @@ vertical_alignment = 1
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicRate" to="." method="_handle_upgrade_purchased"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicSpeed" to="." method="_handle_upgrade_purchased"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicDamage" to="." method="_handle_upgrade_purchased"]
-[connection signal="pressed" from="ColorRect/BtnMenu" to="." method="_on_btn_menu_pressed"]
+[connection signal="pressed" from="ColorRect/BtnPause" to="." method="_on_btn_pause_pressed"]
 [connection signal="pressed" from="ColorRect/BtnStart" to="." method="_on_btn_start_pressed"]

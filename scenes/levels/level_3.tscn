@@ -5,6 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://catj20am8qj6w" path="res://systems/tower.tscn" id="3_fkk1g"]
 [ext_resource type="PackedScene" uid="uid://dejixxsy8uecn" path="res://systems/turret.tscn" id="4_ugcn1"]
 [ext_resource type="PackedScene" uid="uid://c4xsgw5uaw6lq" path="res://systems/spawner.tscn" id="5_pimnq"]
+[ext_resource type="Texture2D" uid="uid://6roqmpw23jc0" path="res://assets/sprites/SPAWNING PORTAL _GOBLIN.png" id="6_ugcn1"]
+[ext_resource type="PackedScene" uid="uid://dle57kaif558s" path="res://systems/units/basic_unit.tscn" id="7_fkk1g"]
+[ext_resource type="Texture2D" uid="uid://oy36o2pp1bgd" path="res://assets/sprites/SPAWNING PORTAL _BRUTE.png" id="7_pimnq"]
+[ext_resource type="Texture2D" uid="uid://duq2giy4upni6" path="res://assets/sprites/SPAWNING PORTAL _MAGIC.png" id="8_2bnyt"]
+[ext_resource type="AudioStream" uid="uid://d05kjdvsn7hnd" path="res://assets/sfx/Spawn_Goblin.wav" id="8_t4txi"]
+[ext_resource type="PackedScene" uid="uid://dmgnxurg6mt6t" path="res://systems/units/heavy_unit.tscn" id="9_pimnq"]
+[ext_resource type="AudioStream" uid="uid://imucnutvo8ne" path="res://assets/sfx/Spawn_Heavy.wav" id="11_apo5x"]
+[ext_resource type="PackedScene" uid="uid://wwrdl40up8le" path="res://systems/units/magic_unit.tscn" id="11_n6eey"]
+[ext_resource type="AudioStream" uid="uid://bogf0dwil4oie" path="res://assets/sfx/Spawn_Magic.wav" id="14_josfm"]
 
 [sub_resource type="Curve2D" id="Curve2D_2bnyt"]
 _data = {
@@ -47,7 +56,26 @@ rate_of_fire = 0.34
 position = Vector2(-826, 419)
 rate_of_fire = 0.34
 
-[node name="Spawner" parent="." unique_id=1976013547 instance=ExtResource("5_pimnq")]
-position = Vector2(64, 649)
+[node name="BasicSpawner" parent="." unique_id=822408826 instance=ExtResource("5_pimnq")]
+position = Vector2(124, 696)
+texture = ExtResource("6_ugcn1")
 spawn_type = 1
+unit_scene = ExtResource("7_fkk1g")
+spawn_wav = ExtResource("8_t4txi")
+units_per_second = 0.6
+
+[node name="HeavySpawner" parent="." unique_id=1299307810 instance=ExtResource("5_pimnq")]
+position = Vector2(72, 657)
+texture = ExtResource("7_pimnq")
+spawn_type = 2
+unit_scene = ExtResource("9_pimnq")
+spawn_wav = ExtResource("11_apo5x")
+units_per_second = 0.6
+
+[node name="MagicSpawner" parent="." unique_id=546733360 instance=ExtResource("5_pimnq")]
+position = Vector2(119, 620)
+texture = ExtResource("8_2bnyt")
+spawn_type = 3
+unit_scene = ExtResource("11_n6eey")
+spawn_wav = ExtResource("14_josfm")
 units_per_second = 0.6

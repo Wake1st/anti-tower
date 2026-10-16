@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://catj20am8qj6w"]
 
 [ext_resource type="Script" uid="uid://c0dg3kymw2r0l" path="res://systems/tower.gd" id="1_vtpp7"]
-[ext_resource type="Texture2D" uid="uid://u5g3m0pkrfam" path="res://assets/sprites/TOWER.png" id="2_vtpp7"]
+[ext_resource type="Texture2D" uid="uid://bg5wbkwhhggij" path="res://assets/sprites/TOWER_BIG.png" id="2_vtpp7"]
 
 [node name="Tower" type="Node2D" unique_id=699395279]
 script = ExtResource("1_vtpp7")

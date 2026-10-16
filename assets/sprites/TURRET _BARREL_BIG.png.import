@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yuegoys7go4n"
-path="res://.godot/imported/footman.png-ebd7e880cbdf6b19a7a462bd3f5d6519.ctex"
+uid="uid://1pwqgsjdhf21"
+path="res://.godot/imported/TURRET _BARREL_BIG.png-a34691a9f4797f214c5be5b6bf0cb1f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/footman.png"
-dest_files=["res://.godot/imported/footman.png-ebd7e880cbdf6b19a7a462bd3f5d6519.ctex"]
+source_file="res://assets/sprites/TURRET _BARREL_BIG.png"
+dest_files=["res://.godot/imported/TURRET _BARREL_BIG.png-a34691a9f4797f214c5be5b6bf0cb1f1.ctex"]
 
 [params]
 

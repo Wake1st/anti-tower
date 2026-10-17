@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c7ixmton47j00" path="res://scenes/levels/level.gd" id="1_06474"]
 [ext_resource type="PackedScene" uid="uid://cagxv72k4jdgj" path="res://systems/highway.tscn" id="2_anwe6"]
+[ext_resource type="Texture2D" uid="uid://cbqe5afhsvatj" path="res://assets/sprites/MAP4.png" id="2_ov8fk"]
 [ext_resource type="PackedScene" uid="uid://catj20am8qj6w" path="res://systems/tower.tscn" id="3_rej77"]
 [ext_resource type="PackedScene" uid="uid://dejixxsy8uecn" path="res://systems/turret.tscn" id="4_5vn0v"]
 [ext_resource type="PackedScene" uid="uid://c4xsgw5uaw6lq" path="res://systems/spawner.tscn" id="5_ts8eg"]
@@ -17,48 +18,60 @@
 
 [sub_resource type="Curve2D" id="Curve2D_um320"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 122, -137, 11.224918, 435.8619, -11.224918, -435.8619, -939, -362, -1.8563843, -424.4518, 1.8563843, 424.4518, 69, -427, -97.86303, 266.59122, 97.86303, -266.59122, -850, -389, -108.88393, -235.76285, 108.88393, 235.76285, -22, -483, 49.603714, 165.10951, -49.603714, -165.10951, -724, -358, -43.22611, -141.01631, 43.22611, 141.01631, -116, -465, 0, 0, 0, 0, -490, -407)
+"points": PackedVector2Array(0, 0, 0, 0, 101, -104, 229.9, -16.940002, -229.9, 16.940002, -297, -67, -52.078976, 268.1911, 52.078976, -268.1911, -949, -385, -152.4485, -34.01255, 152.4485, 34.01255, -420, -717, -17.371996, -314.84668, 17.371996, 314.84668, 80, -429, 104.5, 27.5, -104.5, -27.5, -512, -151, -56.074455, 159.21703, 56.074455, -159.21703, -849, -387, -92.4, 20.9, 92.4, -20.9, -571, -591, -80.28392, -206.06285, 80.28392, 206.06285, -32, -487, 93.5, -5.5, -93.5, 5.5, -374, -257, -0.99628735, 96.90951, 0.99628735, -96.90951, -730, -375, -92.4, 9.900001, 92.4, -9.900001, -441, -529, 41.988316, -106.29791, -41.988316, 106.29791, -107, -430, 0, 0, 0, 0, -355, -390)
 }
-point_count = 8
+point_count = 14
 
 [node name="Level4" type="Node2D" unique_id=15890281]
 script = ExtResource("1_06474")
 
+[node name="Background" type="Sprite2D" parent="." unique_id=529288266]
+texture = ExtResource("2_ov8fk")
+centered = false
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=888432805]
 anchor_mode = 0
 
-[node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("2_anwe6")]
-position = Vector2(967, 763)
-curve = SubResource("Curve2D_um320")
-
 [node name="Tower" parent="." unique_id=699395279 instance=ExtResource("3_rej77")]
-position = Vector2(424, 384)
+y_sort_enabled = true
+position = Vector2(573, 328)
 health = 34.0
-points = 56.0
+points = 45.0
 
 [node name="Turret" parent="Tower" unique_id=815908323 instance=ExtResource("4_5vn0v")]
-position = Vector2(-247, 11)
+y_sort_enabled = true
+position = Vector2(-383, 60)
 rate_of_fire = 0.34
 
 [node name="Turret2" parent="Tower" unique_id=2137490473 instance=ExtResource("4_5vn0v")]
-position = Vector2(-15, -172)
+y_sort_enabled = true
+position = Vector2(-157, -147)
 rate_of_fire = 0.34
 
 [node name="Turret3" parent="Tower" unique_id=436383758 instance=ExtResource("4_5vn0v")]
-position = Vector2(318, -182)
+y_sort_enabled = true
+position = Vector2(208, -152)
 rate_of_fire = 0.34
 
 [node name="Turret4" parent="Tower" unique_id=218854251 instance=ExtResource("4_5vn0v")]
-position = Vector2(480, -34)
+y_sort_enabled = true
+position = Vector2(432, -20)
 rate_of_fire = 0.34
 
 [node name="Turret5" parent="Tower" unique_id=80855196 instance=ExtResource("4_5vn0v")]
-position = Vector2(312, 126)
+y_sort_enabled = true
+position = Vector2(218, 193)
 rate_of_fire = 0.34
 
 [node name="Turret6" parent="Tower" unique_id=1216643330 instance=ExtResource("4_5vn0v")]
-position = Vector2(-19, 126)
+y_sort_enabled = true
+position = Vector2(-125, 208)
 rate_of_fire = 0.34
+
+[node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("2_anwe6")]
+y_sort_enabled = true
+position = Vector2(967, 763)
+curve = SubResource("Curve2D_um320")
 
 [node name="BasicSpawner" parent="." unique_id=822408826 instance=ExtResource("5_ts8eg")]
 position = Vector2(1141, 627)

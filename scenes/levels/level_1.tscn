@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c7ixmton47j00" path="res://scenes/levels/level.gd" id="1_6761a"]
 [ext_resource type="PackedScene" uid="uid://cagxv72k4jdgj" path="res://systems/highway.tscn" id="1_x42e6"]
 [ext_resource type="PackedScene" uid="uid://catj20am8qj6w" path="res://systems/tower.tscn" id="2_6761a"]
+[ext_resource type="Texture2D" uid="uid://cd2myj5tpaudd" path="res://assets/sprites/MAP1.png" id="2_wtwp4"]
 [ext_resource type="PackedScene" uid="uid://dejixxsy8uecn" path="res://systems/turret.tscn" id="3_sk5k4"]
 [ext_resource type="PackedScene" uid="uid://c4xsgw5uaw6lq" path="res://systems/spawner.tscn" id="4_oc4kc"]
 [ext_resource type="Texture2D" uid="uid://6roqmpw23jc0" path="res://assets/sprites/SPAWNING PORTAL _GOBLIN.png" id="6_s8va5"]
@@ -17,35 +18,43 @@
 
 [sub_resource type="Curve2D" id="Curve2D_s8va5"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 101, -60, -135.479, 157.10933, 135.479, -157.10933, -859, -266, 231.99815, 88.31427, -231.99815, -88.31427, 6, -474, 0, 0, 0, 0, -888, -645)
+"points": PackedVector2Array(0, 0, 0, 0, 91, -21, -162.09901, 157.10933, 162.09901, -157.10933, -834, -250, 231.99815, 88.31427, -231.99815, -88.31427, 68, -468, 0, 0, 0, 0, -830, -643)
 }
 point_count = 4
 
 [node name="Level1" type="Node2D" unique_id=903164454]
 script = ExtResource("1_6761a")
 
+[node name="Background" type="Sprite2D" parent="." unique_id=222312241]
+texture = ExtResource("2_wtwp4")
+centered = false
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=131554037]
 anchor_mode = 0
 
-[node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("1_x42e6")]
-position = Vector2(967, 763)
-curve = SubResource("Curve2D_s8va5")
-
 [node name="Tower" parent="." unique_id=699395279 instance=ExtResource("2_6761a")]
-position = Vector2(77, 103)
+y_sort_enabled = true
+position = Vector2(95, 95)
 health = 15.0
-points = 22.0
+points = 15.0
 
 [node name="Turret" parent="Tower" unique_id=815908323 instance=ExtResource("3_sk5k4")]
-position = Vector2(599, 185)
+y_sort_enabled = true
+position = Vector2(618, 163)
 rate_of_fire = 0.34
 
 [node name="Turret2" parent="Tower" unique_id=803294119 instance=ExtResource("3_sk5k4")]
-position = Vector2(211, 417)
+y_sort_enabled = true
+position = Vector2(224, 424)
 rate_of_fire = 0.34
 
+[node name="Highway" parent="." unique_id=1166710709 instance=ExtResource("1_x42e6")]
+y_sort_enabled = true
+position = Vector2(967, 763)
+curve = SubResource("Curve2D_s8va5")
+
 [node name="BasicSpawner" parent="." unique_id=822408826 instance=ExtResource("4_oc4kc")]
-position = Vector2(1081, 664)
+position = Vector2(1064, 703)
 texture = ExtResource("6_s8va5")
 spawn_type = 1
 unit_scene = ExtResource("7_oc4kc")
@@ -53,7 +62,7 @@ spawn_wav = ExtResource("8_mm8aj")
 units_per_second = 0.6
 
 [node name="HeavySpawner" parent="." unique_id=973949092 instance=ExtResource("4_oc4kc")]
-position = Vector2(1059, 744)
+position = Vector2(1042, 783)
 texture = ExtResource("7_dga24")
 spawn_type = 2
 unit_scene = ExtResource("9_dga24")
@@ -61,7 +70,7 @@ spawn_wav = ExtResource("11_wtwp4")
 units_per_second = 0.6
 
 [node name="MagicSpawner" parent="." unique_id=1051684978 instance=ExtResource("4_oc4kc")]
-position = Vector2(1115, 708)
+position = Vector2(1098, 747)
 texture = ExtResource("8_qxy0u")
 spawn_type = 3
 unit_scene = ExtResource("11_excbq")

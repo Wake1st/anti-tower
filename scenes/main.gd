@@ -19,7 +19,7 @@ var current_scene: Node
 
 func _ready() -> void:
 	#DataAccess.load_user_data()
-	Score.add_points(100)
+	Score.add_points(5)
 	scene_path = levels[0]
 	
 	main_menu.play_level.connect(_handle_level_selected)

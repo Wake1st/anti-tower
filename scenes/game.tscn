@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://f4tysajhi532" path="res://assets/sfx/Level_Complete.wav" id="7_gee14"]
 [ext_resource type="AudioStream" uid="uid://5h413dmbk2p4" path="res://assets/sfx/UI_Button_Click_Positive.wav" id="8_0tnpc"]
 [ext_resource type="AudioStream" uid="uid://cp58gs7ofhqa3" path="res://assets/sfx/UI_Button_Click_Negative.wav" id="9_vtaks"]
+[ext_resource type="AudioStream" uid="uid://dyexr7gw72urh" path="res://assets/sfx/Level_Restart.wav" id="10_vtaks"]
 
 [node name="Game" type="Node" unique_id=1519597089]
 script = ExtResource("1_iywne")
@@ -20,16 +21,19 @@ unique_name_in_owner = true
 
 [node name="ScorePanelUI" parent="GameplayCanvas" unique_id=1689028540 instance=ExtResource("3_iywne")]
 unique_name_in_owner = true
+process_mode = 3
 
 [node name="MenuCanvas" type="CanvasLayer" parent="." unique_id=330982563]
 
 [node name="PauseMenuUI" parent="MenuCanvas" unique_id=789262559 instance=ExtResource("4_gee14")]
 unique_name_in_owner = true
+process_mode = 2
 visible = false
 mouse_filter = 2
 
 [node name="SettingsMenuUI" parent="MenuCanvas" unique_id=1973352614 instance=ExtResource("5_0tnpc")]
 unique_name_in_owner = true
+process_mode = 2
 visible = false
 mouse_filter = 2
 
@@ -37,14 +41,20 @@ mouse_filter = 2
 stream = ExtResource("6_u5sy4")
 bus = &"SFX"
 
+[node name="ResetSFX" type="AudioStreamPlayer" parent="." unique_id=843334849]
+stream = ExtResource("10_vtaks")
+bus = &"SFX"
+
 [node name="WinSFX" type="AudioStreamPlayer" parent="." unique_id=248340154]
 stream = ExtResource("7_gee14")
 bus = &"SFX"
 
 [node name="SelectSFX" type="AudioStreamPlayer" parent="." unique_id=491283591]
+process_mode = 3
 stream = ExtResource("8_0tnpc")
 bus = &"SFX"
 
 [node name="DeselectSFX" type="AudioStreamPlayer" parent="." unique_id=1847562452]
+process_mode = 3
 stream = ExtResource("9_vtaks")
 bus = &"SFX"

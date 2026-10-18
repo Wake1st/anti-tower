@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c3xw2b70mxphf" path="res://ui/menus/main_menu_ui.gd" id="1_5f3v2"]
 [ext_resource type="Theme" uid="uid://b6ynjc8svelca" path="res://assets/themes/button_theme.tres" id="2_mtq34"]
+[ext_resource type="AudioStream" uid="uid://u1qgp582x4bi" path="res://assets/sfx/UI_Hover.wav" id="3_2pit5"]
 
 [node name="MainMenuUI" type="Control" unique_id=1029722067]
 layout_mode = 3
@@ -55,6 +56,16 @@ theme = ExtResource("2_mtq34")
 theme_override_font_sizes/font_size = 64
 text = "CREDITS"
 
+[node name="HoverSFX" type="AudioStreamPlayer" parent="." unique_id=1012110911]
+stream = ExtResource("3_2pit5")
+bus = &"SFX"
+
+[connection signal="focus_entered" from="ColorRect/VBoxContainer/BtnPlay" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/VBoxContainer/BtnPlay" to="." method="_on_focus_entered"]
 [connection signal="pressed" from="ColorRect/VBoxContainer/BtnPlay" to="." method="_on_btn_play_pressed"]
+[connection signal="focus_entered" from="ColorRect/VBoxContainer/BtnSettings" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/VBoxContainer/BtnSettings" to="." method="_on_focus_entered"]
 [connection signal="pressed" from="ColorRect/VBoxContainer/BtnSettings" to="." method="_on_btn_settings_pressed"]
+[connection signal="focus_entered" from="ColorRect/VBoxContainer/BtnCredits" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/VBoxContainer/BtnCredits" to="." method="_on_focus_entered"]
 [connection signal="pressed" from="ColorRect/VBoxContainer/BtnCredits" to="." method="_on_btn_credits_pressed"]

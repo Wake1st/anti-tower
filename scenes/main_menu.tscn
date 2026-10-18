@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://cp58gs7ofhqa3" path="res://assets/sfx/UI_Button_Click_Negative.wav" id="6_rtw2f"]
 
 [node name="MainMenu" type="CanvasLayer" unique_id=2048161399]
+process_mode = 2
 script = ExtResource("1_bqqt6")
 
 [node name="MainMenuUI" parent="." unique_id=1029722067 instance=ExtResource("2_wu84c")]

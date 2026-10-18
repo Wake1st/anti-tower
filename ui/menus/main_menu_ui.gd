@@ -6,6 +6,8 @@ signal play_selected()
 signal settings_selected()
 signal credits_selected()
 
+@onready var hover_sfx: AudioStreamPlayer = $HoverSFX
+
 
 func focus() -> void:
 	visible = true
@@ -23,3 +25,7 @@ func _on_btn_settings_pressed() -> void:
 func _on_btn_credits_pressed() -> void:
 	visible = false
 	credits_selected.emit()
+
+
+func _on_focus_entered() -> void:
+	hover_sfx.play()

@@ -6,6 +6,7 @@ signal menu_selected()
 signal next_selected()
 
 @onready var player: AnimationPlayer = $AnimationPlayer
+@onready var hover_sfx: AudioStreamPlayer = $HoverSFX
 
 
 func open() -> void:
@@ -20,3 +21,7 @@ func _on_btn_next_level_pressed() -> void:
 func _on_btn_main_menu_pressed() -> void:
 	player.play_backwards("open")
 	menu_selected.emit()
+
+
+func _on_focus_entered() -> void:
+	hover_sfx.play()

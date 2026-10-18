@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://g5ur46er5jwy" path="res://ui/gameplay/btn_upgrade.tscn" id="2_u3jch"]
 [ext_resource type="Theme" uid="uid://b6ynjc8svelca" path="res://assets/themes/button_theme.tres" id="3_u3jch"]
 [ext_resource type="AudioStream" uid="uid://db1037nk5f3pj" path="res://assets/sfx/Purchase.wav" id="4_slqsk"]
+[ext_resource type="AudioStream" uid="uid://u1qgp582x4bi" path="res://assets/sfx/UI_Hover.wav" id="5_ehsfw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u3jch"]
 bg_color = Color(1, 0.2509804, 0.2509804, 1)
@@ -258,14 +259,40 @@ vertical_alignment = 1
 stream = ExtResource("4_slqsk")
 bus = &"SFX"
 
+[node name="HoverSFX" type="AudioStreamPlayer" parent="." unique_id=842279449]
+stream = ExtResource("5_ehsfw")
+bus = &"SFX"
+
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicRate" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicRate" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicRate" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicSpeed" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicSpeed" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicSpeed" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicDamage" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicDamage" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/BasicContainer/BtnBasicDamage" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavyRate" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavyRate" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavyRate" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavySpeed" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavySpeed" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavySpeed" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavyDamage" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavyDamage" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/HeavyContainer/BtnHeavyDamage" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicRate" to="." method="_on_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicRate" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicRate" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicSpeed" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicSpeed" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicSpeed" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicDamage" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicDamage" to="." method="_on_focus_entered"]
 [connection signal="upgrade_purchased" from="ColorRect/UpgradeContainer/MagicContainer/BtnMagicDamage" to="." method="_handle_upgrade_purchased"]
+[connection signal="focus_entered" from="ColorRect/BtnPause" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/BtnPause" to="." method="_on_focus_entered"]
 [connection signal="pressed" from="ColorRect/BtnPause" to="." method="_on_btn_pause_pressed"]
+[connection signal="focus_entered" from="ColorRect/BtnStart" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/BtnStart" to="." method="_on_focus_entered"]
 [connection signal="pressed" from="ColorRect/BtnStart" to="." method="_on_btn_start_pressed"]

@@ -2,43 +2,23 @@ class_name Main
 extends Node
 
 
-const levels: Array[String] = [
-	"res://scenes/levels/level_0.tscn",
-	"res://scenes/levels/level_1.tscn",
-	"res://scenes/levels/level_2.tscn",
-	"res://scenes/levels/level_3.tscn",
-	"res://scenes/levels/level_4.tscn"
-]
-
+@onready var loader: LevelLoader = $LevelLoader
 @onready var game: Game = $Game
 @onready var main_menu: MainMenu = $MainMenu
 
-var scene_path: String
-var current_scene: Node
-
 
 func _ready() -> void:
-	#DataAccess.load_user_data()
+	get_tree().paused = true
+	
+	GameData.load_user_data()
 	Score.add_points(5)
-	scene_path = levels[0]
 	
 	main_menu.play_level.connect(_handle_level_selected)
 	game.return_to_main.connect(_handle_return_selected)
 	game.reset_selected.connect(_handle_reset_selected)
 	game.next_level_selected.connect(_handle_next_level)
-
-
-func _process(_delta) -> void:
-	var progress = []
-	ResourceLoader.load_threaded_get_status(scene_path, progress)
-	
-	if progress[0] == 1:
-		# set new scene
-		var packed_scene: PackedScene = ResourceLoader.load_threaded_get(scene_path)
-		current_scene = packed_scene.instantiate()
-		
-		# connect the signals
-		game.run(current_scene)
+	loader.loaded.connect(_handle_level_loaded)
+	loader.ended.connect(_handle_levels_ended)
 
 
 func _handle_return_selected() -> void:
@@ -46,31 +26,20 @@ func _handle_return_selected() -> void:
 
 
 func _handle_reset_selected() -> void:
-	_load_scene(scene_path)
+	loader.load_current()
 
 
 func _handle_level_selected() -> void:
-	_load_scene(scene_path)
+	loader.load_current()
 
 
 func _handle_next_level() -> void:
-	var next_level_index = levels.rfind(scene_path) + 1
-	if next_level_index == levels.size():
-		# game over man
-		next_level_index = 0
-		scene_path = levels[0]
-		main_menu.open()
-	else:
-		var path = levels[next_level_index]
-		_load_scene(path)
+	loader.load_next()
 
 
-func _load_scene(path: String) -> void:
-	# remove old scene
-	if current_scene && current_scene.get_parent() == self:
-		remove_child(current_scene)
-		current_scene.queue_free()
-	
-	# load in new scene
-	scene_path = path
-	ResourceLoader.load_threaded_request(scene_path)
+func _handle_level_loaded(level: Level) -> void:
+	game.run(level)
+
+
+func _handle_levels_ended() -> void:
+	main_menu.open()

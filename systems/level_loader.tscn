@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bm70ag8nf13in"]
+
+[ext_resource type="Script" uid="uid://fjrbd8ilsv5k" path="res://systems/level_loader.gd" id="1_3q673"]
+
+[node name="LevelLoader" type="Node" unique_id=213001820]
+process_mode = 3
+script = ExtResource("1_3q673")

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ddqchmsq8wwhs" path="res://ui/menus/credits_menu_ui.gd" id="1_lafmh"]
 [ext_resource type="Theme" uid="uid://b6ynjc8svelca" path="res://assets/themes/button_theme.tres" id="2_fyl4g"]
+[ext_resource type="AudioStream" uid="uid://u1qgp582x4bi" path="res://assets/sfx/UI_Hover.wav" id="3_6rkd3"]
 
 [node name="CreditsMenuUI" type="Control" unique_id=118515599]
 layout_mode = 3
@@ -43,4 +44,10 @@ theme = ExtResource("2_fyl4g")
 theme_override_font_sizes/font_size = 64
 text = "RETURN"
 
+[node name="HoverSFX" type="AudioStreamPlayer" parent="." unique_id=1371224680]
+stream = ExtResource("3_6rkd3")
+bus = &"SFX"
+
+[connection signal="focus_entered" from="ColorRect/VBoxContainer/BtnReturn" to="." method="_on_focus_entered"]
+[connection signal="mouse_entered" from="ColorRect/VBoxContainer/BtnReturn" to="." method="_on_focus_entered"]
 [connection signal="pressed" from="ColorRect/VBoxContainer/BtnReturn" to="." method="_on_btn_return_pressed"]

@@ -13,6 +13,7 @@ const CURRENCY_LABEL: String = "$ %s"
 @onready var currency_amount: Label = %CurrencyAmount
 
 @onready var purchase_sfx: AudioStreamPlayer = $PurchaseSFX
+@onready var hover_sfx: AudioStreamPlayer = $HoverSFX
 
 var running: bool
 
@@ -22,6 +23,8 @@ func reset() -> void:
 	
 	tower_health.value = 1.0
 	btn_start.text = "GO"
+	
+	running = false
 
 
 func tower_damaged(amount: float) -> void:
@@ -54,3 +57,7 @@ func _on_btn_start_pressed() -> void:
 		running = true
 		btn_start.text = "RESET"
 		start_selected.emit()
+
+
+func _on_focus_entered() -> void:
+	hover_sfx.play()
